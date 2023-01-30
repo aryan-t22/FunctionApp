@@ -41,5 +41,4 @@ it:
 ideally of my choosing.
 - As a user, I want to compare the Fourier Series of a function to its actual value, and see how well the series
 approximates the function.
-- As a user, I want to figure out how many terms in a Fourier Series I would need to approximate a function 
-- in my worklist at a particular value to a specified degree of accuracy.
+- As a user, I want to figure out how many terms in a Fourier Series I would need to approximate a function in my worklist at a particular value to a specified degree of accuracy.
