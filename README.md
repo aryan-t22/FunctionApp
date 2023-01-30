@@ -3,7 +3,7 @@
 ## *About the project:*
 **The goal of this project is to create a program that can take in a set of functions the user inputs, perform basic
 operations involving them (addition, subtraction, products, quotients, and to some extent composition), and then 
-compute the Fourier Series (odd, even and full range) for these functions on an interval specified by the user.***
+compute the Fourier Series (odd, even and full range) for these functions on an interval specified by the user.**
 
 This project is of particular interest to individuals who either aspire to become, or are currently involved in
 science, especially engineers, mathematicians, and physicists, who make use of Fourier series in a variety of methods 
@@ -16,7 +16,7 @@ Series.
 
 Being in the Physics and Mathematics combined honours program, and having been exposed to and used Fourier Series in a 
 variety of my courses (Electricity and Magnetism, Quantum Mechanics, Partial Differential Equations, and Mathematical 
-Analysis), I wanted to use the CPSC 210 course project as an avanue to explore this passion project, that I might not 
+Analysis), I wanted to use the CPSC 210 course project as an avenue to explore this passion project, that I might not 
 have worked on otherwise. I have also always been amazed at how significant visual aids can be at conveying mathematical
 intuition, especially being an avid fan of the popular YouTube channel 3Blue1Brown. I feel that having an easy to 
 approach and user-friendly program to explore Fourier series is something I would have found quite useful, and I also 
@@ -37,9 +37,9 @@ it:
 
 - As a user, I want to be able to add a **function** (X) to my analysis **worklist** (Y).
 - As a user, I want to be able to view and modify functions already in my worklist.
-- As a user, I want to be able to choose a function in my worklist, and compute its Fourier Series on an interval of my 
-choosing.
+- As a user, I want to be able to choose a function in my worklist, and compute its Fourier Series on an interval,
+ideally of my choosing.
 - As a user, I want to compare the Fourier Series of a function to its actual value, and see how well the series
 approximates the function.
-- As a user, I want to figure out how many terms in a Fourier Series I would need to approximate a function in my
-in my worklist at a particular value to a specified degree of accuracy.
+- As a user, I want to figure out how many terms in a Fourier Series I would need to approximate a function 
+- in my worklist at a particular value to a specified degree of accuracy.
