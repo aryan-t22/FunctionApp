@@ -3,6 +3,7 @@ package model;
 import model.basicfns.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -74,7 +75,7 @@ public class Function {
                 sum += 2 * this.eval(a + deltaX * i);
             }
         }
-        return deltaX / 3 * sum;
+        return deltaX / 3.0 * sum;
     }
 
     public List<Double> fourierSine(double l, int n) {
@@ -85,7 +86,7 @@ public class Function {
             return fourierSine(-1 * l, n);
         } else {
             for (int i = 1; i <= n; i++) {
-                Function ithTerm = new Function(new Sine(2 / l, i * Math.PI / l, 0));
+                Function ithTerm = new Function(new Sine(1 / l, i * Math.PI / l, 0));
                 Function fn = this.times(ithTerm);
                 double ci = fn.integrate(-1 * l, l);
                 result.add(ci);
@@ -104,9 +105,9 @@ public class Function {
             for (int i = 0; i <= n; i++) {
                 Function ithTerm;
                 if (i == 0) {
-                    ithTerm = new Function(new Cosine(1 / l, i * Math.PI / l, 0));
+                    ithTerm = new Function(new Polynomial(List.of(1 / l)));
                 } else {
-                    ithTerm = new Function(new Cosine(2 / l, i * Math.PI / l, 0));
+                    ithTerm = new Function(new Cosine(1 / l, i * Math.PI / l, 0));
                 }
                 Function fn = this.times(ithTerm);
                 double ci = fn.integrate(-1 * l, l);

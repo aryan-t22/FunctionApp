@@ -3,7 +3,7 @@ package model;
 import java.util.Objects;
 
 public class FunctionNode {
-    static final double DIV_WINDOW = Math.pow(10.0, -8.0);
+    static final double DIV_WINDOW = Math.pow(10.0, -50.0);
 
     private Boolean isBasicFunc;
     private String operation;
@@ -45,7 +45,7 @@ public class FunctionNode {
             return x - y;
         } else if (Objects.equals(operation, "*")) {
             return x * y;
-        } else if (Objects.equals(operation, "/") && Math.abs(y) <= divWindow) {
+        } else if (Objects.equals(operation, "/") && Math.abs(y) >= divWindow) {
             return x / y;
         } else {
             return 0.0;
