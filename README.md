@@ -28,7 +28,9 @@ Part of designing a project for CPSC 210 is understanding the feasibility of imp
 not underestimate the implementation of certain functionality. The initial objective was to create a Fourier Transform
 visualization tool, which I felt would have been rather difficult to implement at a level I deemed satisfactory. I
 therefore would like to have this as a stretch goal, and to aim for visualizing the Fourier Transform of a small subset
-of functions for my final submission in Phase 4.
+of functions for my final submission in Phase 4. For a more moderate stretch goal, I want to implement functionality 
+to determine how many terms in a Fourier Series one would need to approximate a function in their worklist at a 
+particular value to a specified degree of accuracy.
 
 ## *User Stories:*
 A requirement of the CPSC 210 Project is to consider user stories when designing our projects. Below is a list of user
@@ -41,4 +43,3 @@ it:
 ideally of my choosing.
 - As a user, I want to compare the Fourier Series of a function to its actual value, and see how well the series
 approximates the function.
-- As a user, I want to figure out how many terms in a Fourier Series I would need to approximate a function in my worklist at a particular value to a specified degree of accuracy.
