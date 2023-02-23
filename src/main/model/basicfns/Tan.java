@@ -1,4 +1,4 @@
-package basicfns;
+package model.basicfns;
 
 public class Tan extends Trig {
 

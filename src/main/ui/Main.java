@@ -1,7 +1,8 @@
 package ui;
 
-import basicfns.*;
+import model.basicfns.*;
 import model.Function;
+
 import java.util.Arrays;
 
 public class Main {

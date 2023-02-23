@@ -1,4 +1,4 @@
-package basicfns;
+package model.basicfns;
 
 import model.BasicFunction;
 
