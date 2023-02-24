@@ -20,9 +20,9 @@ public class Main {
         test1.setPhase(1 / 3.0);
         test2.setPhase(1 / 3.0);
         if (val == fn5.eval(Math.PI / 3.0)) {
-            System.out.println("lesgo, the value is " + val);
+            System.out.println("let's go, the value is " + val);
         } else {
-            System.out.println("rip bozo");
+            System.out.println("rip");
         }
         test1.setPhase(0);
         test2.setPhase(0);
