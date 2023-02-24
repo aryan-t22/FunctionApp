@@ -10,6 +10,8 @@ public class Polynomial implements BasicFunction {
     private List<Double> params;
     private String name;
 
+    // EFFECTS: Constructs a polynomial object from the given list of parameters. Using params as [1.0, 0.5, 1.0] for
+    // example yields the polynomial 1 + x/2 + x^2. If params is empty, constructs the 0 polynomial by default.
     public Polynomial(List<Double> params) {
         this.name = "Polynomial";
         if (params.size() == 0) {
@@ -23,14 +25,24 @@ public class Polynomial implements BasicFunction {
         return params;
     }
 
+    @Override
     public String getName() {
-        return name;
+        double czero = params.get(0);
+        String result = Double.toString(czero);
+        for (int i = 1; i <= getDegree(); i++) {
+            double ci = params.get(i);
+            result += (" + " + Double.toString(ci) + " * x^" + Integer.toString(i));
+        }
+        return result;
     }
 
+    // EFFECTS: returns the degree of the polynomial
     public int getDegree() {
         return params.size() - 1;
     }
 
+    // EFFECTS: evaluates a given polynomial at the provided double x
+    @Override
     public double eval(double x) {
         double result = 0.0;
         for (int i = 0; i <= this.getDegree(); i++) {

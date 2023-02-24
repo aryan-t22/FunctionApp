@@ -8,6 +8,8 @@ public abstract class Trig implements BasicFunction {
     private double phase;
     private String name;
 
+    // EFFECTS: constructs a Trig object of the form a * fn(stretch * (x - phase * pi)), where the trig function fn
+    // corresponds to name.
     public Trig(double a, double stretch, double phase, String name) {
         this.a = a;
         this.stretch = stretch;
@@ -27,8 +29,12 @@ public abstract class Trig implements BasicFunction {
         return stretch;
     }
 
+    @Override
     public String getName() {
-        return name;
+        String a = Double.toString(this.a);
+        String b = Double.toString(stretch);
+        String c = Double.toString(phase) + "\u03C0";
+        return a + " * " + name + "(" + b + " * (x - " + c + "))";
     }
 
     public void setA(double a) {
@@ -42,6 +48,4 @@ public abstract class Trig implements BasicFunction {
     public void setPhase(double phase) {
         this.phase = phase;
     }
-
-    public abstract double eval(double x);
 }
