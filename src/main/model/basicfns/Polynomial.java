@@ -26,12 +26,14 @@ public class Polynomial implements BasicFunction {
     }
 
     @Override
-    public String getName() {
-        double czero = params.get(0);
-        String result = Double.toString(czero);
+    public String getName(String x) {
+        if (x.length() != 1) {
+            x = "(" + x + ")";
+        }
+        String result = Double.toString(params.get(0));
         for (int i = 1; i <= getDegree(); i++) {
-            double ci = params.get(i);
-            result += (" + " + Double.toString(ci) + " * x^" + Integer.toString(i));
+            String ci = Double.toString(params.get(i));
+            result += (" + " + ci + " * " + x + "^" + Integer.toString(i));
         }
         return result;
     }

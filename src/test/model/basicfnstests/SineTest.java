@@ -31,8 +31,8 @@ public class SineTest {
 
     @Test
     void testGetName() {
-        assertEquals("1.0 * sin(1.0 * (x - 0.0π))", s1.getName());
-        assertEquals("3.0 * sin(2.0 * (x - 0.25π))", s2.getName());
+        assertEquals("1.0 * sin(1.0 * (t - 0.0π))", s1.getName("t"));
+        assertEquals("3.0 * sin(2.0 * (x - 0.25π))", s2.getName("x"));
     }
 
     @Test

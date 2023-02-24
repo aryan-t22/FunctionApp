@@ -38,9 +38,11 @@ public class PolynomialTest {
 
     @Test
     void testGetName() {
-        assertEquals("0.0", p1.getName());
-        assertEquals("0.0 + 1.0 * x^1", p2.getName());
-        assertEquals("0.25 + 0.3 * x^1 + 0.4 * x^2", p3.getName());
+        assertEquals("0.0", p1.getName("x"));
+        assertEquals("0.0", p1.getName("cos(x)"));
+        assertEquals("0.0 + 1.0 * r^1", p2.getName("r"));
+        assertEquals("0.25 + 0.3 * (sin(x))^1 + 0.4 * (sin(x))^2", p3.getName("sin(x)"));
+        assertEquals("0.25 + 0.3 * (xy)^1 + 0.4 * (xy)^2", p3.getName("xy"));
 
     }
 

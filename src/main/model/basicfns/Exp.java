@@ -27,11 +27,11 @@ public class Exp implements BasicFunction {
     }
 
     @Override
-    public String getName() {
+    public String getName(String x) {
         String a = Double.toString(vscale);
         String b = Double.toString(hscale);
         String c = Double.toString(hshift);
-        return a + " * e^" + "(" + b + " * (x - " + c + "))";
+        return a + " * e^" + "(" + b + " * (" + x + " - " + c + "))";
     }
 
     public void setVscale(double vscale) {

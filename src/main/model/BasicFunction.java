@@ -3,5 +3,5 @@ package model;
 public interface BasicFunction {
     double eval(double x);
 
-    String getName();
+    String getName(String x);
 }

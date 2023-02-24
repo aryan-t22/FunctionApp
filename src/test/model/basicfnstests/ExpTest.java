@@ -30,8 +30,8 @@ public class ExpTest {
 
     @Test
     void testGetName() {
-        assertEquals("1.0 * e^(1.0 * (x - 0.0))", e1.getName());
-        assertEquals("3.0 * e^(4.0 * (x - 0.25))", e2.getName());
+        assertEquals("1.0 * e^(1.0 * (x - 0.0))", e1.getName("x"));
+        assertEquals("3.0 * e^(4.0 * (cos(x) - 0.25))", e2.getName("cos(x)"));
 
     }
 

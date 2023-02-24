@@ -30,8 +30,8 @@ public class TanTest {
 
     @Test
     void testGetName() {
-        assertEquals("1.0 * tan(1.0 * (x - 0.0π))", t1.getName());
-        assertEquals("6.0 * tan(4.0 * (x - 0.2π))", t2.getName());
+        assertEquals("1.0 * tan(1.0 * (t - 0.0π))", t1.getName("t"));
+        assertEquals("6.0 * tan(4.0 * (x - 0.2π))", t2.getName("x"));
     }
 
     @Test

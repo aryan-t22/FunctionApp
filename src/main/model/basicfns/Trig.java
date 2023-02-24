@@ -30,11 +30,11 @@ public abstract class Trig implements BasicFunction {
     }
 
     @Override
-    public String getName() {
+    public String getName(String x) {
         String a = Double.toString(this.a);
         String b = Double.toString(stretch);
         String c = Double.toString(phase) + "\u03C0";
-        return a + " * " + name + "(" + b + " * (x - " + c + "))";
+        return a + " * " + name + "(" + b + " * (" + x + " - " + c + "))";
     }
 
     public void setA(double a) {

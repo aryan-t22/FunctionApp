@@ -103,15 +103,28 @@ public class Function {
         return operate(fn, "o");
     }
 
+    // EFFECTS: produces the name of the function with x being the parameter of choice.
+    public String name(String x) {
+        if (fnn.getIsBasicFunc()) {
+            return fnn.getFn().getName(x);
+        } else {
+            if (!Objects.equals(fnn.getOperation(), "o")) {
+                return left.name(x) + " " + fnn.getOperation() + " [" + right.name(x) + "]";
+            } else {
+                return left.name(right.name(x));
+            }
+        }
+    }
+
     // EFFECTS: Evaluates a given Function at the double x.
     public double eval(double x) {
-        if (this.fnn.getIsBasicFunc()) {
-            return this.fnn.getFn().eval(x);
+        if (fnn.getIsBasicFunc()) {
+            return fnn.getFn().eval(x);
         } else {
-            if (!Objects.equals(this.fnn.getOperation(), "o")) {
-                return this.fnn.operateOn(this.left.eval(x), this.right.eval(x));
+            if (!Objects.equals(fnn.getOperation(), "o")) {
+                return fnn.operateOn(left.eval(x), right.eval(x));
             } else {
-                return this.left.eval(this.right.eval(x));
+                return left.eval(right.eval(x));
             }
         }
     }
