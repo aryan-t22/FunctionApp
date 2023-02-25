@@ -73,7 +73,7 @@ public class FunctionApp {
         System.out.println("\ta -> add a basic function to your worklist");
         System.out.println("\tm -> make more complicated functions");
         System.out.println("\te -> edit (and remove) functions in your worklist");
-        System.out.println("\tz -> analyze the functions in your worklist");
+        System.out.println("\tz -> analyze (evaluate, integrate etc.) the functions in your worklist");
         System.out.println("\tq -> quit");
     }
 

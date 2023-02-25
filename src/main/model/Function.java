@@ -13,12 +13,11 @@ public class Function {
     private FunctionNode fnn;
     private Function left;
     private Function right;
-    private int precision;
+    private static int precision = DEFAULT_PRECISION;
 
     // EFFECTS: Constructs a function with a leaf FunctionNode made from fn, and sets precision to DEFAULT_PRECISION.
     public Function(BasicFunction fn) {
         this.fnn = new FunctionNode(fn);
-        precision = DEFAULT_PRECISION;
     }
 
     // EFFECTS: Constructs a function with a parent FunctionNode made from operator, with the this.left and this.right
@@ -58,8 +57,20 @@ public class Function {
         this.right = right;
     }
 
-    public void setPrecision(int precision) {
-        this.precision = precision;
+    public void setPrecision(int precision) { Function.precision = precision;
+    }
+
+    // EFFECTS: produces the name of the function with x being the parameter of choice.
+    public String name(String x) {
+        if (fnn.getIsBasicFunc()) {
+            return fnn.getFn().getName(x);
+        } else {
+            if (!Objects.equals(fnn.getOperation(), "o")) {
+                return left.name(x) + " " + fnn.getOperation() + " [" + right.name(x) + "]";
+            } else {
+                return left.name(right.name(x));
+            }
+        }
     }
 
     // EFFECTS: Constructs a new Function (tree) for this operator fn, for the provided operator.
@@ -92,28 +103,19 @@ public class Function {
         return operate(fn, "*");
     }
 
-    // EFFECTS: Constructs a new Function (tree) for this / fn.
+    // EFFECTS: Constructs a new Function (tree) for this / fn, unless fn is 0.0 itself, in which case this is returned.
     public Function div(Function fn) {
+        if (!fn.name("x").equals("0.0")) {
         return operate(fn, "/");
+        } else {
+            return this;
+        }
     }
 
     // EFFECTS: Constructs a new Function (tree) for this o fn (i.e. for a given double x, the returned function would
     // produce this(fn(x)), the composition of this and fn.)
     public Function compose(Function fn) {
         return operate(fn, "o");
-    }
-
-    // EFFECTS: produces the name of the function with x being the parameter of choice.
-    public String name(String x) {
-        if (fnn.getIsBasicFunc()) {
-            return fnn.getFn().getName(x);
-        } else {
-            if (!Objects.equals(fnn.getOperation(), "o")) {
-                return left.name(x) + " " + fnn.getOperation() + " [" + right.name(x) + "]";
-            } else {
-                return left.name(right.name(x));
-            }
-        }
     }
 
     // EFFECTS: Evaluates a given Function at the double x.
@@ -130,7 +132,7 @@ public class Function {
     }
 
     // EFFECTS: produces a list of all the basic functions that make up a function, from left to right in the tree.
-    public List<BasicFunction> allBasicFns() {
+    private List<BasicFunction> allBasicFns() {
         List<BasicFunction> result = new ArrayList<>();
         if (fnn.getIsBasicFunc()) {
             result.add(fnn.getFn());
@@ -169,7 +171,7 @@ public class Function {
     // EFFECTS: Returns the first n coefficients of the Fourier sine series of a function on [-l, l]. If n < 1 or l is
     // 0, produces the first 10 terms of the Fourier sine Series on [-1, 1]. If l < 0, returns fourierSine(-l, n) to
     // properly align the interval.
-    public List<Double> fourierSineCoeff(double l, int n) {
+    private List<Double> fourierSineCoeff(double l, int n) {
         List<Double> result = new ArrayList<>();
         if (n < 1 || l == 0) {
             return fourierSineCoeff(1, 10);
@@ -202,7 +204,7 @@ public class Function {
     // EFFECTS: Produces the first n coefficients of the Fourier cosine series of a function on [-l, l]. If n < 1 or l
     // is 0, produces the first 10 terms of the Fourier cosine Series on [-1, 1]. If l < 0, returns fourierSine(-l, n)
     // to properly align the interval.
-    public List<Double> fourierCosineCoeff(double l, int n) {
+    private List<Double> fourierCosineCoeff(double l, int n) {
         List<Double> result = new ArrayList<>();
         if (n < 0 || l == 0) {
             return fourierCosineCoeff(1, 10);
@@ -244,7 +246,7 @@ public class Function {
     // EFFECTS: Produces the first n coefficients of the full Fourier series of a function on [-l, l], as a list of list
     // of doubles. The first entry in the list are the list of cosine coefficients, with the second being the sine
     // coefficients.
-    public List<List<Double>> fourierFullCoeff(double l, int n) {
+    private List<List<Double>> fourierFullCoeff(double l, int n) {
         return Arrays.asList(fourierCosineCoeff(l, n), fourierSineCoeff(l , n));
     }
 

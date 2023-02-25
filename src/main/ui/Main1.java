@@ -28,7 +28,7 @@ public class Main1 {
         Function fn6 = fn3.compose(fn1);
         System.out.println(fn6.eval(Math.PI / 4.0));
         System.out.println(fn5.integrate(0, Math.PI / 2));
-        System.out.println(fn2.fourierSineCoeff(Math.PI, 5));
+        System.out.println(fn2.fourierSine(Math.PI, 5).name("x"));
         System.out.println(fn5.name("x"));
         Function fn7 = fn2.compose(fn1);
         System.out.println(fn7.eval(Math.PI / 2));
