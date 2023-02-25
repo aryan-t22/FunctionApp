@@ -120,18 +120,18 @@ public class FunctionApp {
             System.out.println("This feature lets you modify the structure of a selected function.");
             Function fn = selectFn();String selection = "";  // force entry into loop
             while (!(selection.equals("r") || selection.equals("c"))) {
-                System.out.println("\nHow would you like to modify the selected function? ");
+                System.out.println("\nHow would you like to modify the selected function, f? ");
                 System.out.println("\tr -> Remove it from the worklist");
-                System.out.println("\tc -> Swap a basic function term in the function with another basic function. " +
-                        "An example would be changing (sin(x) + x)/(sin(x) + x^2) into (cos(x) + x)/(cos(x) + x^2)");
+                System.out.println("\tc -> Choose two basic functions, f1 and f2, from your worklist. If f1 is part " +
+                        "of f, then all f1 terms get replaced with f2, and f1 itself is removed from your worklist");
                 selection = input.next();
                 selection = selection.toLowerCase();
             }
             if (selection.equals("r")) {
-            System.out.println(fn.name("x") + " removed from the worklist");
-            wl.removeFunc(fn);
-            } else if (!wl.hasBasicFn()){
-            System.out.println("Your worklist has no basic functions. Please add one, and then try using this" +
+                System.out.println(fn.name("x") + " removed from the worklist");
+                wl.removeFunc(fn);
+            } else if (!wl.hasBasicFn()) {
+                System.out.println("Your worklist has no basic functions. Please add one, and then try using this" +
                     " feature");
             } else {
                 swap(fn);
@@ -309,16 +309,26 @@ public class FunctionApp {
 
     // MODIFIES: this, fn.
     // REQUIRES: The worklist to have at least one basic function in it.
-    // EFFECTS: Swaps a user chosen basic function, bfn1, from fn, with another user chosen basic
-    // function, bfn2 in the worklist. If bfn1 is not part of fn, fn remains unmodified
+    // EFFECTS: Swaps a user chosen basic function, f1, from the worklist with another user chosen basis function,
+    // f2 in the worklist, and removes bfn1 from the worklist. If bfn1 is not part of fn, fn remains unmodified
+    // and the method does nothing.
     private void swap(Function fn) {
         System.out.println("Please choose the basic function from the worklist that may be part of your function.");
-        BasicFunction bfn1 = selectBasicFn().getFnn().getFn();
+        Function f1 = selectBasicFn();
+        BasicFunction bfn1 = f1.getFnn().getFn();
         System.out.println("Please choose the basic function from the worklist that you want to substitute into " +
                 "the function.");
-        BasicFunction bfn2 = selectBasicFn().getFnn().getFn();
+        Function f2 = selectBasicFn();
+        BasicFunction bfn2 = f2.getFnn().getFn();
+        String oldName = fn.name("x");
         fn.modify(bfn1, bfn2);
-        System.out.println("Swapped the basic functions as requested. The function is now: " + fn.name("x"));
+        if (!fn.name("x").equals(oldName)) {
+            wl.removeFunc(f1);
+            System.out.println("Swapped the basic functions as requested. The function is now: " + fn.name("x") +
+                    " and " + f1.name("x") + " is removed from your worklist.");
+        } else {
+            System.out.println("The function is left unchanged: " + oldName);
+        }
     }
 
     // REQUIRES: the worklist to have at least one basic function in it.
