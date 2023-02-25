@@ -23,7 +23,7 @@ public class Function {
 
     // EFFECTS: Constructs a function with a parent FunctionNode made from operator, with the this.left and this.right
     // branches assigned to left and right respectively. Sets precision to DEFAULT_PRECISION.
-    public Function(String operator, Function left, Function right) {
+    private Function(String operator, Function left, Function right) {
         this.fnn = new FunctionNode(operator);
         this.left = left;
         this.right = right;
@@ -129,6 +129,29 @@ public class Function {
         }
     }
 
+    // EFFECTS: produces a list of all the basic functions that make up a function, from left to right in the tree.
+    public List<BasicFunction> allBasicFns() {
+        List<BasicFunction> result = new ArrayList<>();
+        if (fnn.getIsBasicFunc()) {
+            result.add(fnn.getFn());
+        } else {
+            left.allBasicFns().addAll(right.allBasicFns());
+        }
+        return result;
+    }
+
+    // MODIFIES: this, this.fnn
+    // EFFECTS: finds if fn1 is part of the function, and swaps all appearances of fn1 with fn2. Otherwise,
+    // does nothing.
+    public void modify(BasicFunction fn1, BasicFunction fn2) {
+        if (fnn.getIsBasicFunc() && fn1.getName("x").equals(fnn.getFn().getName("x"))) {
+            fnn.setFn(fn2);
+        } else if (left != null && right != null) {
+            left.modify(fn1, fn2);
+            right.modify(fn1, fn2);
+        }
+    }
+
     // EFFECTS: integrates a given Function on an interval [a,b], with this.precision many sub-intervals.
     public double integrate(double a, double b) {
         double deltaX = (b - a) / precision;
@@ -171,7 +194,7 @@ public class Function {
         for (int i = 1; i <= n; i++) {
             double ci = coefficients.get(i - 1);
             Function ithTerm = new Function(new Sine(ci, i * Math.PI / l, 0));
-            result = result.add(ithTerm);
+            result = result.add(ithTerm); // creates new function tree
         }
         return result;
     }

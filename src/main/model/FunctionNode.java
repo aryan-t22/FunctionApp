@@ -43,9 +43,13 @@ public class FunctionNode {
         return divWindow;
     }
 
+    public void setFn(BasicFunction fn) {
+        this.fn = fn;
+    }
+
     // EFFECTS: returns x operator y, for the 4 standard operations "+", "-", "*" and "/". For the division (/) operator
-    // , if 0.0 < abs(y) < divWindow, computes x / +-divWindow with sign inherited from y. For division by 0.0 exactly,
-    // or any other operation apart from the 4 listed, returns 0.0.
+    // , if 0.0 < abs(y) < divWindow, computes x / +-divWindow with sign inherited from y, division by exactly 0 For any other operation
+    // apart from the 4 listed, returns 0.0.
     public double operateOn(double x, double y) {
         if (Objects.equals(operation, "+")) {
             return x + y;
