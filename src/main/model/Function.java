@@ -132,7 +132,7 @@ public class Function {
     public void modify(BasicFunction fn1, BasicFunction fn2) {
         if (fnn.getIsBasicFunc() && fn1.getName("x").equals(fnn.getFn().getName("x"))) {
             fnn.setFn(fn2);
-        } else if (left != null && right != null) {
+        } else if (!fnn.getIsBasicFunc()) {
             left.modify(fn1, fn2);
             right.modify(fn1, fn2);
         }
@@ -156,11 +156,7 @@ public class Function {
     public double eval(double x) throws ArithmeticException {
         if (fnn.getIsBasicFunc()) {
             double output = fnn.getFn().eval(x);
-            if (Double.isFinite(output)) {
-                return adjust(output);
-            } else {
-                throw new ArithmeticException();
-            }
+            return adjust(output);
         } else {
             if (!Objects.equals(fnn.getOperation(), "o")) {
                 return fnn.operateOn(left.eval(x), right.eval(x));
@@ -207,12 +203,12 @@ public class Function {
     }
 
     // EFFECTS: Returns the first n terms of the Fourier sine series of a function on [-l, l]. If n < 1 or l is 0,
-    // produces the first 10 terms of the Fourier sine Series on [-1, 1]. If l < 0, returns fourierSine(-l, n) to
+    // produces the first term of the Fourier sine Series on [-1, 1]. If l < 0, returns fourierSine(-l, n) to
     // properly align the interval. If all n terms are zero, returns the zero polynomial. Throws ArithmeticException
     // if any of the terms is not finite
     public Function fourierSine(double l, int n) throws ArithmeticException {
         if (n < 1 || l == 0) {
-            return fourierSine(1, 10);
+            return fourierSine(1, 1);
         } else if (l < 0) {
             return fourierSine(-1 * l, n);
         } else {
@@ -255,14 +251,14 @@ public class Function {
     }
 
     // EFFECTS: Returns the first n+1 terms of the Fourier cosine series of a function on [-l, l] up to precision, with
-    // coefficients calculated via fourierCosineCoeff. If n < 1 or l is 0, produces the first 10 terms of the Fourier
+    // coefficients calculated via fourierCosineCoeff. If n < 1 or l is 0, produces the first two terms of the Fourier
     // cosine Series on [-1, 1]. If l < 0, returns fourierCosine(-l, n) to properly align the interval. If all n terms
     // are zero, returns the zero polynomial. Throws ArithmeticException if any of the terms is not finite
     public Function fourierCosine(double l, int n) throws ArithmeticException {
         if (n < 0 || l == 0) {
-            return fourierSine(1, 10);
+            return fourierCosine(1, 1);
         } else if (l < 0) {
-            return fourierSine(-1 * l, n);
+            return fourierCosine(-1 * l, n);
         } else {
             List<Double> coefficients = fourierCosineCoeff(l, n);
             Function result = zero();

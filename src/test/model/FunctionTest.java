@@ -243,7 +243,18 @@ public class FunctionTest {
     }
 
     @Test
-    void testFourierSine() {
+    void testFourierSineWrongArg() {
+        fn3 = new Function(bfn3);
+        fn4 = fn3.fourierSine(0, 10);
+        assertEquals("0.596094018298453 * sin(3.141592653589793 * (x - 0.0π))", fn4.name("x"));
+        fn5 = fn3.fourierSine(1, -2);
+        assertEquals("0.596094018298453 * sin(3.141592653589793 * (x - 0.0π))", fn5.name("x"));
+        fn6 = fn3.fourierSine(-1, 1);
+        assertEquals("0.596094018298453 * sin(3.141592653589793 * (x - 0.0π))", fn6.name("x"));
+    }
+
+    @Test
+    void testFourierSineMain() {
         // Simple Examples
         fn3 = new Function(bfn3); // sin(x) is its own Fourier Series on [-π, π]
         fn4 = fn3.fourierSine(Math.PI, 10);
@@ -270,7 +281,18 @@ public class FunctionTest {
     }
 
     @Test
-    void testFourierCosine() {
+    void testFourierCosineWrongArg() {
+        fn3 = fn1.fourierCosine(0, 10);
+        String output = "[1.1752011936438007 + -0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))]";
+        assertEquals(output, fn3.name("x"));
+        fn4 = fn1.fourierCosine(1, -2);
+        assertEquals(output, fn4.name("x"));
+        fn5 = fn1.fourierCosine(-1, 1);
+        assertEquals(output, fn5.name("x"));
+    }
+
+    @Test
+    void testFourierCosineMain() {
         // Simple Examples - Similar to the Fourier Sine Case (but swapped)
         fn3 = fn2.fourierCosine(Math.PI, 3); // cos(x) is its own Fourier Cosine Series on [-π, π]
         assertEquals("[0.0 + 1.0 * cos(1.0 * (x - 0.0π))]", fn3.name("x"));
