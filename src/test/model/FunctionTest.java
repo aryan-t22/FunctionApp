@@ -3,26 +3,19 @@ package model;
 import model.basicfns.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+// Tests for the Function Class
 public class FunctionTest {
     static final double DEVIATION = 1E-10;
 
+    String expected;
     BasicFunction bfn1;
     BasicFunction bfn2;
     BasicFunction bfn3;
     BasicFunction bfn4;
-    BasicFunction bfn5;
-    BasicFunction bfn6;
-    BasicFunction bfn7;
-    BasicFunction bfn8;
-    BasicFunction bfn9;
-    BasicFunction bfn10;
     Function fn1;
     Function fn2;
     Function fn3;
@@ -31,11 +24,11 @@ public class FunctionTest {
     Function fn6;
     Function fn7;
     Function fn8;
-    Function fn9;
-    Function fn10;
 
     @BeforeEach
     void setup() {
+        expected = "[[1.1752011936438007 + -0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))] "
+                + "+ 0.6793261834021016 * sin(3.141592653589793 * (x - 0.0π))]";
         bfn1 = new Exp(1, 1, 0);
         bfn2 = new Cosine(1, 1, 0);
         bfn3 = new Sine(1, 1, 0);
@@ -252,23 +245,75 @@ public class FunctionTest {
     @Test
     void testFourierSine() {
         // Simple Examples
-        Function fn3 = new Function(bfn3); // sin(x) is its own Fourier Series on [-π, π]
+        fn3 = new Function(bfn3); // sin(x) is its own Fourier Series on [-π, π]
         fn4 = fn3.fourierSine(Math.PI, 10);
         assertEquals("1.0 * sin(1.0 * (x - 0.0π))", fn4.name("x"));
-        fn5 = fn2.fourierSine(Math.PI, 3); // sin(mx) and cos(x) are orthogonal for any m
+        fn5 = fn2.fourierSine(Math.PI, 3); // sin(mx) and cos(x) are orthogonal for any m (for [-π, π])
         assertEquals("0.0", fn5.name("x"));
         // A more involved example - verified via https://www.wolframalpha.com/ :
         fn6 = fn1.fourierSine(1, 2); // e^x fourier sine series
-        String expected = "[0.6793261834021016 * sin(3.141592653589793 * (x - 0.0π)) "
+        String expected1 = "[0.6793261834021016 * sin(3.141592653589793 * (x - 0.0π)) "
                 + "+ -0.36483673571712544 * sin(6.283185307179586 * (x - 0.0π))]";
-        assertEquals(expected, fn6.name("x"));
+        assertEquals(expected1, fn6.name("x"));
         // test when result is not finite
-        Function fn7 = new Function(new Polynomial(Arrays.asList(0.0, 0.0, 1.0)));
-        Function fn8 = fn1.div(fn7); // e^x / x^2
+        fn7 = new Function(new Polynomial(Arrays.asList(0.0, 0.0, 1.0)));
+        fn8 = fn1.div(fn7); // e^x / x^2
         Function.setSubintervals(2); // guaranteed to evaluate at 0 on [-1,1] when integrating
         boolean trial = true;
         try {
             fn8.fourierSine(1, 1);
+            assertFalse(trial);
+        } catch (ArithmeticException e) {
+            assertTrue(trial);
+            Function.setSubintervals(Function.DEFAULT_SUBINTERVALS);
+        }
+    }
+
+    @Test
+    void testFourierCosine() {
+        // Simple Examples - Similar to the Fourier Sine Case (but swapped)
+        fn3 = fn2.fourierCosine(Math.PI, 3); // cos(x) is its own Fourier Cosine Series on [-π, π]
+        assertEquals("[0.0 + 1.0 * cos(1.0 * (x - 0.0π))]", fn3.name("x"));
+        fn4 = new Function(bfn3); // sin(x) and cos(mx) are orthogonal for any m (for [-π, π])
+        fn5 = fn4.fourierCosine(Math.PI, 10);
+        assertEquals("0.0", fn5.name("x"));
+        // A more involved example - verified via https://www.wolframalpha.com/:
+        fn6 = fn1.fourierCosine(1, 2); // e^x fourier sine series
+        String expected1 = "[[1.1752011936438007 + -0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))] "
+                + "+ 0.05806556991084091 * cos(6.283185307179586 * (x - 0.0π))]";
+        assertEquals(expected1, fn6.name("x"));
+        // test when result is not finite
+        fn7 = fn1.div(new Function(new Polynomial(Arrays.asList(0.0, 0.0, 1.0)))); // e^x / x^2
+        Function.setSubintervals(2); // guaranteed to evaluate at 0 on [-1,1] when integrating
+        boolean trial = true;
+        try {
+            fn7.fourierCosine(1, 1);
+            assertFalse(trial);
+        } catch (ArithmeticException e) {
+            assertTrue(trial);
+            Function.setSubintervals(Function.DEFAULT_SUBINTERVALS);
+        }
+    }
+
+    @Test
+    void testFourierFull() {
+        // test with an odd function:
+        fn3 = new Function(bfn4); // x
+        fn4 = fn3.fourierFull(3, 3);
+        assertEquals(fn3.fourierSine(3, 3).name("x"), fn4.name("x"));
+        // test with an even function:
+        fn5 = new Function(new Polynomial(Arrays.asList(0.0, 0.0, 1.0)));
+        fn6 = fn5.fourierFull(4, 3);
+        assertEquals(fn5.fourierCosine(4, 3).name("x"), fn6.name("x"));
+        // more complex example
+        fn7 = fn1.fourierFull(1, 1);
+        assertEquals(expected, fn7.name("x"));
+        // test when result is not finite
+        fn8 = fn1.div(new Function(new Polynomial(Arrays.asList(0.0, 0.0, 1.0)))); // e^x / x^2
+        Function.setSubintervals(2); // guaranteed to evaluate at 0 on [-1,1] when integrating
+        boolean trial = true;
+        try {
+            fn8.fourierFull(1, 1);
             assertFalse(trial);
         } catch (ArithmeticException e) {
             assertTrue(trial);

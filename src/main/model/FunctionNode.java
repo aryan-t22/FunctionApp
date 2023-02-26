@@ -2,6 +2,10 @@ package model;
 
 import java.util.Objects;
 
+// A node on a Function Binary Syntax Tree. Each node has 3 fields, a boolean isBasicFunc, which stores whether the node
+// holds a basic function (and is hence a child/leaf node), a BasicFunction fn, and an operation in the form of a
+// string. A child/leaf node has only fn initialized with isBasicFunc set to true. A parent node does not have fn
+// initialized, and only initializes the operation, and isBasicFunc to false
 public class FunctionNode {
     private final Boolean isBasicFunc;
     private String operation;

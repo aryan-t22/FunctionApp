@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// Tests for the Exp Class
 public class ExpTest {
     private Exp e1;
     private Exp e2;

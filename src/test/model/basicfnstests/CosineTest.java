@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
+// Tests for the Cosine Class
 public class CosineTest {
     private Cosine c1;
     private Cosine c2;

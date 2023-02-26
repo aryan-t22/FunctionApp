@@ -30,7 +30,8 @@ visualization tool, which I felt would have been rather difficult to implement a
 therefore would like to have this as a stretch goal, and to aim for visualizing the Fourier Transform of a small subset
 of functions for my final submission in Phase 4. For a more moderate stretch goal, I want to implement functionality 
 to determine how many terms in a Fourier Series one would need to approximate a function in their worklist at a 
-particular value to a specified degree of accuracy.
+particular value to a specified degree of accuracy. An even more moderate stretch goal is to optimize the Polynomial
+class in the project to take into account degree in a rigorous sense.
 
 ## *User Stories:*
 A requirement of the CPSC 210 Project is to consider user stories when designing our projects. Below is a list of user

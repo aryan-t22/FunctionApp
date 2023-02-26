@@ -2,6 +2,8 @@ package model.basicfns;
 
 import model.BasicFunction;
 
+// An exponential object with a vscale, hscale, a Phase Shift to the right, representing the standard exponential
+// function (e = 2.71...)
 public class Exp implements BasicFunction {
     private double vscale;
     private double hscale;
@@ -30,18 +32,6 @@ public class Exp implements BasicFunction {
 
     public double getHshift() {
         return hshift;
-    }
-
-    public void setVscale(double vscale) {
-        this.vscale = vscale;
-    }
-
-    public void setHscale(double hscale) {
-        this.hscale = hscale;
-    }
-
-    public void setHshift(double hshift) {
-        this.hshift = hshift;
     }
 
     // EFFECTS: Produces the name of an exponential

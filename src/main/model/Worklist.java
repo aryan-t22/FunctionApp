@@ -3,9 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
+// A worklist of Functions. The worklist itself cannot be reassigned to another list, but can be modified by the
+// functionality provided within the class.
 public class Worklist {
     private final List<Function> listFn;
 
+    // EFFECTS: Constructs a new worklist
     public Worklist() {
         listFn = new ArrayList<>();
     }

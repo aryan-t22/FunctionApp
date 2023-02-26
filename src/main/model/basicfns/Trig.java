@@ -2,6 +2,9 @@ package model.basicfns;
 
 import model.BasicFunction;
 
+// A class for trigonometric functions, which have a vertical stretch (amplitude in some cases), horizontal stretch,
+// a horizontal phase shift (in units of π, so a phase shift of 5 would be 5π units) to the right, and a name field
+// which is determined by the trigonometric function inheriting the abstract class
 public abstract class Trig implements BasicFunction {
     private double am;
     private double stretch;
@@ -36,17 +39,5 @@ public abstract class Trig implements BasicFunction {
     @Override
     public String getName(String x) {
         return am + " * " + name + "(" + stretch + " * (" + x + " - " + phase + "π))";
-    }
-
-    public void setAm(double am) {
-        this.am = am;
-    }
-
-    public void setStretch(double stretch) {
-        this.stretch = stretch;
-    }
-
-    public void setPhase(double phase) {
-        this.phase = phase;
     }
 }

@@ -4,8 +4,11 @@ import model.BasicFunction;
 import java.util.ArrayList;
 import java.util.List;
 
+// A polynomial object of arbitrary degree. The degree of the polynomial is specified by the number of parameters chosen
+// to initialize the polynomial with. The zero polynomial is the only polynomial which cannot be initialized with a
+// degree other than 0 (it is currently possible for example to have a degree 1 polynomial f(x) = 0 + x, and a degree
+// "2" polynomial f(x) = 0 + x + 0x^2 with this representation.
 public class Polynomial implements BasicFunction {
-
     private List<Double> params;
 
     // EFFECTS: Constructs a polynomial object from the given list of parameters. Using params as [1.0, 0.5, 1.0] for

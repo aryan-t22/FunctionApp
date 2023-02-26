@@ -5,6 +5,13 @@ import java.util.Objects;
 import java.util.List;
 import java.util.ArrayList;
 
+// A binary syntax tree representation of a function. Each function consists of a FunctionNode fnn, a left function,
+// and a right function. A BasicFunction is represented as a Function with null left and null right functions, with the
+// FunctionNode storing the BasicFunction, hence forming the leafs of the tree. A more complicated function stores the
+// operation in its node, representing the function left(operation)right. The class itself has a subintervals field,
+// the number of subintervals used in numeric integration, and a precision field, indicating how much tolerance is there
+// from a value being close to an integer to be approximated by it. The DEFAULT_SUBINTERVALS and DEFAULT_PRECISION
+// constants provide an example of well tested values
 public class Function {
     public static final int DEFAULT_SUBINTERVALS = 5000;
     public static final double DEFAULT_PRECISION = 1E-10;
@@ -48,18 +55,6 @@ public class Function {
         return precision;
     }
 
-    public void setFnn(FunctionNode fnn) {
-        this.fnn = fnn;
-    }
-
-    public void setLeft(Function left) {
-        this.left = left;
-    }
-
-    public void setRight(Function right) {
-        this.right = right;
-    }
-
     // REQUIRES: subintervals >= 1
     public static void setSubintervals(int subintervals) {
         Function.subintervals = subintervals;
@@ -70,17 +65,6 @@ public class Function {
     }
 
     // Non-numerical function methods //
-
-    // EFFECTS: produces a list of all the basic functions that make up a function, from left to right in the tree.
-    private List<BasicFunction> allBasicFns() {
-        List<BasicFunction> result = new ArrayList<>();
-        if (fnn.getIsBasicFunc()) {
-            result.add(fnn.getFn());
-        } else {
-            left.allBasicFns().addAll(right.allBasicFns());
-        }
-        return result;
-    }
 
     // EFFECTS: Constructs a new Function (tree) for this operator fn, for the provided operator.
     private Function operate(Function fn, String operator) {
@@ -206,7 +190,7 @@ public class Function {
         return adjust(deltaX / 3.0 * sum);
     }
 
-    // REQUIRES: l > 0, n > 1
+    // REQUIRES: l > 0, n >= 1
     // EFFECTS: Returns the first n coefficients of the Fourier sine series of a function on [-l, l] up to precision.
     // Throws ArithmeticException if any of the coefficients is not finite
     private List<Double> fourierSineCoeff(double l, int n) throws ArithmeticException {
@@ -249,9 +233,9 @@ public class Function {
         }
     }
 
-    // REQUIRES: l > 0, n > 1
-    // EFFECTS: Produces the first n coefficients of the Fourier cosine series of a function on [-l, l] up to precision.
-    // Throws ArithmeticException if any of the coefficients is not finite
+    // REQUIRES: l > 0, n >= 0
+    // EFFECTS: Produces the first n + 1 coefficients of the Fourier cosine series of a function on [-l, l] up to
+    // precision. Throws ArithmeticException if any of the coefficients is not finite
     private List<Double> fourierCosineCoeff(double l, int n) throws ArithmeticException {
         List<Double> result = new ArrayList<>();
         for (int i = 0; i <= n; i++) {
@@ -268,12 +252,12 @@ public class Function {
         return result;
     }
 
-    // EFFECTS: Returns the first n terms of the Fourier cosine series of a function on [-l, l] up to precision, with
+    // EFFECTS: Returns the first n+1 terms of the Fourier cosine series of a function on [-l, l] up to precision, with
     // coefficients calculated via fourierCosineCoeff. If n < 1 or l is 0, produces the first 10 terms of the Fourier
     // cosine Series on [-1, 1]. If l < 0, returns fourierCosine(-l, n) to properly align the interval. If all n terms
     // are zero, returns the zero polynomial. Throws ArithmeticException if any of the terms is not finite
     public Function fourierCosine(double l, int n) throws ArithmeticException {
-        if (n < 1 || l == 0) {
+        if (n < 0 || l == 0) {
             return fourierSine(1, 10);
         } else if (l < 0) {
             return fourierSine(-1 * l, n);
@@ -293,7 +277,7 @@ public class Function {
         }
     }
 
-    // EFFECTS: Produces the first n terms of the full Fourier series of a function on [-l, l] up to precision, using
+    // EFFECTS: Produces the first n+1 terms of the full Fourier series of a function on [-l, l] up to precision, using
     // fourierCosine and fourierSine. Throws ArithmeticException if any of the terms is not finite
     public Function fourierFull(double l, int n) throws ArithmeticException {
         if (fourierCosine(l, n).name("x").equals("0.0")) {

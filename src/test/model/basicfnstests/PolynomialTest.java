@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+// Tests for the Polynomial Class
 public class PolynomialTest {
     private Polynomial p1;
     private Polynomial p2;
