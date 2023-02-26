@@ -2,6 +2,7 @@ package model.basicfns;
 
 import model.BasicFunction;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 // A polynomial object of arbitrary degree. The degree of the polynomial is specified by the number of parameters chosen
@@ -16,7 +17,7 @@ public class Polynomial implements BasicFunction {
     // the parameters are 0.0, constructs the zero polynomial (i.e. with 0 degree)
     public Polynomial(List<Double> params) {
         if (params.size() == 0) {
-            this.params = new ArrayList<>(List.of(0.0));
+            this.params = new ArrayList<>(Arrays.asList(0.0));
         } else {
             this.params = params;
             checkForZero();
@@ -30,7 +31,7 @@ public class Polynomial implements BasicFunction {
             check = check && ci == 0;
         }
         if (check) {
-            params = List.of(0.0);
+            params = Arrays.asList(0.0);
         }
     }
 

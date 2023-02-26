@@ -1,6 +1,8 @@
 package model;
 
 import model.basicfns.*;
+
+import java.util.Arrays;
 import java.util.Objects;
 import java.util.List;
 import java.util.ArrayList;
@@ -73,7 +75,7 @@ public class Function {
 
     // EFFECTS: Constructs a constant function f(x) = c.
     private Function constant(double c) {
-        return new Function(new Polynomial(List.of(c)));
+        return new Function(new Polynomial(Arrays.asList(c)));
     }
 
     // EFFECTS: Constructs the additive identity, the zero function f(x) = 0.
