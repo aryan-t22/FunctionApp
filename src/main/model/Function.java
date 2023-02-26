@@ -1,32 +1,31 @@
 package model;
 
 import model.basicfns.*;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Objects;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Function {
-    static final int DEFAULT_PRECISION = 5000;
+    public static final int DEFAULT_SUBINTERVALS = 5000;
+    public static final double DEFAULT_PRECISION = 1E-10;
 
     private FunctionNode fnn;
     private Function left;
     private Function right;
-    private static int precision = DEFAULT_PRECISION;
+    private static int subintervals = DEFAULT_SUBINTERVALS;
+    private static double precision = DEFAULT_PRECISION;
 
-    // EFFECTS: Constructs a function with a leaf FunctionNode made from fn, and sets precision to DEFAULT_PRECISION.
+    // EFFECTS: Constructs a function with a leaf FunctionNode made from fn.
     public Function(BasicFunction fn) {
         this.fnn = new FunctionNode(fn);
     }
 
     // EFFECTS: Constructs a function with a parent FunctionNode made from operator, with the this.left and this.right
-    // branches assigned to left and right respectively. Sets precision to DEFAULT_PRECISION.
+    // branches assigned to left and right respectively.
     private Function(String operator, Function left, Function right) {
         this.fnn = new FunctionNode(operator);
         this.left = left;
         this.right = right;
-        precision = DEFAULT_PRECISION;
     }
 
     public FunctionNode getFnn() {
@@ -41,7 +40,11 @@ public class Function {
         return right;
     }
 
-    public int getPrecision() {
+    public static int getSubintervals() {
+        return subintervals;
+    }
+
+    public static double getPrecision() {
         return precision;
     }
 
@@ -57,20 +60,26 @@ public class Function {
         this.right = right;
     }
 
-    public void setPrecision(int precision) { Function.precision = precision;
+    // REQUIRES: subintervals >= 1
+    public static void setSubintervals(int subintervals) {
+        Function.subintervals = subintervals;
     }
 
-    // EFFECTS: produces the name of the function with x being the parameter of choice.
-    public String name(String x) {
+    public static void setPrecision(double precision) {
+        Function.precision = precision;
+    }
+
+    // Non-numerical function methods //
+
+    // EFFECTS: produces a list of all the basic functions that make up a function, from left to right in the tree.
+    private List<BasicFunction> allBasicFns() {
+        List<BasicFunction> result = new ArrayList<>();
         if (fnn.getIsBasicFunc()) {
-            return fnn.getFn().getName(x);
+            result.add(fnn.getFn());
         } else {
-            if (!Objects.equals(fnn.getOperation(), "o")) {
-                return left.name(x) + " " + fnn.getOperation() + " [" + right.name(x) + "]";
-            } else {
-                return left.name(right.name(x));
-            }
+            left.allBasicFns().addAll(right.allBasicFns());
         }
+        return result;
     }
 
     // EFFECTS: Constructs a new Function (tree) for this operator fn, for the provided operator.
@@ -103,10 +112,10 @@ public class Function {
         return operate(fn, "*");
     }
 
-    // EFFECTS: Constructs a new Function (tree) for this / fn, unless fn is 0.0 itself, in which case this is returned.
+    // EFFECTS: Constructs a new Function (tree) for this / fn. If fn is 0.0, this is returned.
     public Function div(Function fn) {
         if (!fn.name("x").equals("0.0")) {
-        return operate(fn, "/");
+            return operate(fn, "/");
         } else {
             return this;
         }
@@ -118,31 +127,20 @@ public class Function {
         return operate(fn, "o");
     }
 
-    // EFFECTS: Evaluates a given Function at the double x.
-    public double eval(double x) {
+    // EFFECTS: produces the name of the function with x being the parameter of choice.
+    public String name(String x) {
         if (fnn.getIsBasicFunc()) {
-            return fnn.getFn().eval(x);
+            return fnn.getFn().getName(x);
         } else {
             if (!Objects.equals(fnn.getOperation(), "o")) {
-                return fnn.operateOn(left.eval(x), right.eval(x));
+                return "[" + left.name(x) + " " + fnn.getOperation() + " " + right.name(x) + "]";
             } else {
-                return left.eval(right.eval(x));
+                return left.name(right.name(x));
             }
         }
     }
 
-    // EFFECTS: produces a list of all the basic functions that make up a function, from left to right in the tree.
-    private List<BasicFunction> allBasicFns() {
-        List<BasicFunction> result = new ArrayList<>();
-        if (fnn.getIsBasicFunc()) {
-            result.add(fnn.getFn());
-        } else {
-            left.allBasicFns().addAll(right.allBasicFns());
-        }
-        return result;
-    }
-
-    // MODIFIES: this, this.fnn
+    // MODIFIES: this
     // EFFECTS: finds if fn1 is part of the function, and swaps all appearances of fn1 with fn2. Otherwise,
     // does nothing.
     public void modify(BasicFunction fn1, BasicFunction fn2) {
@@ -154,111 +152,156 @@ public class Function {
         }
     }
 
-    // EFFECTS: integrates a given Function on an interval [a,b], with this.precision many sub-intervals.
-    public double integrate(double a, double b) {
-        double deltaX = (b - a) / precision;
+    // Numerical function methods //
+
+    // EFFECTS: For a given x, with its rounded value being x0, if |x - x0| < precision, returns x0. Otherwise, returns
+    // x
+    private double adjust(double x) {
+        double x0 = Math.round(x);
+        if (Math.abs(x - x0) < precision) {
+            return x0;
+        } else {
+            return x;
+        }
+    }
+
+    // EFFECTS: Evaluates a given Function at the double x, up to precision. Throws ArithmeticException if the result
+    // is not finite
+    public double eval(double x) throws ArithmeticException {
+        if (fnn.getIsBasicFunc()) {
+            double output = fnn.getFn().eval(x);
+            if (Double.isFinite(output)) {
+                return adjust(output);
+            } else {
+                throw new ArithmeticException();
+            }
+        } else {
+            if (!Objects.equals(fnn.getOperation(), "o")) {
+                return fnn.operateOn(left.eval(x), right.eval(x));
+            } else {
+                return left.eval(right.eval(x));
+            }
+        }
+    }
+
+    // EFFECTS: Compares how well fn approximates this at x. If the output is positive, fn underestimates this, negative
+    // with overestimate, and 0.0 indicates the functions are equivalent at x up to precision. Throws
+    // ArithmeticException if the result is not finite
+    public double approxBy(Function fn, double x) throws ArithmeticException {
+        return adjust(this.eval(x) - fn.eval(x));
+    }
+
+    // EFFECTS: integrates a given Function on an interval [a,b] via Simpson's rule, with the number of subintervals n
+    // being given by Function.subintervals, up to precision. Throws ArithmeticException if the result is not finite
+    public double integrate(double a, double b) throws ArithmeticException {
+        double deltaX = (b - a) / subintervals;
         double sum = this.eval(a) + this.eval(b);
-        for (int i = 1; i < precision; i++) {
+        for (int i = 1; i < subintervals; i++) {
             if (i % 2 == 1) {
                 sum += 4 * this.eval(a + deltaX * i);
             } else {
                 sum += 2 * this.eval(a + deltaX * i);
             }
         }
-        return deltaX / 3.0 * sum;
+        return adjust(deltaX / 3.0 * sum);
     }
 
-    // EFFECTS: Returns the first n coefficients of the Fourier sine series of a function on [-l, l]. If n < 1 or l is
-    // 0, produces the first 10 terms of the Fourier sine Series on [-1, 1]. If l < 0, returns fourierSine(-l, n) to
-    // properly align the interval.
-    private List<Double> fourierSineCoeff(double l, int n) {
+    // REQUIRES: l > 0, n > 1
+    // EFFECTS: Returns the first n coefficients of the Fourier sine series of a function on [-l, l] up to precision.
+    // Throws ArithmeticException if any of the coefficients is not finite
+    private List<Double> fourierSineCoeff(double l, int n) throws ArithmeticException {
         List<Double> result = new ArrayList<>();
-        if (n < 1 || l == 0) {
-            return fourierSineCoeff(1, 10);
-        } else if (l < 0) {
-            return fourierSineCoeff(-1 * l, n);
-        } else {
-            for (int i = 1; i <= n; i++) {
-                Function ithTerm = new Function(new Sine(1 / l, i * Math.PI / l, 0));
-                Function fn = this.prod(ithTerm);
-                double ci = fn.integrate(-1 * l, l);
-                result.add(ci);
-            }
-        }
-        return result;
-    }
-
-    // EFFECTS: Returns the first n terms of the Fourier sine series of a function on [-l, l], with coefficients
-    // calculated via fourierSineCoeff.
-    public Function fourierSine(double l, int n) {
-        List<Double> coefficients = fourierSineCoeff(l, n);
-        Function result = zero();
         for (int i = 1; i <= n; i++) {
-            double ci = coefficients.get(i - 1);
-            Function ithTerm = new Function(new Sine(ci, i * Math.PI / l, 0));
-            result = result.add(ithTerm); // creates new function tree
+            Function ithTerm = new Function(new Sine(1 / l, i * Math.PI / l, 0));
+            Function fn = this.prod(ithTerm);
+            double ci = fn.integrate(-1 * l, l);
+            result.add(ci);
         }
         return result;
     }
 
-    // EFFECTS: Produces the first n coefficients of the Fourier cosine series of a function on [-l, l]. If n < 1 or l
-    // is 0, produces the first 10 terms of the Fourier cosine Series on [-1, 1]. If l < 0, returns fourierSine(-l, n)
-    // to properly align the interval.
-    private List<Double> fourierCosineCoeff(double l, int n) {
-        List<Double> result = new ArrayList<>();
-        if (n < 0 || l == 0) {
-            return fourierCosineCoeff(1, 10);
+    // EFFECTS: Returns the first n terms of the Fourier sine series of a function on [-l, l]. If n < 1 or l is 0,
+    // produces the first 10 terms of the Fourier sine Series on [-1, 1]. If l < 0, returns fourierSine(-l, n) to
+    // properly align the interval. If all n terms are zero, returns the zero polynomial. Throws ArithmeticException
+    // if any of the terms is not finite
+    public Function fourierSine(double l, int n) throws ArithmeticException {
+        if (n < 1 || l == 0) {
+            return fourierSine(1, 10);
         } else if (l < 0) {
-            return fourierCosineCoeff(-1 * l, n);
+            return fourierSine(-1 * l, n);
         } else {
-            for (int i = 0; i <= n; i++) {
-                Function ithTerm;
-                if (i == 0) {
-                    ithTerm = constant(1 / (2 * l));
-                } else {
-                    ithTerm = new Function(new Cosine(1 / l, i * Math.PI / l, 0));
-                }
-                Function fn = this.prod(ithTerm);
-                double ci = fn.integrate(-1 * l, l);
-                result.add(ci);
-            }
-        }
-        return result;
-    }
-
-    // EFFECTS: Returns the first n terms of the Fourier cosine series of a function on [-l, l], with coefficients
-    // calculated via fourierCosineCoeff.
-    public Function fourierCosine(double l, int n) {
-        List<Double> coefficients = fourierCosineCoeff(l, n);
-        Function result = zero();
-        for (int i = 0; i <= n; i++) {
-            double ci = coefficients.get(i);
-            if (i == 0) {
-                result = result.add(constant(ci));
+            Function result;
+            List<Double> coefficients = fourierSineCoeff(l, n);
+            double c1 = coefficients.get(0);
+            if (c1 == 0) {
+                result = zero();
             } else {
-                Function ithTerm = new Function(new Cosine(1 / l, i * Math.PI / l, 0));
-                result = result.add(ithTerm);
+                result = new Function(new Sine(c1, Math.PI / l, 0));
             }
+            for (int i = 2; i <= n; i++) {
+                double ci = coefficients.get(i - 1);
+                if (ci != 0) {
+                    Function ithTerm = new Function(new Sine(ci, i * Math.PI / l, 0));
+                    result = result.add(ithTerm);
+                }
+            }
+            return result;
+        }
+    }
+
+    // REQUIRES: l > 0, n > 1
+    // EFFECTS: Produces the first n coefficients of the Fourier cosine series of a function on [-l, l] up to precision.
+    // Throws ArithmeticException if any of the coefficients is not finite
+    private List<Double> fourierCosineCoeff(double l, int n) throws ArithmeticException {
+        List<Double> result = new ArrayList<>();
+        for (int i = 0; i <= n; i++) {
+            Function ithTerm;
+            if (i == 0) {
+                ithTerm = constant(1 / (2 * l));
+            } else {
+                ithTerm = new Function(new Cosine(1 / l, i * Math.PI / l, 0));
+            }
+            Function fn = this.prod(ithTerm);
+            double ci = fn.integrate(-1 * l, l);
+            result.add(ci);
         }
         return result;
     }
 
-    // EFFECTS: Produces the first n coefficients of the full Fourier series of a function on [-l, l], as a list of list
-    // of doubles. The first entry in the list are the list of cosine coefficients, with the second being the sine
-    // coefficients.
-    private List<List<Double>> fourierFullCoeff(double l, int n) {
-        return Arrays.asList(fourierCosineCoeff(l, n), fourierSineCoeff(l , n));
+    // EFFECTS: Returns the first n terms of the Fourier cosine series of a function on [-l, l] up to precision, with
+    // coefficients calculated via fourierCosineCoeff. If n < 1 or l is 0, produces the first 10 terms of the Fourier
+    // cosine Series on [-1, 1]. If l < 0, returns fourierCosine(-l, n) to properly align the interval. If all n terms
+    // are zero, returns the zero polynomial. Throws ArithmeticException if any of the terms is not finite
+    public Function fourierCosine(double l, int n) throws ArithmeticException {
+        if (n < 1 || l == 0) {
+            return fourierSine(1, 10);
+        } else if (l < 0) {
+            return fourierSine(-1 * l, n);
+        } else {
+            List<Double> coefficients = fourierCosineCoeff(l, n);
+            Function result = zero();
+            for (int i = 0; i <= n; i++) {
+                double ci = coefficients.get(i);
+                if (i == 0) {
+                    result = constant(ci);
+                } else if (ci != 0) {
+                    Function ithTerm = new Function(new Cosine(ci, i * Math.PI / l, 0));
+                    result = result.add(ithTerm);
+                }
+            }
+            return result;
+        }
     }
 
-    // EFFECTS: Produces the first n terms of the full Fourier series of a function on [-l, l], using fourierCosine
-    // and fourierSine.
-    public Function fourierFull(double l, int n) {
-        return fourierCosine(l, n).add(fourierSine(l, n));
-    }
-
-    // EFFECTS: Compares how well fn approximates this at x. If the output is positive, fn underestimates this, negative
-    // with overestimate, and 0.0 indicates the functions are equivalent at x.
-    public double approxBy(Function fn, double x) {
-        return this.eval(x) - fn.eval(x);
+    // EFFECTS: Produces the first n terms of the full Fourier series of a function on [-l, l] up to precision, using
+    // fourierCosine and fourierSine. Throws ArithmeticException if any of the terms is not finite
+    public Function fourierFull(double l, int n) throws ArithmeticException {
+        if (fourierCosine(l, n).name("x").equals("0.0")) {
+            return fourierSine(l, n);
+        } else if (fourierSine(l, n).name("x").equals("0.0")) {
+            return fourierCosine(l, n);
+        } else {
+            return fourierCosine(l, n).add(fourierSine(l, n));
+        }
     }
 }

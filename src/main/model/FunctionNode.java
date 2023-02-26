@@ -3,12 +3,9 @@ package model;
 import java.util.Objects;
 
 public class FunctionNode {
-    static final double DEFAULT_DIV_WINDOW = Math.pow(10.0, -50.0);
-
-    private Boolean isBasicFunc;
+    private final Boolean isBasicFunc;
     private String operation;
     private BasicFunction fn;
-    private static double divWindow = DEFAULT_DIV_WINDOW;
 
     // EFFECTS: Constructs a leaf FunctionNode - sets isBasicFunc to true (this verifies it is a leaf), sets this.fn to
     // fn, and sets the divWindow (allowance for a small denominator) to DEFAULT_DIV_WINDOW
@@ -37,36 +34,23 @@ public class FunctionNode {
         return operation;
     }
 
-    public static double getDivWindow() {
-        return divWindow;
-    }
-
-    public static void setDivWindow(double divWindow) {
-         FunctionNode.divWindow = divWindow;
-    }
-
     public void setFn(BasicFunction fn) {
         this.fn = fn;
     }
 
-    // EFFECTS: returns x operator y, for the 4 standard operations "+", "-", "*" and "/". For the division (/) operator
-    // , if 0.0 < abs(y) < divWindow, computes x / +-divWindow with sign inherited from y.
-    // For any other operation apart from the 4 listed, returns 0.0.
-    public double operateOn(double x, double y) {
+    // EFFECTS: returns x operator y, for the 4 standard operations "+", "-", "*" and "/". For any other operation
+    // apart from the 4 listed, returns 0.0.
+    public double operateOn(double x, double y) throws ArithmeticException {
         if (Objects.equals(operation, "+")) {
             return x + y;
         } else if (Objects.equals(operation, "-")) {
             return x - y;
         } else if (Objects.equals(operation, "*")) {
             return x * y;
-        } else if (Objects.equals(operation, "/") && Math.abs(y) > divWindow) {
+        } else if (Objects.equals(operation, "/") && Double.isFinite(x / y)) {
             return x / y;
-        } else if (Math.abs(y) < divWindow && y > 0) {
-            return x / divWindow;
-        } else if (Math.abs(y) < divWindow && y < 0) {
-            return x / (-1 * divWindow);
         } else {
-            return 0.0;
+            throw new ArithmeticException();
         }
     }
 }

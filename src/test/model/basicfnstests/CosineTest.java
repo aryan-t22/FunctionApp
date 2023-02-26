@@ -9,24 +9,26 @@ public class CosineTest {
     private Cosine c1;
     private Cosine c2;
     private Cosine c3;
+    private Cosine c4;
 
     @BeforeEach
     void setup() {
         c1 = new Cosine(1.0, 1.0, 0.0);
         c2 = new Cosine(3.0, 2.0, 1 / 4.0);
         c3 = new Cosine(1.0, 1.0, 1 / 2.0);
+        c4 = new Cosine(0.0, 5.0, 7.0);
     }
 
     @Test
     void testConstructor() {
         // Test c1:
-        assertEquals(1.0, c1.getA());
+        assertEquals(1.0, c1.getAm());
         assertEquals(1.0, c1.getStretch());
         assertEquals(0.0, c1.getPhase());
-        // Test c2:
-        assertEquals(3.0, c2.getA());
-        assertEquals(2.0, c2.getStretch());
-        assertEquals(1 / 4.0, c2.getPhase());
+        // Test c4:
+        assertEquals(1.0, c4.getAm());
+        assertEquals(5.0, c4.getStretch());
+        assertEquals(7.0, c4.getPhase());
     }
 
     @Test

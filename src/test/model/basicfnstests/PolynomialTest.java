@@ -5,19 +5,20 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class PolynomialTest {
     private Polynomial p1;
     private Polynomial p2;
     private Polynomial p3;
+    private Polynomial p4;
 
     @BeforeEach
     void setup() {
         p1 = new Polynomial(List.of(0.0));
         p2 = new Polynomial(Arrays.asList(0.0, 1.0));
         p3 = new Polynomial(Arrays.asList(0.25, 0.3, 0.4));
+        p4 = new Polynomial(Arrays.asList(0.0, 0.0, 0.0, 0.0));
     }
 
     @Test
@@ -34,6 +35,17 @@ public class PolynomialTest {
         assertEquals(0.25, p3.getParams().get(0));
         assertEquals(0.3, p3.getParams().get(1));
         assertEquals(0.4, p3.getParams().get(2));
+        // Test p4:
+        assertEquals(1.0, p4.getParams().size());
+        assertEquals(0.0, p4.getParams().get(0));
+    }
+
+    @Test
+    void testGetDegree() {
+        assertEquals(0, p1.getDegree());
+        assertEquals(1, p2.getDegree());
+        assertEquals(2, p3.getDegree());
+        assertEquals(0, p4.getDegree());
     }
 
     @Test

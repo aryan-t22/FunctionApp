@@ -39,7 +39,12 @@ it:
 
 - As a user, I want to be able to add a **function** (X) to my analysis **worklist** (Y).
 - As a user, I want to be able to view and modify functions already in my worklist.
-- As a user, I want to be able to choose a function in my worklist, and compute its Fourier Series on an interval,
-ideally of my choosing.
-- As a user, I want to compare the Fourier Series of a function to its actual value, and see how well the series
-approximates the function.
+- As a user, I want to be able to choose a function in my worklist, and compute the first n terms of its Fourier Series
+- on an interval, ideally of my choosing.
+- As a user, I want to compare one function to another, and see how well it approximates the other within some precision
+. Since the first n terms of a Fourier Series are also a function, this can be used to determine how accurate the series
+is at approximating the function.
+
+## *Acknowledgements of code used in the course:*
+The Phase 1 Console UI was heavily inspired by the provided CPSC 210 teller app, with its functionalities extended 
+and modified for the purposes of this project.

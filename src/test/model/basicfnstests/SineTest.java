@@ -9,24 +9,26 @@ public class SineTest {
     private Sine s1;
     private Sine s2;
     private Sine s3;
+    private Sine s4;
 
     @BeforeEach
     void setup() {
         s1 = new Sine(1.0, 1.0, 0.0);
         s2 = new Sine(3.0, 2.0, 1 / 4.0);
         s3 = new Sine(1.0, 1.0, -1 / 2.0);
+        s4 = new Sine(0.0, 6.0, 1.0);
     }
 
     @Test
     void testConstructor() {
         // Test s1:
-        assertEquals(1.0, s1.getA());
+        assertEquals(1.0, s1.getAm());
         assertEquals(1.0, s1.getStretch());
         assertEquals(0.0, s1.getPhase());
-        // Test s2:
-        assertEquals(3.0, s2.getA());
-        assertEquals(2.0, s2.getStretch());
-        assertEquals(1/ 4.0, s2.getPhase());
+        // Test s4:
+        assertEquals(1.0, s4.getAm());
+        assertEquals(6.0, s4.getStretch());
+        assertEquals(1.0, s4.getPhase());
     }
 
     @Test

@@ -1,23 +1,33 @@
 package model.basicfns;
 
 import model.BasicFunction;
-
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Polynomial implements BasicFunction {
+
     private List<Double> params;
-    private String name;
 
     // EFFECTS: Constructs a polynomial object from the given list of parameters. Using params as [1.0, 0.5, 1.0] for
-    // example yields the polynomial 1 + x/2 + x^2. If params is empty, constructs the 0 polynomial by default.
+    // example yields the polynomial 1 + x/2 + x^2. If params is empty, constructs the 0 polynomial by default. If all
+    // the parameters are 0.0, constructs the zero polynomial (i.e. with 0 degree)
     public Polynomial(List<Double> params) {
-        this.name = "Polynomial";
         if (params.size() == 0) {
-            this.params = new ArrayList<>(Arrays.asList(0.0));
+            this.params = new ArrayList<>(List.of(0.0));
         } else {
             this.params = params;
+            checkForZero();
+        }
+    }
+
+    // EFFECTS: Checks if all params of a polynomial are 0.0, and if they are, changes the polynomial to have
+    private void checkForZero() {
+        boolean check = true;
+        for (double ci : params) {
+            check = check && ci == 0;
+        }
+        if (check) {
+            params = List.of(0.0);
         }
     }
 
@@ -25,6 +35,8 @@ public class Polynomial implements BasicFunction {
         return params;
     }
 
+    // REQUIRES: params to not be empty - handled by initialization
+    // EFFECTS: Produces the name of a polynomial
     @Override
     public String getName(String x) {
         if (x.length() != 1) {
@@ -32,8 +44,7 @@ public class Polynomial implements BasicFunction {
         }
         String result = Double.toString(params.get(0));
         for (int i = 1; i <= getDegree(); i++) {
-            String ci = Double.toString(params.get(i));
-            result += (" + " + ci + " * " + x + "^" + Integer.toString(i));
+            result += (" + " + params.get(i) + " * " + x + "^" + i);
         }
         return result;
     }

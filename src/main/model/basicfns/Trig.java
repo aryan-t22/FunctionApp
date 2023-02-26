@@ -3,22 +3,25 @@ package model.basicfns;
 import model.BasicFunction;
 
 public abstract class Trig implements BasicFunction {
-    private double a;
+    private double am;
     private double stretch;
     private double phase;
     private String name;
 
-    // EFFECTS: constructs a Trig object of the form a * fn(stretch * (x - phase * pi)), where the trig function fn
-    // corresponds to name.
-    public Trig(double a, double stretch, double phase, String name) {
-        this.a = a;
+    // EFFECTS: constructs am Trig object of the form am * fn(stretch * (x - phase * pi)), where the trig function fn
+    // corresponds to name. If am = 0 is entered, chooses am = 1 instead, as am = 0 corresponds to the zero polynomial.
+    public Trig(double am, double stretch, double phase, String name) {
+        if (am == 0.0) {
+            am = 1.0;
+        }
+        this.am = am;
         this.stretch = stretch;
         this.phase = phase;
         this.name = name;
     }
 
-    public double getA() {
-        return a;
+    public double getAm() {
+        return am;
     }
 
     public double getPhase() {
@@ -29,16 +32,14 @@ public abstract class Trig implements BasicFunction {
         return stretch;
     }
 
+    // EFFECTS: generates the name of am given trigonometric function
     @Override
     public String getName(String x) {
-        String a = Double.toString(this.a);
-        String b = Double.toString(stretch);
-        String c = Double.toString(phase) + "\u03C0";
-        return a + " * " + name + "(" + b + " * (" + x + " - " + c + "))";
+        return am + " * " + name + "(" + stretch + " * (" + x + " - " + phase + "π))";
     }
 
-    public void setA(double a) {
-        this.a = a;
+    public void setAm(double am) {
+        this.am = am;
     }
 
     public void setStretch(double stretch) {

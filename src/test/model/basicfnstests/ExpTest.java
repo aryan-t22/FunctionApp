@@ -3,17 +3,19 @@ package model.basicfnstests;
 import model.basicfns.Exp;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ExpTest {
     private Exp e1;
     private Exp e2;
+    private Exp e3;
 
     @BeforeEach
     void setup() {
         e1 = new Exp(1.0, 1.0, 0.0);
         e2 = new Exp(3.0, 4.0, 1 / 4.0);
+        e3 = new Exp(0.0, 5.0, 9.3);
+
     }
 
     @Test
@@ -22,10 +24,10 @@ public class ExpTest {
         assertEquals(1.0, e1.getVscale());
         assertEquals(1.0, e1.getHscale());
         assertEquals(0.0, e1.getHshift());
-        // Test e2:
-        assertEquals(3.0, e2.getVscale());
-        assertEquals(4.0, e2.getHscale());
-        assertEquals(1 / 4.0, e2.getHshift());
+        // Test e3:
+        assertEquals(1.0, e3.getVscale());
+        assertEquals(5.0, e3.getHscale());
+        assertEquals(9.3, e3.getHshift());
     }
 
     @Test

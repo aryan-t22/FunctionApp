@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Worklist {
-    private List<Function> listFn;
+    private final List<Function> listFn;
 
     public Worklist() {
         listFn = new ArrayList<>();
@@ -38,6 +38,8 @@ public class Worklist {
         }
     }
 
+    // EFFECTS: Produces the names of all the functions in the worklist as a single String. Produces "the worklist is
+    // empty." if the worklist is empty
     public String names() {
         if (isEmpty()) {
             return "The worklist is empty.";
@@ -50,6 +52,7 @@ public class Worklist {
         }
     }
 
+    // EFFECTS: Produces true if one of the Functions in the worklist is a child node Function
     public Boolean hasBasicFn() {
         if (!isEmpty()) {
             for (Function fn : listFn) {
