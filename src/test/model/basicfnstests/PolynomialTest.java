@@ -4,7 +4,6 @@ import model.basicfns.Polynomial;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
-import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // Tests for the Polynomial Class
@@ -16,7 +15,7 @@ public class PolynomialTest {
 
     @BeforeEach
     void setup() {
-        p1 = new Polynomial(List.of(0.0));
+        p1 = new Polynomial(Arrays.asList(0.0));
         p2 = new Polynomial(Arrays.asList(0.0, 1.0));
         p3 = new Polynomial(Arrays.asList(0.25, 0.3, 0.4));
         p4 = new Polynomial(Arrays.asList(0.0, 0.0, 0.0, 0.0));
