@@ -44,6 +44,26 @@ public class FunctionTest {
         assertNull(fn1.getRight());
     }
 
+    // This method is used in the UI, but not in the model. Hence, it was not covered by the model, and testing
+    // is done for thoroughness
+    @Test
+    void testGetSubIntervalsForThoroughness() {
+        assertEquals(Function.DEFAULT_SUBINTERVALS, Function.getSubintervals());
+        Function.setSubintervals(2);
+        assertEquals(2, Function.getSubintervals());
+        Function.setSubintervals(Function.DEFAULT_SUBINTERVALS);
+    }
+
+    // This method is used in the UI, but not in the model. Hence, it was not covered by the model, and testing
+    // is done for thoroughness
+    @Test
+    void testGetPrecisionForThoroughness() {
+        assertEquals(Function.DEFAULT_PRECISION, Function.getPrecision());
+        Function.setPrecision(1E-6);
+        assertEquals(1E-6, Function.getPrecision());
+        Function.setPrecision(Function.DEFAULT_PRECISION);
+    }
+
     @Test
     void testAdd() {
         // Test fn1 + fn2
@@ -180,13 +200,17 @@ public class FunctionTest {
         fn3 = fn1.add(fn2);
         assertEquals(2, fn3.eval(0), DEVIATION);
         assertEquals(Math.exp(Math.PI / 2), fn3.eval(Math.PI / 2), DEVIATION);
+        // test with f1 o f2
+        fn4 = fn1.compose(fn2);
+        assertEquals(Math.exp(1.0), fn4.eval(0), DEVIATION);
+        assertEquals(1.0, fn4.eval(Math.PI / 2), DEVIATION);
         // test when result is not finite
-        fn4 = new Function(bfn3); // sin(x)
-        fn5 = new Function(bfn4); // x
-        fn6 = fn4.div(fn5); // sin(x) / x
+        fn5 = new Function(bfn3); // sin(x)
+        fn6 = new Function(bfn4); // x
+        fn7 = fn5.div(fn6); // sin(x) / x
         boolean trial = true;
         try {
-            fn6.eval(0);
+            fn7.eval(0);
             assertFalse(trial);
         } catch (ArithmeticException e) {
             assertTrue(trial);
