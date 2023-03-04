@@ -1,26 +1,26 @@
 package model.basicfns;
 
 import model.BasicFunction;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+
+import java.util.*;
 
 // A polynomial object of arbitrary degree. The degree of the polynomial is specified by the number of parameters chosen
 // to initialize the polynomial with. The zero polynomial is the only polynomial which cannot be initialized with a
-// degree other than 0 (it is currently possible for example to have a degree 1 polynomial f(x) = 0 + x, and a degree
-// "2" polynomial f(x) = 0 + x + 0x^2 with this representation.
+// degree other than 0.
 public class Polynomial implements BasicFunction {
     private List<Double> params;
 
     // EFFECTS: Constructs a polynomial object from the given list of parameters. Using params as [1.0, 0.5, 1.0] for
     // example yields the polynomial 1 + x/2 + x^2. If params is empty, constructs the 0 polynomial by default. If all
-    // the parameters are 0.0, constructs the zero polynomial (i.e. with 0 degree)
+    // the parameters are 0.0, constructs the zero polynomial (i.e. with 0 degree). If params has any trailing zeros
+    // towards the end of the list, these are removed ([0, 1, 2, 0] returns 0.0 + 1.0 * x + 2.0 * x^2]
     public Polynomial(List<Double> params) {
         if (params.size() == 0) {
             this.params = new ArrayList<>(Arrays.asList(0.0));
         } else {
             this.params = params;
             checkForZero();
+            initDegree();
         }
     }
 
@@ -35,7 +35,30 @@ public class Polynomial implements BasicFunction {
         }
     }
 
-    public List<Double> getParams() {
+    // REQUIRES: this.params not empty
+    // EFFECTS: initializes a polynomial via its degree, zeroes after the leading coefficient are removed and params
+    // is modified
+    private void initDegree() {
+        List<Double> newList = new LinkedList<>();
+        List<Double> loopList = new LinkedList<>();
+        newList.addAll(params);
+        loopList.addAll(params);
+        if (newList.size() != 1) {
+            Collections.reverse(newList);
+            Collections.reverse(loopList);
+            for (int i = 0; i < loopList.size(); i++) {
+                if (loopList.get(i) == 0.0) {
+                    newList.remove(0);
+                } else {
+                    break;
+                }
+            }
+            Collections.reverse(newList);
+        }
+        this.params = newList;
+    }
+
+    public List<Double> getParams () {
         return params;
     }
 
@@ -53,6 +76,7 @@ public class Polynomial implements BasicFunction {
         return result;
     }
 
+    // REQUIRES: params to not be empty - handled by initialization
     // EFFECTS: returns the degree of the polynomial
     public int getDegree() {
         return params.size() - 1;

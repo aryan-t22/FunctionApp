@@ -4,6 +4,9 @@ import model.basicfns.Polynomial;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 // Tests for the Polynomial Class
@@ -12,6 +15,7 @@ public class PolynomialTest {
     private Polynomial p2;
     private Polynomial p3;
     private Polynomial p4;
+    private Polynomial p5;
 
     @BeforeEach
     void setup() {
@@ -19,6 +23,7 @@ public class PolynomialTest {
         p2 = new Polynomial(Arrays.asList(0.0, 1.0));
         p3 = new Polynomial(Arrays.asList(0.25, 0.3, 0.4));
         p4 = new Polynomial(Arrays.asList(0.0, 0.0, 0.0, 0.0));
+        p5 = new Polynomial(Arrays.asList(0.0, 3.2, 1.0, 0.0, 0.0));
     }
 
     @Test
@@ -38,6 +43,11 @@ public class PolynomialTest {
         // Test p4:
         assertEquals(1.0, p4.getParams().size());
         assertEquals(0.0, p4.getParams().get(0));
+        // Test p5:
+        assertEquals(3.0, p5.getParams().size());
+        assertEquals(0.0, p5.getParams().get(0));
+        assertEquals(3.2, p5.getParams().get(1));
+        assertEquals(1.0, p5.getParams().get(2));
     }
 
     @Test
@@ -46,6 +56,7 @@ public class PolynomialTest {
         assertEquals(1, p2.getDegree());
         assertEquals(2, p3.getDegree());
         assertEquals(0, p4.getDegree());
+        assertEquals(2, p5.getDegree());
     }
 
     @Test
@@ -55,7 +66,7 @@ public class PolynomialTest {
         assertEquals("0.0 + 1.0 * r^1", p2.getName("r"));
         assertEquals("0.25 + 0.3 * (sin(x))^1 + 0.4 * (sin(x))^2", p3.getName("sin(x)"));
         assertEquals("0.25 + 0.3 * (xy)^1 + 0.4 * (xy)^2", p3.getName("xy"));
-
+        assertEquals("0.0 + 3.2 * x^1 + 1.0 * x^2", p5.getName("x"));
     }
 
     @Test

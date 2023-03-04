@@ -46,6 +46,9 @@ on an interval, ideally of my choosing.
 precision. Since the first n terms of a Fourier Series are also a function, this can be used to determine how accurate
 the series is at approximating the function.
 
+## *Achieved Stretch Goals:*
+- Adjusted the polynomial class to correctly represent the degree of a polynomial
+
 ## *Acknowledgements of code used in the course:*
 The Phase 1 Console UI was heavily inspired by the provided CPSC 210 teller app, with its functionalities extended 
 and modified for the purposes of this project.
