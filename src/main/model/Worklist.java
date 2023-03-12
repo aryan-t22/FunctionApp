@@ -1,6 +1,10 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 // A worklist of Functions. The worklist itself cannot be reassigned to another list, but can be modified by the
@@ -65,5 +69,22 @@ public class Worklist {
             }
         }
         return false;
+    }
+
+    // EFFECTS: creates a .JSON object for a Worklist of Functions
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("functions", this.functionsToJson());
+        return json;
+    }
+
+    // EFFECTS: creates a .JSON array for a list of functions
+    public JSONArray functionsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Function f : listFn) {
+            jsonArray.put(f.toJson());
+        }
+        return jsonArray;
     }
 }

@@ -1,5 +1,7 @@
 package model;
 
+import org.json.JSONObject;
+
 import java.util.Objects;
 
 // A node on a Function Binary Syntax Tree. Each node has 3 fields, a boolean isBasicFunc, which stores whether the node

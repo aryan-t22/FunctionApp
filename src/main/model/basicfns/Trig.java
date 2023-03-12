@@ -1,6 +1,7 @@
 package model.basicfns;
 
 import model.BasicFunction;
+import org.json.JSONObject;
 
 // A class for trigonometric functions, which have a vertical stretch (amplitude in some cases), horizontal stretch,
 // a horizontal phase shift (in units of π, so a phase shift of 5 would be 5π units) to the right, and a name field

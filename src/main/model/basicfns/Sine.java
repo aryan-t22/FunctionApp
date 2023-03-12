@@ -1,5 +1,7 @@
 package model.basicfns;
 
+import org.json.JSONObject;
+
 // A sine object with an Amplitude, Horizontal Stretch, a Phase Shift (in units of π, so a phase shift of 5 would be
 // 5π units) to the right, and named "sin"
 public class Sine extends Trig {
@@ -15,5 +17,16 @@ public class Sine extends Trig {
     @Override
     public double eval(double x) {
         return this.getAm() * Math.sin(this.getStretch() * (x - Math.PI * this.getPhase()));
+    }
+
+    // EFFECTS: creates a .JSON object for a sine function
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("amp", this.getAm());
+        json.put("stretch", this.getStretch());
+        json.put("phase", this.getPhase());
+        json.put("name", "sin");
+        return json;
     }
 }

@@ -1,6 +1,8 @@
 package model;
 
 import model.basicfns.*;
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -31,7 +33,7 @@ public class Function {
 
     // EFFECTS: Constructs a function with a parent FunctionNode made from operator, with the this.left and this.right
     // branches assigned to left and right respectively.
-    private Function(String operator, Function left, Function right) {
+    public Function(String operator, Function left, Function right) {
         this.fnn = new FunctionNode(operator);
         this.left = left;
         this.right = right;
@@ -285,5 +287,20 @@ public class Function {
         } else {
             return fourierCosine(l, n).add(fourierSine(l, n));
         }
+    }
+
+    // REQUIRES: for left and right to either both be null (leaf node), or both not be null (parent node). This is
+    // essentially guaranteed by design, but has been included for completeness
+    // EFFECTS: creates a .JSON object for a Function
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        if (left == null || right == null) {
+            json.put("Basic Function", fnn.getFn().toJson());
+            return json;
+        }
+        json.put("operation", fnn.getOperation());
+        json.put("left", left.toJson());
+        json.put("right", right.toJson());
+        return json;
     }
 }

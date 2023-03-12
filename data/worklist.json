@@ -1,0 +1,29 @@
+{"functions": [
+    {"Basic Function": {
+        "0": 1,
+        "1": 1,
+        "name": "polynomial",
+        "degree": 1
+    }},
+    {"Basic Function": {
+        "phase": 1,
+        "stretch": 1,
+        "amp": 1,
+        "name": "sin"
+    }},
+    {
+        "left": {"Basic Function": {
+            "0": 1,
+            "1": 1,
+            "name": "polynomial",
+            "degree": 1
+        }},
+        "Operation": "+",
+        "right": {"Basic Function": {
+            "phase": 1,
+            "stretch": 1,
+            "amp": 1,
+            "name": "sin"
+        }}
+    }
+]}

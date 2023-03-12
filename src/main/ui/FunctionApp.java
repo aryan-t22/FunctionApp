@@ -4,16 +4,27 @@ import model.BasicFunction;
 import model.Function;
 import model.Worklist;
 import model.basicfns.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Iterator;
+
 
 public class FunctionApp {
     private Worklist wl;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // EFFECTS: runs the Function application
     public FunctionApp() {
+        this.jsonWriter = new JsonWriter("./data/worklist.json");
+        this.jsonReader = new JsonReader("./data/worklist.json");
         runFunction();
     }
 
@@ -36,17 +47,21 @@ public class FunctionApp {
     // MODIFIES: this
     // EFFECTS: processes user command
     private void processCommand(String command) {
-        if (command.equals("v")) {
+        if ("v".equals(command)) {
             doView();
-        } else if (command.equals("a")) {
+        } else if ("a".equals(command)) {
             doAdd();
-        } else if (command.equals("m")) {
+        } else if ("m".equals(command)) {
             doMake();
-        } else if (command.equals("e")) {
+        } else if ("e".equals(command)) {
             doEdit();
-        } else if (command.equals("z")) {
+        } else if ("z".equals(command)) {
             doAnalyze();
-        } else if (command.equals(".")) {
+        } else if ("s".equals(command)) {
+            doSave();
+        } else if ("l".equals(command)) {
+            doLoad();
+        } else if (".".equals(command)) {
             doSettings();
         } else {
             System.out.println("Selection not valid...");
@@ -69,6 +84,8 @@ public class FunctionApp {
         System.out.println("\tm -> make more complicated functions");
         System.out.println("\te -> edit (and remove) functions in your worklist");
         System.out.println("\tz -> analyze (evaluate, integrate etc.) the functions in your worklist");
+        System.out.println("\ts -> save your current worklist");
+        System.out.println("\tl -> load the previously saved worklist");
         System.out.println("\t. -> change default settings.");
         System.out.println("\tq -> quit");
     }
@@ -612,6 +629,36 @@ public class FunctionApp {
             System.out.println("Evaluating the functions for comparison led to an arithmetic error. This can perhaps "
                     + "occur due to division by zero during evaluation. Please try again at a different x value, or "
                     + "with different functions");
+        }
+    }
+
+    // for doSave() //
+
+    // MODIFIES: this
+    // EFFECTS: saves the worklist to ./data/worklist.json, does not save a worklist if worklist.json is not found at
+    // the aforementioned directory
+    private void doSave() {
+        try {
+            this.jsonWriter.open();
+            this.jsonWriter.write(wl);
+            this.jsonWriter.close();
+            System.out.println("Saved worklist to " + "./data/worklist.json");
+        } catch (FileNotFoundException var2) {
+            System.out.println("Unable to write to file: ./data/worklist.json");
+        }
+    }
+
+    // for doLoad() //
+
+    // MODIFIES: this
+    // EFFECTS: loads the worklist from ./data/worklist.json, does not load a worklist if there was an error during
+    // loading, indicated by an error message
+    private void doLoad() {
+        try {
+            wl = this.jsonReader.read();
+            System.out.println("Loaded worklist from " + "./data/worklist.json");
+        } catch (IOException var2) {
+            System.out.println("Unable to read from file: ./data/worklist.json");
         }
     }
 

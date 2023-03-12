@@ -1,6 +1,7 @@
 package model.basicfns;
 
 import model.BasicFunction;
+import org.json.JSONObject;
 
 // An exponential object with a vscale, hscale, a Phase Shift to the right, representing the standard exponential
 // function (e = 2.71...)
@@ -46,4 +47,14 @@ public class Exp implements BasicFunction {
         return vscale * Math.exp(hscale * (x - hshift));
     }
 
+    // EFFECTS: creates a .JSON object for an exponential function
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("V scale", this.getVscale());
+        json.put("H scale", this.getHscale());
+        json.put("H shift", this.getHshift());
+        json.put("name", "exp");
+        return json;
+    }
 }

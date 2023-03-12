@@ -1,6 +1,7 @@
 package model.basicfns;
 
 import model.BasicFunction;
+import org.json.JSONObject;
 
 import java.util.*;
 
@@ -39,26 +40,19 @@ public class Polynomial implements BasicFunction {
     // EFFECTS: initializes a polynomial via its degree, zeroes after the leading coefficient are removed and params
     // is modified
     private void initDegree() {
-        List<Double> newList = new LinkedList<>();
-        List<Double> loopList = new LinkedList<>();
-        newList.addAll(params);
-        loopList.addAll(params);
-        if (newList.size() != 1) {
-            Collections.reverse(newList);
-            Collections.reverse(loopList);
-            for (int i = 0; i < loopList.size(); i++) {
-                if (loopList.get(i) == 0.0) {
-                    newList.remove(0);
-                } else {
-                    break;
-                }
+        List<Double> newList = new LinkedList<>(params);
+        List<Double> loopList = new LinkedList<>(params);
+        for (int i = loopList.size() - 1; i > 0; i--) {
+            if (loopList.get(i) == 0.0) {
+                newList.remove(i);
+            } else {
+                break;
             }
-            Collections.reverse(newList);
         }
         this.params = newList;
     }
 
-    public List<Double> getParams () {
+    public List<Double> getParams() {
         return params;
     }
 
@@ -90,5 +84,18 @@ public class Polynomial implements BasicFunction {
             result += params.get(i) * Math.pow(x, i);
         }
         return result;
+    }
+
+    // EFFECTS: creates a .JSON object for a polynomial function
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", "polynomial");
+        json.put("degree", getDegree());
+        for (int i = 0; i <= getDegree(); i++) {
+            String key = Integer.toString(i);
+            json.put(key, params.get(i));
+        }
+        return json;
     }
 }
