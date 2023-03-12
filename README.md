@@ -1,4 +1,4 @@
-# CPSC 210: Fourier Series Project:
+# CPSC 210: Function App (Fourier Series) Project:
 
 ## *About the project:*
 **The goal of this project is to create a program that can take in a set of functions the user inputs, perform basic
@@ -30,8 +30,7 @@ visualization tool, which I felt would have been rather difficult to implement a
 therefore would like to have this as a stretch goal, and to aim for visualizing the Fourier Transform of a small subset
 of functions for my final submission in Phase 4. For a more moderate stretch goal, I want to implement functionality 
 to determine how many terms in a Fourier Series one would need to approximate a function in their worklist at a 
-particular value to a specified degree of accuracy. An even more moderate stretch goal is to optimize the Polynomial
-class in the project to take into account degree in a rigorous sense.
+particular value to a specified degree of accuracy.
 
 ## *User Stories:*
 A requirement of the CPSC 210 Project is to consider user stories when designing our projects. Below is a list of user
@@ -45,10 +44,14 @@ on an interval, ideally of my choosing.
 - As a user, I want to compare one function to another, and see how well it approximates the other within some
 precision. Since the first n terms of a Fourier Series are also a function, this can be used to determine how accurate
 the series is at approximating the function.
+- As a user, I want to be able to save the current worklist, to access at a later time.
+- As a user, I want to be able to load the last saved worklist, to interact with via the application.
 
 ## *Achieved Stretch Goals:*
-- Adjusted the polynomial class to correctly represent the degree of a polynomial
+- Adjusted the polynomial class to correctly represent the degree of a polynomial.
 
 ## *Acknowledgements of code used in the course:*
-The Phase 1 Console UI was heavily inspired by the provided CPSC 210 teller app, with its functionalities extended 
-and modified for the purposes of this project.
+- The Phase 1 Console UI was heavily inspired by the provided CPSC 210 teller app, with its functionalities extended 
+and modified for the purposes of this project. 
+- The Phase 2 Persistence was heavily inspired by the provided CPSC 210 JsonSerializationDemo app, with its read write
+features adjusted for the FunctionApp.
