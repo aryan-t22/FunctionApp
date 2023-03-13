@@ -38,14 +38,28 @@ public class FunctionTest {
     }
 
     @Test
-    void testConstructor() {
+    void testLeafConstructor() {
+        assertTrue(fn1.getFnn().getIsBasicFunc());
         assertEquals("1.0 * e^(1.0 * (x - 0.0))", fn1.getFnn().getFn().getName("x"));
         assertNull(fn1.getLeft());
         assertNull(fn1.getRight());
     }
 
-    // This method is used in the UI, but not in the model. Hence, it was not covered by the model, and testing
-    // is done for thoroughness
+    @Test
+    void testParentConstructor() {
+        Function fn3 = new Function("+", fn1, fn2);
+        assertFalse(fn3.getFnn().getIsBasicFunc());
+        assertEquals("+", fn3.getFnn().getOperation());
+        assertEquals(fn1, fn3.getLeft());
+        assertEquals(fn2, fn3.getRight());
+        Function fn4 = new Function("+", null, fn2);
+        assertEquals("0.0", fn4.getFnn().getFn().getName("x"));
+        assertNull(fn4.getLeft());
+        assertNull(fn4.getRight());
+    }
+
+    // This method is used in the UI, but was not in the model. Hence, it was not covered by the model, and testing
+    // is done for thoroughness (as of PHASE 1)
     @Test
     void testGetSubIntervalsForThoroughness() {
         assertEquals(Function.DEFAULT_SUBINTERVALS, Function.getSubintervals());
@@ -54,8 +68,8 @@ public class FunctionTest {
         Function.setSubintervals(Function.DEFAULT_SUBINTERVALS);
     }
 
-    // This method is used in the UI, but not in the model. Hence, it was not covered by the model, and testing
-    // is done for thoroughness
+    // This method is used in the UI, but was not in the model. Hence, it was not covered by the model, and testing
+    // is done for thoroughness (as of PHASE 1)
     @Test
     void testGetPrecisionForThoroughness() {
         assertEquals(Function.DEFAULT_PRECISION, Function.getPrecision());

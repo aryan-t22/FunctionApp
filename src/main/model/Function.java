@@ -32,11 +32,27 @@ public class Function {
     }
 
     // EFFECTS: Constructs a function with a parent FunctionNode made from operator, with the this.left and this.right
-    // branches assigned to left and right respectively.
+    // branches assigned to left and right respectively. If either
     public Function(String operator, Function left, Function right) {
-        this.fnn = new FunctionNode(operator);
-        this.left = left;
-        this.right = right;
+        boolean leftValid = left != null;
+        boolean rightValid = right != null;
+        if (leftValid && rightValid) {
+            this.fnn = new FunctionNode(operator);
+            this.left = left;
+            this.right = right;
+        } else {
+            this.fnn = zero().fnn;
+        }
+    }
+
+    // EFFECTS: Constructs a constant function f(x) = c.
+    private Function constant(double c) {
+        return new Function(new Polynomial(Arrays.asList(c)));
+    }
+
+    // EFFECTS: Constructs the additive identity, the zero function f(x) = 0.
+    private Function zero() {
+        return constant(0.0);
     }
 
     public FunctionNode getFnn() {
@@ -73,16 +89,6 @@ public class Function {
     // EFFECTS: Constructs a new Function (tree) for this operator fn, for the provided operator.
     private Function operate(Function fn, String operator) {
         return new Function(operator, this, fn);
-    }
-
-    // EFFECTS: Constructs a constant function f(x) = c.
-    private Function constant(double c) {
-        return new Function(new Polynomial(Arrays.asList(c)));
-    }
-
-    // EFFECTS: Constructs the additive identity, the zero function f(x) = 0.
-    private Function zero() {
-        return constant(0.0);
     }
 
     // EFFECTS: Constructs a new Function (tree) for this + fn.
@@ -294,7 +300,7 @@ public class Function {
     // EFFECTS: creates a .JSON object for a Function
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        if (left == null && right == null) {
+        if (left == null) {
             json.put("Basic Function", fnn.getFn().toJson());
             return json;
         }
