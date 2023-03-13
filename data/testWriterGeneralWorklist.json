@@ -1,0 +1,27 @@
+{
+    "subintervals": 9000,
+    "functions": [
+        {"Basic Function": {
+            "phase": 0,
+            "stretch": 1,
+            "amp": 1,
+            "name": "cos"
+        }},
+        {
+            "left": {"Basic Function": {
+                "phase": 0,
+                "stretch": 1,
+                "amp": 1,
+                "name": "cos"
+            }},
+            "right": {"Basic Function": {
+                "phase": 1,
+                "stretch": 5,
+                "amp": 2,
+                "name": "sin"
+            }},
+            "operation": "o"
+        }
+    ],
+    "precision": 1.0E-14
+}

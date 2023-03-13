@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -55,9 +56,12 @@ public class JsonReader {
         return contentBuilder.toString();
     }
 
+    // MODIFIES: Function Class - Function.subintervals, Function.precision
     // EFFECTS: parses the .JSON file at source to create the saved worklist
     private Worklist parseWorklist(JSONObject jsonObject) {
         Worklist wl = new Worklist();
+        Function.setSubintervals(jsonObject.getInt("subintervals"));
+        Function.setPrecision(jsonObject.getDouble("precision"));
         this.addFunctions(wl, jsonObject);
         return wl;
     }
@@ -88,6 +92,13 @@ public class JsonReader {
         }
     }
 
+    public Function random() {
+        Function f1 = new Function(new Polynomial(Arrays.asList(1.0, 0.0, 1.0)));
+        Function f2 = new Function(new Tan(1, 1, 0));
+        Function f3 = f1.div(f2);;
+        return makeFunction(f3.toJson());
+    }
+
     // REQUIRES: that a Basic Function consists of Cosine, Sine, Tan, Exp and Trig. The method would need to be modified
     // if functionality for more basic functions (such as the Logarithm) was included.
     // EFFECTS: makes a Basic Function from a given .JSON Object
@@ -99,7 +110,7 @@ public class JsonReader {
             case "cos":
                 return new Cosine(json.getDouble("amp"), json.getDouble("stretch"), json.getDouble("phase"));
             case "tan":
-                return new Tan(json.getDouble("amp"), json.getDouble("stretch"), json.getDouble("phase"));
+                return new Tan(json.getDouble("am"), json.getDouble("stretch"), json.getDouble("phase"));
             case "exp":
                 return new Exp(json.getDouble("V scale"), json.getDouble("H scale"), json.getDouble("H shift"));
             default:

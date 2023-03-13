@@ -74,12 +74,14 @@ public class Worklist {
     // EFFECTS: creates a .JSON object for a Worklist of Functions
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
+        json.put("subintervals", Function.getSubintervals());
+        json.put("precision", Function.getPrecision());
         json.put("functions", this.functionsToJson());
         return json;
     }
 
     // EFFECTS: creates a .JSON array for a list of functions
-    public JSONArray functionsToJson() {
+    private JSONArray functionsToJson() {
         JSONArray jsonArray = new JSONArray();
 
         for (Function f : listFn) {

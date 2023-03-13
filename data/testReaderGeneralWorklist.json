@@ -1,0 +1,35 @@
+{
+    "subintervals": 8000,
+    "functions": [
+      {"Basic Function": {
+        "0": 1,
+        "1": 0,
+        "2": 1,
+        "name": "polynomial",
+        "degree": 2
+      }},
+      {"Basic Function": {
+        "phase": 0,
+        "stretch": 1,
+        "am": 1,
+        "name": "tan"
+      }},
+      {
+        "left": {"Basic Function": {
+          "0": 1,
+          "1": 0,
+          "2": 1,
+          "name": "polynomial",
+          "degree": 2
+        }},
+        "right": {"Basic Function": {
+          "phase": 0,
+          "stretch": 1,
+          "am": 1,
+          "name": "tan"
+        }},
+        "operation": "/"
+      }
+    ],
+    "precision": 1.0E-13
+}

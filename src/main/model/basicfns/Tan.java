@@ -23,10 +23,10 @@ public class Tan extends Trig {
     @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        json.put("amp", this.getAm());
+        json.put("am", this.getAm());
         json.put("stretch", this.getStretch());
         json.put("phase", this.getPhase());
-        json.put("name", "cos");
+        json.put("name", "tan");
         return json;
     }
 }

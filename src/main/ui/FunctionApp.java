@@ -84,9 +84,9 @@ public class FunctionApp {
         System.out.println("\tm -> make more complicated functions");
         System.out.println("\te -> edit (and remove) functions in your worklist");
         System.out.println("\tz -> analyze (evaluate, integrate etc.) the functions in your worklist");
-        System.out.println("\ts -> save your current worklist");
-        System.out.println("\tl -> load the previously saved worklist");
-        System.out.println("\t. -> change default settings.");
+        System.out.println("\ts -> save your current worklist and settings");
+        System.out.println("\tl -> load the previously saved worklist and settings");
+        System.out.println("\t. -> view or change settings.");
         System.out.println("\tq -> quit");
     }
 

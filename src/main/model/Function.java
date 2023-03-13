@@ -294,7 +294,7 @@ public class Function {
     // EFFECTS: creates a .JSON object for a Function
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
-        if (left == null || right == null) {
+        if (left == null && right == null) {
             json.put("Basic Function", fnn.getFn().toJson());
             return json;
         }
