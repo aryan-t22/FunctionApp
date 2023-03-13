@@ -28,7 +28,7 @@ public class JsonWriterTest extends JsonTest {
         fn3 = new Exp(15.689540,96.584646,0.1);
         f1 = new Function(fn1);
         f2 = new Function(fn2);
-        f3 = new Function("o", f1, f2);
+        f3 = new Function(fn3).add(new Function("o", f1, f2));
         wl1 = new Worklist();
         wl1.insertFunc(f1);
         wl1.insertFunc(f3);
@@ -89,6 +89,4 @@ public class JsonWriterTest extends JsonTest {
             fail("Exception should not have been thrown");
         }
     }
-
-
 }
