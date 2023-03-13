@@ -53,6 +53,12 @@ public class FunctionTest {
         assertEquals(fn1, fn3.getLeft());
         assertEquals(fn2, fn3.getRight());
         Function fn4 = new Function("+", null, fn2);
+        assertTrue(fn1.getFnn().getIsBasicFunc());
+        assertEquals("0.0", fn4.getFnn().getFn().getName("x"));
+        assertNull(fn4.getLeft());
+        assertNull(fn4.getRight());
+        fn4 = new Function("-", fn1, null);
+        assertTrue(fn1.getFnn().getIsBasicFunc());
         assertEquals("0.0", fn4.getFnn().getFn().getName("x"));
         assertNull(fn4.getLeft());
         assertNull(fn4.getRight());
