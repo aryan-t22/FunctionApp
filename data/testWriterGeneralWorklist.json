@@ -9,18 +9,27 @@
         }},
         {
             "left": {"Basic Function": {
-                "phase": 0,
-                "stretch": 1,
-                "amp": 1,
-                "name": "cos"
+                "V scale": 15.68954,
+                "name": "exp",
+                "H shift": 0.1,
+                "H scale": 96.584646
             }},
-            "right": {"Basic Function": {
-                "phase": 1,
-                "stretch": 5,
-                "amp": 2,
-                "name": "sin"
-            }},
-            "operation": "o"
+            "right": {
+                "left": {"Basic Function": {
+                    "phase": 0,
+                    "stretch": 1,
+                    "amp": 1,
+                    "name": "cos"
+                }},
+                "right": {"Basic Function": {
+                    "phase": 1,
+                    "stretch": 5,
+                    "amp": 2,
+                    "name": "sin"
+                }},
+                "operation": "o"
+            },
+            "operation": "+"
         }
     ],
     "precision": 1.0E-14

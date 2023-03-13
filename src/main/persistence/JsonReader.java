@@ -36,23 +36,8 @@ public class JsonReader {
     private String readFile(String source) throws IOException {
         StringBuilder contentBuilder = new StringBuilder();
         Stream<String> stream = Files.lines(Paths.get(source), StandardCharsets.UTF_8);
-        try {
-            stream.forEach((s) -> {
-                contentBuilder.append(s);
-            });
-        } catch (Throwable var7) {
-            if (stream != null) {
-                try {
-                    stream.close();
-                } catch (Throwable var6) {
-                    var7.addSuppressed(var6);
-                }
-            }
-            throw var7;
-        }
-        if (stream != null) {
-            stream.close();
-        }
+        stream.forEach(contentBuilder::append);
+        stream.close();
         return contentBuilder.toString();
     }
 
@@ -90,13 +75,6 @@ public class JsonReader {
             Function right = makeFunction(json.getJSONObject("right"));
             return new Function(operation, left, right);
         }
-    }
-
-    public Function random() {
-        Function f1 = new Function(new Polynomial(Arrays.asList(1.0, 0.0, 1.0)));
-        Function f2 = new Function(new Tan(1, 1, 0));
-        Function f3 = f1.div(f2);;
-        return makeFunction(f3.toJson());
     }
 
     // REQUIRES: that a Basic Function consists of Cosine, Sine, Tan, Exp and Trig. The method would need to be modified
