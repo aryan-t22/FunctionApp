@@ -32,7 +32,8 @@ public class Function {
     }
 
     // EFFECTS: Constructs a function with a parent FunctionNode made from operator, with the this.left and this.right
-    // branches assigned to left and right respectively. If either
+    // branches assigned to left and right respectively. If either the left and right nodes are mull, return the
+    // zero function.
     public Function(String operator, Function left, Function right) {
         boolean leftValid = left != null;
         boolean rightValid = right != null;

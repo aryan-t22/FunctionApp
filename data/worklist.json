@@ -2,43 +2,16 @@
     "subintervals": 5000,
     "functions": [
         {"Basic Function": {
+            "0": 1,
+            "1": 2,
+            "name": "polynomial",
+            "degree": 1
+        }},
+        {"Basic Function": {
             "V scale": 1,
             "name": "exp",
             "H shift": 0,
             "H scale": 1
-        }},
-        {"Basic Function": {
-            "phase": 0,
-            "stretch": 1,
-            "amp": 1,
-            "name": "sin"
-        }},
-        {"Basic Function": {
-            "phase": 0,
-            "stretch": 1,
-            "amp": 1,
-            "name": "cos"
-        }},
-        {
-            "left": {"Basic Function": {
-                "V scale": 1,
-                "name": "exp",
-                "H shift": 0,
-                "H scale": 1
-            }},
-            "right": {"Basic Function": {
-                "phase": 0,
-                "stretch": 1,
-                "amp": 1,
-                "name": "sin"
-            }},
-            "operation": "/"
-        },
-        {"Basic Function": {
-            "phase": 0,
-            "stretch": 1,
-            "name": "tan",
-            "am": 1
         }}
     ],
     "precision": 1.0E-10
