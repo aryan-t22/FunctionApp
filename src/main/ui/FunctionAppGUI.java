@@ -3,6 +3,7 @@ package ui;
 import model.Worklist;
 import persistence.JsonReader;
 import persistence.JsonWriter;
+import ui.menusforgui.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +14,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
-public class StartMenu {
+public class FunctionAppGUI {
     private JFrame frame;
     private JLabel title;
     private Worklist wl = new Worklist();
@@ -22,7 +23,7 @@ public class StartMenu {
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
-    public StartMenu() {
+    public FunctionAppGUI() {
         this.jsonWriter = new JsonWriter("./data/worklist.json");
         this.jsonReader = new JsonReader("./data/worklist.json");
         frame = new JFrame();
@@ -51,33 +52,18 @@ public class StartMenu {
     }
 
     private void modify(ArrayList<JButton> buttons) {
-        buttons.get(0).setActionCommand("view");
-        buttons.get(0).addActionListener(new StartMenu.ButtonHandler());
-
-        buttons.get(1).setActionCommand("add");
-        buttons.get(1).addActionListener(new StartMenu.ButtonHandler());
-
-        buttons.get(2).setActionCommand("make");
-        buttons.get(2).addActionListener(new StartMenu.ButtonHandler());
-
-        buttons.get(3).setActionCommand("edit");
-        buttons.get(3).addActionListener(new StartMenu.ButtonHandler());
-
-        buttons.get(4).setActionCommand("analyze");
-        buttons.get(4).addActionListener(new StartMenu.ButtonHandler());
-
-        buttons.get(5).setActionCommand("save");
-        buttons.get(5).addActionListener(new StartMenu.ButtonHandler());
-
-        buttons.get(6).setActionCommand("load");
-        buttons.get(6).addActionListener(new StartMenu.ButtonHandler());
-
-        buttons.get(7).setActionCommand("settings");
-        buttons.get(7).addActionListener(new StartMenu.ButtonHandler());
+        buttons.get(0).addActionListener(new FunctionAppGUI.ButtonHandler());
+        buttons.get(1).addActionListener(new FunctionAppGUI.ButtonHandler());
+        buttons.get(2).addActionListener(new FunctionAppGUI.ButtonHandler());
+        buttons.get(3).addActionListener(new FunctionAppGUI.ButtonHandler());
+        buttons.get(4).addActionListener(new FunctionAppGUI.ButtonHandler());
+        buttons.get(5).addActionListener(new FunctionAppGUI.ButtonHandler());
+        buttons.get(6).addActionListener(new FunctionAppGUI.ButtonHandler());
+        buttons.get(7).addActionListener(new FunctionAppGUI.ButtonHandler());
     }
 
     private void handlePanel(JPanel p, ArrayList<JButton> buttons) {
-        p.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
+        p.setBorder(BorderFactory.createEmptyBorder(50, 20, 50, 20));
         p.setLayout(new GridLayout(0, 1));
         p.add(title);
         for (JButton b : buttons) {

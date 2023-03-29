@@ -12,17 +12,16 @@ import java.util.List;
 import java.util.Scanner;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.Iterator;
 
 
-public class FunctionApp {
+public class FunctionAppCLI {
     private Worklist wl;
     private Scanner input;
     private JsonWriter jsonWriter;
     private JsonReader jsonReader;
 
     // EFFECTS: runs the Function application
-    public FunctionApp() {
+    public FunctionAppCLI() {
         this.jsonWriter = new JsonWriter("./data/worklist.json");
         this.jsonReader = new JsonReader("./data/worklist.json");
         runFunction();
