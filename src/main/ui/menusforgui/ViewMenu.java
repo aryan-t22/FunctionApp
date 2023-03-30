@@ -1,5 +1,6 @@
 package ui.menusforgui;
 
+import model.Function;
 import model.Worklist;
 
 import javax.swing.*;
@@ -9,7 +10,10 @@ public class ViewMenu extends MenuTemplate  {
 
     public ViewMenu(Worklist wl) {
         super(wl, "Your Worklist: ", "Viewing your Worklist:", false);
-        JLabel names = new JLabel(wl.names());
+        String ans = wl.names();
+        JLabel names = new JLabel();
+        names.setText("<html>" + ans.replaceAll("<","&lt;")
+                .replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
         getPanel().add(names);
         getFrame().pack();
     }
@@ -20,7 +24,7 @@ public class ViewMenu extends MenuTemplate  {
     }
 
     @Override
-    protected void modify(ArrayList<JButton> buttons) {
+    protected void menuFnTemplate(Function fn) {
 
     }
 }

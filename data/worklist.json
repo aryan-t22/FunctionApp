@@ -1,9 +1,9 @@
 {
-    "subintervals": 5000,
+    "subintervals": 8000,
     "functions": [
         {"Basic Function": {
             "0": 1,
-            "1": 2,
+            "1": 1,
             "name": "polynomial",
             "degree": 1
         }},
@@ -14,5 +14,5 @@
             "H scale": 1
         }}
     ],
-    "precision": 1.0E-10
+    "precision": 1.0E-13
 }

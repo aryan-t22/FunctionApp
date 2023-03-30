@@ -27,17 +27,17 @@ public class AddMenu extends MenuTemplate {
         JButton buttonTan = new JButton("Add a tangent function");
         ArrayList<JButton> buttons = new ArrayList<>(Arrays.asList(buttonPolynomial, buttonExp, buttonSine,
                 buttonCosine, buttonTan));
-        modify(buttons);
-        return buttons;
-    }
-
-    @Override
-    protected void modify(ArrayList<JButton> buttons) {
         buttons.get(0).addActionListener(new AddMenu.ButtonHandler());
         buttons.get(1).addActionListener(new AddMenu.ButtonHandler());
         buttons.get(2).addActionListener(new AddMenu.ButtonHandler());
         buttons.get(3).addActionListener(new AddMenu.ButtonHandler());
         buttons.get(4).addActionListener(new AddMenu.ButtonHandler());
+        return buttons;
+    }
+
+    @Override
+    protected void menuFnTemplate(Function fn) {
+
     }
 
     private class ButtonHandler implements ActionListener {
@@ -83,7 +83,7 @@ public class AddMenu extends MenuTemplate {
             panel1.add(degreeQuestion);
             panel1.add(degreeField);
             panel1.add(next);
-            panel1.setLayout(new GridLayout(1, 0));
+            panel1.setLayout(new GridLayout(0, 1));
             frame1.add(panel1, BorderLayout.CENTER);
             frame1.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             frame1.pack();
@@ -122,6 +122,15 @@ public class AddMenu extends MenuTemplate {
                     adjust();
                     wl.insertFunc(new Function(new Polynomial(params)));
                     frame2.dispose();
+                    JFrame frame3 = new JFrame();
+                    JPanel panel3 = new JPanel();
+                    JLabel title3 = new JLabel("Success! You can close the window now");
+                    panel3.add(title3);
+                    panel3.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
+                    panel3.setLayout(new GridLayout(0,1));
+                    frame3.add(panel3, BorderLayout.CENTER);
+                    frame3.pack();
+                    frame3.setVisible(true);
                 }
             }
 
@@ -187,21 +196,25 @@ public class AddMenu extends MenuTemplate {
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(submit)) {
                     adjust();
-                    switch (funcString) {
-                        case "sin":
-                            wl.insertFunc(new Function(new Sine(params.get(0), params.get(1), params.get(2))));
-                            break;
-                        case "cos":
-                            wl.insertFunc(new Function(new Cosine(params.get(0), params.get(1), params.get(2))));
-                            break;
-                        case "tan":
-                            wl.insertFunc(new Function(new Tan(params.get(0), params.get(1), params.get(2))));
-                            break;
-                        case "e^":
-                            wl.insertFunc(new Function(new Exp(params.get(0), params.get(1), params.get(2))));
-                            break;
+                    if (funcString.equals("sin")) {
+                        wl.insertFunc(new Function(new Sine(params.get(0), params.get(1), params.get(2))));
+                    } else if (funcString.equals("cos")) {
+                        wl.insertFunc(new Function(new Cosine(params.get(0), params.get(1), params.get(2))));
+                    } else if (funcString.equals("tan")) {
+                        wl.insertFunc(new Function(new Tan(params.get(0), params.get(1), params.get(2))));
+                    } else if (funcString.equals("e^")) {
+                        wl.insertFunc(new Function(new Exp(params.get(0), params.get(1), params.get(2))));
                     }
                     frame1.dispose();
+                    JFrame frame2 = new JFrame();
+                    JPanel panel2 = new JPanel();
+                    JLabel title2 = new JLabel("Success! You can close the window now");
+                    panel2.add(title2);
+                    panel2.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
+                    panel2.setLayout(new GridLayout(0,1));
+                    frame2.add(panel2, BorderLayout.CENTER);
+                    frame2.pack();
+                    frame2.setVisible(true);
                 }
             }
 
