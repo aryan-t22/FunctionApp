@@ -53,7 +53,7 @@ public class Worklist {
         } else {
             String result = "Here are the functions in your worklist: \n";
             for (Function fn : listFn) {
-                result += "[" + fn.name("x") + "]" + ", ";
+                result += "[" + fn.name("x") + "]" + ",\n";
             }
             return result.substring(0, result.length() - 2) + ".";
         }

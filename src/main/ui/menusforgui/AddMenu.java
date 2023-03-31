@@ -3,6 +3,8 @@ package ui.menusforgui;
 import model.Function;
 import model.Worklist;
 import model.basicfns.*;
+import ui.FunctionAppGUI;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -11,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+// Class for the menu to add functions to the worklist in the FunctionAppGUI. Submenu of MenuTemplate
 public class AddMenu extends MenuTemplate {
 
     public AddMenu(Worklist wl) {
@@ -18,6 +21,8 @@ public class AddMenu extends MenuTemplate {
                 false);
     }
 
+    // EFFECTS: creates the buttons for the add menu, allowing the user to add one of 5 basic functions to their
+    // worklist
     @Override
     protected ArrayList<JButton> buttons() {
         JButton buttonPolynomial = new JButton("Add a polynomial");
@@ -35,12 +40,16 @@ public class AddMenu extends MenuTemplate {
         return buttons;
     }
 
+    // This subclass does not require an implementation of menuFnTemplate
     @Override
     protected void menuFnTemplate(Function fn) {
 
     }
 
+    // Helper class to handle selection of buttons from this.GetButtons()
     private class ButtonHandler implements ActionListener {
+        // EFFECTS: Creates a new menu based on which basic function the user would like to create and add to the
+        // worklist
         @Override
         public void actionPerformed(ActionEvent e) {
             ArrayList<JButton> buttons = getButtons();
@@ -59,6 +68,7 @@ public class AddMenu extends MenuTemplate {
         }
     }
 
+    // Helper class for a menu that guides user to adding a Polynomial to their worklist.
     private class PolynomialMenu {
         private JFrame frame1;
         private JPanel panel1;
@@ -72,12 +82,15 @@ public class AddMenu extends MenuTemplate {
         JFrame frame2 = new JFrame();
         JPanel panel2 = new JPanel();
 
+        // EFFECTS was still included, to provide clarity regarding what the constructor is doing
+        // EFFECTS: Creates a PolynomialMenu, asking the user for the degree of the polynomial they would like to
+        // construct
         public PolynomialMenu(Worklist wl) {
             this.wl = wl;
             frame1 = new JFrame();
             panel1 = new JPanel();
             JLabel degreeQuestion = new JLabel("What is the degree of the polynomial: ");
-            degreeField = new JTextField();
+            degreeField = new JTextField(FunctionAppGUI.SIZE);
             next = new JButton("Next");
             next.addActionListener(new PolynomialMenu.ButtonHandler());
             panel1.add(degreeQuestion);
@@ -90,6 +103,8 @@ public class AddMenu extends MenuTemplate {
             frame1.setVisible(true);
         }
 
+        // MODIFIES: this
+        // EFFECTS: creates a Polynomial submenu asking the user for each coefficient of their polynomial
         private void polynomialSubMenu() {
             try {
                 degree = Integer.parseInt(degreeField.getText());
@@ -98,7 +113,7 @@ public class AddMenu extends MenuTemplate {
             }
             for (int i = 0; i <= degree; i++) {
                 JLabel coeffQuestion = new JLabel("What is the x^" + i + " coefficient: ");
-                JTextField field = new JTextField();
+                JTextField field = new JTextField(FunctionAppGUI.SIZE);
                 fields.add(field);
                 panel2.add(coeffQuestion);
                 panel2.add(field);
@@ -112,7 +127,11 @@ public class AddMenu extends MenuTemplate {
             frame2.setVisible(true);
         }
 
+        // Helper Class for handling buttons selected in the Polynomial Menu
         private class ButtonHandler implements ActionListener {
+            // EFFECTS: Creates a polynomial submenu if next is clicked.
+            //          Creates the polynomial once submit is clicked, and creates a new window telling the user the
+            //          construction was successful
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(next)) {
@@ -134,6 +153,7 @@ public class AddMenu extends MenuTemplate {
                 }
             }
 
+            // Helper method for actionPerformed, sets up params to create the polynomial
             private void adjust() {
                 for (JTextField f : fields) {
                     double param;
@@ -148,6 +168,7 @@ public class AddMenu extends MenuTemplate {
         }
     }
 
+    // Helper class for a menu that guides user to adding a trig or exp basic function to their worklist.
     private class StandardMenu {
         private Worklist wl;
         private JFrame frame1;
@@ -157,6 +178,9 @@ public class AddMenu extends MenuTemplate {
         private JButton submit;
         private String funcString;
 
+        // EFFECTS was still included, to provide clarity regarding what the constructor is doing
+        // EFFECTS: Creates a StandardMenu, which constructs a function based on what funcString is provided. The
+        // specified function must only have 3 double parameters, A, b and c.
         public StandardMenu(Worklist wl, String funcString) {
             this.wl = wl;
             this.funcString = funcString;
@@ -166,7 +190,7 @@ public class AddMenu extends MenuTemplate {
             for (int i = 0; i <= 2; i++) {
                 List<String> vars = new ArrayList<>(Arrays.asList("A", "b", "c"));
                 JLabel coeffQuestion1 = new JLabel("Enter " + vars.get(i) + ": ");
-                JTextField field = new JTextField();
+                JTextField field = new JTextField(FunctionAppGUI.SIZE);
                 fields.add(field);
                 panel1.add(coeffQuestion1);
                 panel1.add(field);
@@ -180,6 +204,9 @@ public class AddMenu extends MenuTemplate {
             frame1.setVisible(true);
         }
 
+        // MODIFIES: this
+        // Sets up the label asking for the function. Trig functions get a π factor included in their translation,
+        // whereas the exp function (e^) does not
         private void standardPanelSetup() {
             JLabel coeffQuestion;
             if (funcString.equals("e^")) {
@@ -190,8 +217,10 @@ public class AddMenu extends MenuTemplate {
             panel1.add(coeffQuestion);
         }
 
-
+        // Helper Class for handling buttons selected in the Polynomial Menu
         private class ButtonHandler implements ActionListener {
+            // EFFECTS: Creates the function once submit is clicked, and creates a new window telling the user the
+            //          construction was successful. The function created is determined by funcString.
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (e.getSource().equals(submit)) {
@@ -218,6 +247,7 @@ public class AddMenu extends MenuTemplate {
                 }
             }
 
+            // Helper method for actionPerformed, sets up params to create the function specified by funcString
             private void adjust() {
                 for (JTextField f : fields) {
                     double param;

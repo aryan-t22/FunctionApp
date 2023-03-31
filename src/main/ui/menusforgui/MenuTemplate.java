@@ -9,6 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
+// Class to represent the template for the standard submenu in the FunctionAppGUI. Sets up a frame, panel, title, and
+// buttons. Also has functionality to provide subclasses with the ability to select a function from the worklist wl
 abstract class MenuTemplate {
     private JFrame frame;
     private JPanel panel;
@@ -16,6 +18,12 @@ abstract class MenuTemplate {
     private ArrayList<JButton> buttons;
     private JLabel title;
 
+    // Though this is a constructor, the effects have been explained as this constructor does more than just set up the
+    // object
+    // EFFECTS: Creates a sample menu, with the given worklist, panelTitle, and frameTitle. checkEmpty represents if the
+    // submenu wants to check if the worklist is empty or not prior to proceeding. If checkEmpty is true and wl is empty
+    // , then a special menu is created prompting the user to add functions before proceeding. Otherwise, constructs
+    // the desired submenu
     public MenuTemplate(Worklist wl, String panelTitle, String frameTitle, Boolean checkEmpty) {
         if (checkEmpty && wl.isEmpty()) {
             handleEmpty();
@@ -39,6 +47,7 @@ abstract class MenuTemplate {
         }
     }
 
+    // EFFECTS: creates a menu telling the user that the worklist is empty and to try adding functions first
     private void handleEmpty() {
         title = new JLabel("Your worklist is empty, please close the window and try adding functions to use this "
                 + "feature");
@@ -95,6 +104,8 @@ abstract class MenuTemplate {
 
     protected abstract ArrayList<JButton> buttons();
 
+    // EFFECTS: a special implementation of buttons that creates a button for each function in the worklist. Often used
+    // in several submenus.
     protected ArrayList<JButton> buttonsForSelectFn() {
         int n = wl.length() - 1;
         ArrayList<JButton> buttons = new ArrayList<>();
@@ -106,8 +117,10 @@ abstract class MenuTemplate {
         return buttons;
     }
 
+    // Helper class to handle the buttons created by buttonsForSelectFn()
     private class ButtonHandlerForSelectFn implements ActionListener {
         @Override
+        // Continues the submenu when the user selects a function button from buttonsForSelectFn()
         public void actionPerformed(ActionEvent e) {
             int n = buttons.size() - 1;
             for (int i = 0; i <= n; i++) {

@@ -14,7 +14,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// Class for the main menu of the GUI - has fields for the frame, panel, title of the panel, button in the GUI,
+// the worklist, JSON reading and writing, and for an icon with an image,
 public class FunctionAppGUI {
+    public static final int SIZE = 10;
+
     private JFrame frame;
     private JLabel title;
     private Worklist wl = new Worklist();
@@ -31,11 +35,17 @@ public class FunctionAppGUI {
         frame = new JFrame();
         panel = new JPanel();
         buttons = buttons();
-        title = new JLabel("  Welcome to the FunctionApp! Please select what you would like to do?");
+        title = new JLabel();
+        String titleString = "Welcome to the FunctionApp! \n" + "For information on how to use the program, please "
+                + "check the README file. \n" + "Please select what you would like to do:";
+        title.setText("<html>" + titleString.replaceAll("<", "&lt;")
+                .replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
         handlePanel(panel, buttons);
         handleFrame(frame, panel);
     }
 
+    // MODIFIES: this
+    // EFFECTS: creates and modifies buttons for use in the GUI
     private ArrayList<JButton> buttons() {
         JButton buttonView = new JButton("View your worklist");
         JButton buttonAdd = new JButton("Add a basic function to your worklist");
@@ -51,6 +61,9 @@ public class FunctionAppGUI {
         return buttons;
     }
 
+    // REQUIRES: buttons to have 7 (or more entries)
+    // MODIFIES: this
+    // EFFECTS: Adds an action to each button
     private void modify(ArrayList<JButton> buttons) {
         buttons.get(0).addActionListener(new FunctionAppGUI.ButtonHandler());
         buttons.get(1).addActionListener(new FunctionAppGUI.ButtonHandler());
@@ -62,8 +75,10 @@ public class FunctionAppGUI {
         buttons.get(7).addActionListener(new FunctionAppGUI.ButtonHandler());
     }
 
+    // MODIFIES: this
+    // EFFECTS: Sets up the panel for the GUI
     private void handlePanel(JPanel p, ArrayList<JButton> buttons) {
-        p.setBorder(BorderFactory.createEmptyBorder(-40, 5, 40, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(-10, 5, 40, 5));
         p.setLayout(new GridLayout(0, 1));
         p.add(title, BorderLayout.CENTER);
         image = new ImageIcon("./data/Icon.png");
@@ -75,6 +90,8 @@ public class FunctionAppGUI {
         }
     }
 
+    // MODIFIES: this:
+    // EFFECTS: sets up the frame for the GUI
     private void handleFrame(JFrame f, JPanel p) {
         f.add(p, BorderLayout.CENTER);
         f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,6 +100,8 @@ public class FunctionAppGUI {
         f.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: saves the current worklist and settings
     private void save() {
         JFrame frame1 = new JFrame();
         JPanel panel1 = new JPanel();
@@ -103,6 +122,8 @@ public class FunctionAppGUI {
         frame1.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: loads the worklist stored in the JSONReader directory
     private void load() {
         JFrame frame1 = new JFrame();
         JPanel panel1 = new JPanel();
@@ -121,8 +142,12 @@ public class FunctionAppGUI {
         frame1.setVisible(true);
     }
 
+    // ButtonHandler Helper Class which assigns actions to each button
     private class ButtonHandler implements ActionListener {
         @Override
+        // REQUIRES: this.buttons to have 7 (or more) JButtons
+        // MODIFIES: this
+        // EFFECTS: Assigns responses to each button in buttons
         public void actionPerformed(ActionEvent e) {
             if (e.getSource().equals(buttons.get(0))) {
                 new ViewMenu(wl);

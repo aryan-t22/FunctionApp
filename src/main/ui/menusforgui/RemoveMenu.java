@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
 
+// Class for the menu to remove functions from the worklist in the FunctionAppGUI. Submenu of MenuTemplate
 public class RemoveMenu extends MenuTemplate {
 
     public RemoveMenu(Worklist wl) {
@@ -14,14 +15,18 @@ public class RemoveMenu extends MenuTemplate {
                 true);
     }
 
+    // EFFECTS: sets up buttons to select a function
     @Override
     protected ArrayList<JButton> buttons() {
         return buttonsForSelectFn();
     }
 
+    // MODIFIES: this
+    // EFFECTS: Once the user has selected a function, removes the function from the worklist
     @Override
     protected void menuFnTemplate(Function fn) {
         getFrame().dispose();
+        getWl().removeFunc(fn);
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
         JLabel title = new JLabel(fn.name("x") + " has been removed from the worklist. Please close the window"

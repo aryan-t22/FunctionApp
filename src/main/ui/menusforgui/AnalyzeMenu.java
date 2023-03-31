@@ -1,6 +1,7 @@
 package ui.menusforgui;
 
 import model.*;
+import ui.FunctionAppGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// Class for the menu to analyze functions to the worklist in the FunctionAppGUI. Submenu of MenuTemplate. Has fields
+// for two functions that the user may select at a time for analysis, a Boolean fnSelected
 public class AnalyzeMenu extends MenuTemplate {
     private Function fn;
     private Function fn1;
@@ -29,24 +32,33 @@ public class AnalyzeMenu extends MenuTemplate {
     private JLabel fourierAns;
     private JButton fourierSubmit;
 
+    // EFFECTS: Creates a menu to analyze a function, by selecting the function the user want to analyze.
     public AnalyzeMenu(Worklist wl) {
         super(wl, "Please select a function in your worklist to analyze: ", "Analyze Functions:",
                 true);
         toCompare = false;
     }
 
+    // EFFECTS: If the user wants to compare functions, creates a second menu to prompt the user for the second function
+    // to use in comparison
     private AnalyzeMenu(Worklist wl, Function fn, boolean toCompare) {
-        super(wl, "Please select a function in your worklist to analyze: ", "Analyze Functions:",
-                true);
+        super(wl, "Please select a second function to compare your first function to: ",
+                "Pick Second Function for Comparison:", true);
         this.fn = fn;
         this.toCompare = toCompare;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up buttons to select a function
     @Override
     protected ArrayList<JButton> buttons() {
         return buttonsForSelectFn();
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up a menu to select the analysis technique once a function has been chosen. If fnSelected is true,
+    // this means that the user wants to compare two functions and has selected the second function - hence compare is
+    // called
     @Override
     protected void menuFnTemplate(Function fn) {
         getFrame().dispose();
@@ -54,8 +66,8 @@ public class AnalyzeMenu extends MenuTemplate {
             this.fn = fn;
             JFrame frame = new JFrame();
             JPanel panel = new JPanel();
-            JLabel title = new JLabel("Select what you would like to do with the function f(xi) = "
-                    + fn.name("xi"));
+            JLabel title = new JLabel("Select what you would like to do with the function f(x) = "
+                    + fn.name("x"));
             panelSetup(panel, title);
             frame.add(panel, BorderLayout.CENTER);
             frame.setTitle("Select Analysis Method:");
@@ -70,17 +82,18 @@ public class AnalyzeMenu extends MenuTemplate {
         }
     }
 
+    // EFFECTS: sets up a given JPanel and JLabel
     private void panelSetup(JPanel panel, JLabel title) {
         panel.add(title);
         panel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
-        JButton button1 = new JButton("Evaluate f(xi) at some real xi value");
+        JButton button1 = new JButton("Evaluate f(x) at some real x value");
         button1.addActionListener(new AnalyzeMenu.ButtonHandler());
-        JButton button2 = new JButton("Numerically integrate f(xi) on an interval [a.b], with a <= b");
+        JButton button2 = new JButton("Numerically integrate f(x) on an interval [a.b]");
         button2.addActionListener(new AnalyzeMenu.ButtonHandler());
-        JButton button3 = new JButton("Compute the first n terms of the full Fourier Series of f(xi) on an "
+        JButton button3 = new JButton("Compute the first n terms of the full Fourier Series of f(x) on an "
                 + "interval [-l,l]");
         button3.addActionListener(new AnalyzeMenu.ButtonHandler());
-        JButton button4 = new JButton("Compare two functions at a certain real xi value");
+        JButton button4 = new JButton("Compare two functions at a given real x value");
         button4.addActionListener(new AnalyzeMenu.ButtonHandler());
         ArrayList<JButton> buttons = new ArrayList<>(Arrays.asList(button1, button2, button3, button4));
         panel.add(button1);
@@ -91,7 +104,10 @@ public class AnalyzeMenu extends MenuTemplate {
         panel.setLayout(new GridLayout(0, 1));
     }
 
+    // Helper class to handle what analysis technique the user chooses
     private class ButtonHandler implements ActionListener {
+        // MODIFIES: this (the AnalyzeMenu)
+        // EFFECTS: performs an analysis technique based on which button the user selects.
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource().equals(getButtons().get(0))) {
@@ -107,11 +123,13 @@ public class AnalyzeMenu extends MenuTemplate {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up a frame for evaluating a function at a given x value
     private void evaluate() {
         JFrame evalFrame = new JFrame();
         evalPanel = new JPanel();
-        JLabel evalTitle = new JLabel("What xi value would you like the evaluate " + fn.name("xi") + " at? ");
-        evalInput = new JTextField();
+        JLabel evalTitle = new JLabel("What xi value would you like the evaluate " + fn.name("x") + " at? ");
+        evalInput = new JTextField(FunctionAppGUI.SIZE);
         evalSubmit = new JButton("Submit");
         evalSubmit.addActionListener(new AnalyzeMenu.ButtonHandlerEval());
         evalAns = new JLabel();
@@ -125,7 +143,10 @@ public class AnalyzeMenu extends MenuTemplate {
         evalFrame.setVisible(true);
     }
 
+    // Helper class to handle buttons selected during evaluation
     private class ButtonHandlerEval implements ActionListener {
+        // MODIFIES: this (AnalyzeMenu)
+        // EFFECTS: evaluates the function whenever the user has selected evalSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource().equals(evalSubmit)) {
@@ -139,33 +160,42 @@ public class AnalyzeMenu extends MenuTemplate {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up a frame for integrating a function on an interval [a,b]
     private void integrate() {
         JFrame integrateFrame = new JFrame();
         integratePanel = new JPanel();
-        JLabel integrateTitle = new JLabel("What interval [a,b] would you like to integrate " + fn.name("xi")
+        JLabel integrateTitle = new JLabel("What interval [a,b] would you like to integrate " + fn.name("x")
                 + " over? ");
         JLabel integrateA = new JLabel("enter a: ");
-        integrateAInput = new JTextField();
+        integrateAInput = new JTextField(FunctionAppGUI.SIZE);
         JLabel integrateB = new JLabel("enter b: ");
-        integrateBInput = new JTextField();
+        integrateBInput = new JTextField(FunctionAppGUI.SIZE);
         integrateSubmit = new JButton("Submit");
         integrateSubmit.addActionListener(new AnalyzeMenu.ButtonHandlerIntegrate());
         integrateAns = new JLabel();
         integratePanel.setLayout(new GridLayout(0, 1));
         integratePanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
         integratePanel.add(integrateTitle);
+        integrateSetup(integrateA, integrateB);
+        integrateFrame.add(integratePanel, BorderLayout.CENTER);
+        integrateFrame.pack();
+        integrateFrame.setVisible(true);
+    }
+
+    private void integrateSetup(JLabel integrateA, JLabel integrateB) {
         integratePanel.add(integrateA);
         integratePanel.add(integrateAInput);
         integratePanel.add(integrateB);
         integratePanel.add(integrateBInput);
         integratePanel.add(integrateSubmit);
         integratePanel.add(integrateAns);
-        integrateFrame.add(integratePanel, BorderLayout.CENTER);
-        integrateFrame.pack();
-        integrateFrame.setVisible(true);
     }
 
+    // Helper class to handle buttons selected during integration
     private class ButtonHandlerIntegrate implements ActionListener {
+        // MODIFIES: this (AnalyzeMenu)
+        // EFFECTS: integrates the function whenever the user has selected integrateSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource().equals(integrateSubmit)) {
@@ -174,11 +204,6 @@ public class AnalyzeMenu extends MenuTemplate {
                 try {
                     a = Double.parseDouble(integrateAInput.getText());
                     b = Double.parseDouble(integrateBInput.getText());
-                    if (a > b) {
-                        double b1 = b;
-                        b = a;
-                        a = b1;
-                    }
                 } catch (NumberFormatException nfe) {
                     a = -1;
                     b = 1;
@@ -188,16 +213,19 @@ public class AnalyzeMenu extends MenuTemplate {
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up a frame for computing the first n terms of the full fourier series a function on an interval
+    // [-l,l]
     private void fourier() {
         JFrame fourierFrame = new JFrame();
         fourierPanel = new JPanel();
         JLabel fourierTitle = new JLabel("What interval [-l,l] would you like to compute the full fourier series "
-                + "for " + fn.name("xi") + " over? ");
+                + "for " + fn.name("x") + " over? ");
         JLabel fourierL = new JLabel("enter l: ");
-        fourierLInput = new JTextField();
+        fourierLInput = new JTextField(FunctionAppGUI.SIZE);
         JLabel fourierTitle1 = new JLabel("How many terms of the full fourier series would you like?");
         JLabel fourierN = new JLabel("enter n: ");
-        fourierNInput = new JTextField();
+        fourierNInput = new JTextField(FunctionAppGUI.SIZE);
         fourierSubmit = new JButton("Submit");
         fourierSubmit.addActionListener(new AnalyzeMenu.ButtonHandlerFourier());
         fourierAns = new JLabel();
@@ -207,6 +235,8 @@ public class AnalyzeMenu extends MenuTemplate {
         fourierFrame.setVisible(true);
     }
 
+    // MODIFIES: this
+    // EFFECTS: Helper method for fourier(), sets up fourierPanel
     private void fourierPanelSetup(JLabel fourierTitle, JLabel fourierL, JLabel fourierTitle1, JLabel fourierN) {
         fourierPanel.setLayout(new GridLayout(0, 1));
         fourierPanel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
@@ -220,7 +250,10 @@ public class AnalyzeMenu extends MenuTemplate {
         fourierPanel.add(fourierAns);
     }
 
+    // Helper class to handle buttons selected during fourier series computation
     private class ButtonHandlerFourier implements ActionListener {
+        // MODIFIES: this (AnalyzeMenu)
+        // EFFECTS: computes the fourier series of the function whenever the user has selected fourierSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource().equals(fourierSubmit)) {
@@ -241,21 +274,23 @@ public class AnalyzeMenu extends MenuTemplate {
                 }
                 Function fn2 = fn.fourierFull(l, n);
                 getWl().insertFunc(fn2);
-                String ans = "The full fourier series is: \n" + fn2.name("xi") + "\n This has been added to the"
-                        + " worklist.";
+                String ans = "The first " + n + " terms of the full fourier series on [" + -l + "," + l + "] are: \n"
+                        + fn2.name("x") + "\n This has been added to the" + " worklist.";
                 fourierAns.setText("<html>" + ans.replaceAll("<", "&lt;")
                         .replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
             }
         }
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up a frame for comparing two functions, this.fn and fn1
     private void compare(Function fn1) {
         this.fn1 = fn1;
         JFrame evalFrame = new JFrame();
         evalPanel = new JPanel();
-        JLabel evalTitle = new JLabel("What xi value would you like the evaluate the difference between the"
-                + " functions at");
-        evalInput = new JTextField();
+        JLabel evalTitle = new JLabel("What x value would you like the evaluate the difference between the"
+                + " functions at? ");
+        evalInput = new JTextField(FunctionAppGUI.SIZE);
         evalSubmit = new JButton("Submit");
         evalSubmit.addActionListener(new AnalyzeMenu.ButtonHandlerComp());
         evalAns = new JLabel();
@@ -269,7 +304,10 @@ public class AnalyzeMenu extends MenuTemplate {
         evalFrame.setVisible(true);
     }
 
+    // Helper class to handle buttons selected during function comparison
     private class ButtonHandlerComp implements ActionListener {
+        // MODIFIES: this (AnalyzeMenu)
+        // EFFECTS: compares fn and fn1 whenever the user selects evalSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource().equals(evalSubmit)) {

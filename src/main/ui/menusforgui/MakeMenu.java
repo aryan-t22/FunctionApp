@@ -10,35 +10,47 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+// Class for the menu to make more complicated functions to the worklist in the FunctionAppGUI. Submenu of MenuTemplate
 public class MakeMenu extends MenuTemplate {
-    Boolean toCompare;
+    Boolean fnSelected;
     Function fn;
     Function fn1;
     String operation;
 
+    // EFFECTS: Creates a menu to make a more complicated function, by selecting the first function the user wants to
+    // use
     public MakeMenu(Worklist wl) {
         super(wl, "Please select a function in your worklist to start making more complicated functions: ",
                 "Make more complicated Functions:", true);
-        toCompare = false;
+        fnSelected = false;
     }
 
-    private MakeMenu(Worklist wl, Function fn, boolean toCompare, String operation) {
+    // EFFECTS: Creates a menu to make a more complicated function, by selecting the second function the user wants to
+    // use
+    private MakeMenu(Worklist wl, Function fn, boolean fnSelected, String operation) {
         super(wl, "Please select a function in your worklist to start making more complicated functions: ",
                 "Make more complicated Functions:", true);
         this.fn = fn;
-        this.toCompare = toCompare;
+        this.fnSelected = fnSelected;
         this.operation = operation;
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up buttons to select a function
     @Override
     protected ArrayList<JButton> buttons() {
         return buttonsForSelectFn();
     }
 
+    // MODIFIES: this
+    // EFFECTS: sets up a menu to select the operation which may be used to create a more complicated function.
+    // If fnSelected is true, this means that the user wants to compare two functions and has selected the second
+    // function - hence fn refers to the second function, and a new function is created via operation, this.fn and fn
+    // = fn1
     @Override
     protected void menuFnTemplate(Function fn) {
         getFrame().dispose();
-        if (!toCompare) {
+        if (!fnSelected) {
             JFrame frame = new JFrame();
             JPanel panel = new JPanel();
             JLabel title = new JLabel();
@@ -62,6 +74,7 @@ public class MakeMenu extends MenuTemplate {
         }
     }
 
+    // EFFECTS: Helper method for menuFnTemplate(), sets up frame, panel and title for use
     private void setup(JFrame frame, JPanel panel, JLabel title) {
         setFrame(frame);
         setPanel(panel);
@@ -72,6 +85,7 @@ public class MakeMenu extends MenuTemplate {
         frame.setVisible(true);
     }
 
+    // EFFECTS: Helper method for menuFnTemplate(), sets up panel and title for use
     private void panelSetup(JPanel panel, JLabel title) {
         panel.add(title);
         panel.setBorder(BorderFactory.createEmptyBorder(30, 10, 30, 10));
@@ -95,7 +109,12 @@ public class MakeMenu extends MenuTemplate {
         panel.setLayout(new GridLayout(0, 1));
     }
 
+    // Helper class to handle buttons selected by user
     private class ButtonHandler implements ActionListener {
+        // REQUIRES: getButtons() to have at least 5 entries
+        // MODIFIES: this
+        // EFFECTS: constructs a new MakeMenu with fnSelected true to continue the process. the operation is inferred
+        // from the button selected
         @Override
         public void actionPerformed(ActionEvent e) {
             getFrame().dispose();

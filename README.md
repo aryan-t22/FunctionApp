@@ -30,14 +30,15 @@ visualization tool, which I felt would have been rather difficult to implement a
 therefore would like to have this as a stretch goal, and to aim for visualizing the Fourier Transform of a small subset
 of functions for my final submission in Phase 4. For a more moderate stretch goal, I want to implement functionality 
 to determine how many terms in a Fourier Series one would need to approximate a function in their worklist at a 
-particular value to a specified degree of accuracy.
+particular value to a specified degree of accuracy. I would also like to graph functions and parse function names in
+LaTeX if possible.
 
 ## *User Stories:*
 A requirement of the CPSC 210 Project is to consider user stories when designing our projects. Below is a list of user
 stories that I feel may be relevant to my project, and what a user interacting with this program may think as they use
 it:
 
-- As a user, I want to be able to add a **function** (X) to my analysis **worklist** (Y).
+- As a user, I want to be able to add multiple **functions** (X) to my analysis **worklist** (Y).
 - As a user, I want to be able to view and modify functions already in my worklist.
 - As a user, I want to be able to choose a function in my worklist, and compute the first n terms of its Fourier Series
 on an interval, ideally of my choosing.
@@ -55,3 +56,32 @@ the series is at approximating the function.
 and modified for the purposes of this project. 
 - The Phase 2 Persistence was heavily inspired by the provided CPSC 210 JsonSerializationDemo app, with its read write
 features adjusted for the FunctionApp.
+
+## *Instructions for Grader:*
+*To use the program:*
+
+- To view the worklist and functions inside, select the "View your Worklist" button.
+- To add a function to the worklist, select the "Add a basic function to your worklist" button.
+- To make more complicated functions, select the "Make more complicated functions" button.
+- To remove functions from the worklist, select the "Remove functions from your worklist" button.
+- To analyze the functions in the worklist, select the "Analyze (evaluate, integrate etc.) the function in your
+worklist" button.
+- To save your current worklist and settings, select the "Save your current worklist and settings" button.
+- To load the previous worklist and settings, select the "Load the previously saved worklist and settings" button.
+- To view or change settings, select the "View or change settings" option.
+
+An image can be found at the start menu when the GUI is first run. The image is of a function that is continuous but
+nowhere differentiable.
+
+*Additional information:*
+The GUI is set up so that any invalid inputs are handled by default:
+- For most function parameters, these are 0 (for example inputting abc as the coefficient in a polynomial produces 0).
+- For integration, if any invalid parameters are entered for the interval, I default to outputting the integral of the
+function on the interval [-1,1]. 
+- For Fourier Series, if invalid inputs are entered, I default to computing the first 3 terms of the full
+fourier series on [-1,1]. 
+- In general, I do try and account for negative inputs when and where it can be done. So if a user enters -3 for the 
+degree of a polynomial, this gets corrected to 3, as degree is normally understood to be positive. This was done to help
+users in the case of typos.
+
+

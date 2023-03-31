@@ -2,6 +2,7 @@ package ui.menusforgui;
 
 import model.Function;
 import model.Worklist;
+import ui.FunctionAppGUI;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,6 +11,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+
+// Class for the menu to adjust the settings of the FunctionAppGUI. Submenu of MenuTemplate
 public class SettingsMenu extends MenuTemplate {
     private JButton submitPrecision;
     private JButton submitSubinterval;
@@ -18,15 +21,18 @@ public class SettingsMenu extends MenuTemplate {
 
 
     public SettingsMenu(Worklist wl) {
-        super(wl, "Please select a setting to modify: (Note that proper functionality is only guaranteed at"
+        super(wl, "Please select an option below: (Note that proper functionality is only guaranteed at"
                 + " default settings).", "Modify settings:", false);
     }
 
+    // EFFECTS: constructs buttons for viewing the current settings, modifying precision/subintervals, or restoring
+    // settings to their defaults.
     @Override
     protected ArrayList<JButton> buttons() {
         JButton buttonView = new JButton("View the current settings");
-        JButton buttonPrecision = new JButton("Precision used in the program");
-        JButton buttonSubIntervals = new JButton("Subintervals used for numeric integration and Fourier Series");
+        JButton buttonPrecision = new JButton("Modify the precision used in the program");
+        JButton buttonSubIntervals = new JButton("Modify the number of subintervals used for numeric integration "
+                + "and Fourier Series");
         JButton buttonDefault = new JButton("Reset settings to default");
         ArrayList<JButton> buttons = new ArrayList<>(Arrays.asList(buttonView, buttonPrecision, buttonSubIntervals,
                 buttonDefault));
@@ -37,16 +43,20 @@ public class SettingsMenu extends MenuTemplate {
         return buttons;
     }
 
+    // This subclass does not require an implementation of this method
     @Override
     protected void menuFnTemplate(Function fn) {
 
     }
 
+    // Helper class to handle selection of buttons from this.GetButtons()
     private class ButtonHandler implements ActionListener {
+        // REQUIRES: getButtons() to have 4 or more entries
+        // MODIFIES: this (SettingsMenu), Function (static precision and subintervals fields)
+        // EFFECTS: Creates a new menu based on which option the user selects
         @Override
         public void actionPerformed(ActionEvent e) {
             ArrayList<JButton> buttons = getButtons();
-            Worklist wl = getWl();
             if (e.getSource().equals(buttons.get(0))) {
                 viewSettings();
             } else if (e.getSource().equals(buttons.get(1))) {
@@ -63,6 +73,8 @@ public class SettingsMenu extends MenuTemplate {
         }
     }
 
+    // handles a selected precision - if the user inputted precision is negative or if the input is invalid, the
+    // precision is set to default
     private void handlePrecision() {
         try {
             Function.setPrecision(Double.parseDouble(precision.getText()));
@@ -76,6 +88,8 @@ public class SettingsMenu extends MenuTemplate {
         }
     }
 
+    // EFFECTS: handles a selected number of subintervals - if the user inputted number of subintervals is negative or
+    // if the input is invalid, the precision is set to default
     private void handleSubintervals() {
         try {
             Function.setSubintervals(Integer.parseInt(subintervals.getText()));
@@ -89,6 +103,7 @@ public class SettingsMenu extends MenuTemplate {
         }
     }
 
+    // EFFECTS: Helper method letting the user know the process was successful
     private void successWindow() {
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
@@ -101,6 +116,7 @@ public class SettingsMenu extends MenuTemplate {
         frame.setVisible(true);
     }
 
+    // EFFECTS: Helper method letting the user know the process has failed and that their parameter choice was invalid.
     private void failureWindow() {
         JFrame frame = new JFrame();
         JPanel panel = new JPanel();
@@ -114,6 +130,7 @@ public class SettingsMenu extends MenuTemplate {
         frame.setVisible(true);
     }
 
+    // EFFECTS: Creates a frame to allow the user to view the current settings
     private void viewSettings() {
         JFrame frame1 = new JFrame();
         JPanel panel1 = new JPanel();
@@ -130,11 +147,13 @@ public class SettingsMenu extends MenuTemplate {
         frame1.setVisible(true);
     }
 
+    // MODIFIES: this, Function (static precision field)
+    // EFFECTS: Creates a frame to allow the user to set the current precision.
     private void setPrecision() {
         JFrame frame1 = new JFrame();
         JPanel panel1 = new JPanel();
         JLabel title1 = new JLabel("Enter the precision value here:");
-        precision = new JTextField();
+        precision = new JTextField(FunctionAppGUI.SIZE);
         submitPrecision = new JButton("Submit");
         submitPrecision.addActionListener(new SettingsMenu.ButtonHandler());
         panel1.add(title1);
@@ -147,11 +166,13 @@ public class SettingsMenu extends MenuTemplate {
         frame1.setVisible(true);
     }
 
+    // MODIFIES: this, Function (static subintervals field)
+    // EFFECTS: Creates a frame to allow the user to set the current number of subintervals
     private void setSubintervals() {
         JFrame frame1 = new JFrame();
         JPanel panel1 = new JPanel();
         JLabel title1 = new JLabel("Enter the number of subintervals here:");
-        subintervals = new JTextField();
+        subintervals = new JTextField(FunctionAppGUI.SIZE);
         submitSubinterval = new JButton("Submit");
         submitSubinterval.addActionListener(new SettingsMenu.ButtonHandler());
         panel1.add(title1);
@@ -164,6 +185,9 @@ public class SettingsMenu extends MenuTemplate {
         frame1.setVisible(true);
     }
 
+    // MODIFIES: this, Function (static precision and subintervals fields)
+    // EFFECTS: Creates a frame letting the user know that settings have been reset to default, resets settings to
+    // default.
     private void setDefault() {
         Function.setPrecision(Function.DEFAULT_PRECISION);
         Function.setSubintervals(Function.DEFAULT_SUBINTERVALS);
