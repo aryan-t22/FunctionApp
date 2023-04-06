@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 // A worklist of Functions. The worklist itself cannot be reassigned to another list, but can be modified by the
@@ -34,6 +33,7 @@ public class Worklist {
     // MODIFIES: this.
     // EFFECTS: inserts a function into the worklist.
     public void insertFunc(Function fn) {
+        EventLog.getInstance().logEvent(new Event("Added " + fn.name("x") + " to the worklist."));
         listFn.add(fn);
     }
 
@@ -41,6 +41,7 @@ public class Worklist {
     // EFFECTS: removes the first instance of fn from the worklist. If the worklist has no functions, does nothing.
     public void removeFunc(Function fn) {
         if (!isEmpty()) {
+            EventLog.getInstance().logEvent(new Event("Removed " + fn.name("x") + " to the worklist."));
             listFn.remove(fn);
         }
     }
@@ -49,12 +50,14 @@ public class Worklist {
     // empty." if the worklist is empty
     public String names() {
         if (isEmpty()) {
+            EventLog.getInstance().logEvent(new Event("Viewed the worklist when it was empty."));
             return "The worklist is empty.";
         } else {
             String result = "Here are the functions in your worklist: \n";
             for (Function fn : listFn) {
                 result += "[" + fn.name("x") + "]" + ",\n";
             }
+            EventLog.getInstance().logEvent(new Event("Viewed the worklist."));
             return result.substring(0, result.length() - 2) + ".";
         }
     }
@@ -71,12 +74,23 @@ public class Worklist {
         return false;
     }
 
+    // EFFECTS: Creates an event for is called when a worklist is loaded from the saved directory.
+    public void loading() {
+        EventLog.getInstance().logEvent(new Event("Beginning to load the saved worklist:"));
+    }
+
+    // EFFECTS: is called when a worklist is loaded from the saved directory.
+    public void loaded() {
+        EventLog.getInstance().logEvent(new Event("Finished loading the saved worklist."));
+    }
+
     // EFFECTS: creates a .JSON object for a Worklist of Functions
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("subintervals", Function.getSubintervals());
         json.put("precision", Function.getPrecision());
         json.put("functions", this.functionsToJson());
+        EventLog.getInstance().logEvent(new Event("Saved the current worklist."));
         return json;
     }
 

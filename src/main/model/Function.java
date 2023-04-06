@@ -69,19 +69,23 @@ public class Function {
     }
 
     public static int getSubintervals() {
+        EventLog.getInstance().logEvent(new Event("Viewed number of subintervals."));
         return subintervals;
     }
 
     public static double getPrecision() {
+        EventLog.getInstance().logEvent(new Event("Viewed precision."));
         return precision;
     }
 
     // REQUIRES: subintervals >= 1
     public static void setSubintervals(int subintervals) {
+        EventLog.getInstance().logEvent(new Event("Set number of subintervals to " + subintervals + "."));
         Function.subintervals = subintervals;
     }
 
     public static void setPrecision(double precision) {
+        EventLog.getInstance().logEvent(new Event("Set precision to " + precision + "."));
         Function.precision = precision;
     }
 
@@ -128,9 +132,9 @@ public class Function {
             return fnn.getFn().getName(x);
         } else {
             if (!Objects.equals(fnn.getOperation(), "o")) {
-                return "[" + left.name(x) + " " + fnn.getOperation() + " " + right.name(x) + "]";
+                return "[" + left.name(x) + "] " + fnn.getOperation() + " [" + right.name(x) + "]";
             } else {
-                return left.name(right.name(x));
+                return left.name("[" + right.name(x) + "]");
             }
         }
     }
@@ -163,6 +167,7 @@ public class Function {
     // EFFECTS: Evaluates a given Function at the double x, up to precision. Throws ArithmeticException if the result
     // is not finite
     public double eval(double x) throws ArithmeticException {
+        EventLog.getInstance().logEvent(new Event("Evaluated " + name("x") + " at x = " + x));
         if (fnn.getIsBasicFunc()) {
             double output = fnn.getFn().eval(x);
             return adjust(output);

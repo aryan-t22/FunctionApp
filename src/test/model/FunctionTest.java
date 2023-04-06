@@ -27,8 +27,8 @@ public class FunctionTest {
 
     @BeforeEach
     void setup() {
-        expected = "[[1.1752011936438007 + -0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))] "
-                + "+ 0.6793261834021016 * sin(3.141592653589793 * (x - 0.0π))]";
+        expected = "[[1.1752011936438007] + [-0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))]] + "
+                + "[0.6793261834021016 * sin(3.141592653589793 * (x - 0.0π))]";
         bfn1 = new Exp(1, 1, 0);
         bfn2 = new Cosine(1, 1, 0);
         bfn3 = new Sine(1, 1, 0);
@@ -158,8 +158,8 @@ public class FunctionTest {
         fn3 = fn1.add(fn2);
         fn4 = fn1.compose(fn2);
         fn5 = new Function(new Polynomial(new ArrayList<>())); // zero polynomial
-        assertEquals("[1.0 * e^(1.0 * (t - 0.0)) + 1.0 * cos(1.0 * (t - 0.0π))]", fn3.name("t"));
-        assertEquals("1.0 * e^(1.0 * (1.0 * cos(1.0 * (x - 0.0π)) - 0.0))", fn4.name("x"));
+        assertEquals("[1.0 * e^(1.0 * (t - 0.0))] + [1.0 * cos(1.0 * (t - 0.0π))]", fn3.name("t"));
+        assertEquals("1.0 * e^(1.0 * ([1.0 * cos(1.0 * (x - 0.0π))] - 0.0))", fn4.name("x"));
         assertEquals("0.0", fn5.name("x"));
         assertEquals("0.0", fn5.name("t"));
     }
@@ -183,8 +183,8 @@ public class FunctionTest {
         fn4 = new Function(bfn4);
         fn5 = fn4.add(fn3).prod(fn4.add(fn2)); // x + (sin(x) * (x + cos(x)))
         fn5.modify(bfn4, bfn1); // swap x with e^x
-        String name2 = "[[1.0 * e^(1.0 * (x - 0.0)) + 1.0 * sin(1.0 * (x - 0.0π))] "
-                + "* [1.0 * e^(1.0 * (x - 0.0)) + 1.0 * cos(1.0 * (x - 0.0π))]]";
+        String name2 = "[[1.0 * e^(1.0 * (x - 0.0))] + [1.0 * sin(1.0 * (x - 0.0π))]] * [[1.0 * e^(1.0 * (x - 0.0))] "
+                + "+ [1.0 * cos(1.0 * (x - 0.0π))]]";
         assertEquals(name2, fn5.name("x"));
     }
 
@@ -307,8 +307,8 @@ public class FunctionTest {
         assertEquals("0.0", fn5.name("x"));
         // A more involved example - verified via https://www.wolframalpha.com/ :
         fn6 = fn1.fourierSine(1, 2); // e^x fourier sine series
-        String expected1 = "[0.6793261834021016 * sin(3.141592653589793 * (x - 0.0π)) "
-                + "+ -0.36483673571712544 * sin(6.283185307179586 * (x - 0.0π))]";
+        String expected1 = "[0.6793261834021016 * sin(3.141592653589793 * (x - 0.0π))] + [-0.36483673571712544 * sin"
+                + "(6.283185307179586 * (x - 0.0π))]";
         assertEquals(expected1, fn6.name("x"));
         // test when result is not finite
         fn7 = new Function(new Polynomial(Arrays.asList(0.0, 0.0, 1.0)));
@@ -327,7 +327,7 @@ public class FunctionTest {
     @Test
     void testFourierCosineWrongArg() {
         fn3 = fn1.fourierCosine(0, 10);
-        String output = "[1.1752011936438007 + -0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))]";
+        String output = "[1.1752011936438007] + [-0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))]";
         assertEquals(output, fn3.name("x"));
         fn4 = fn1.fourierCosine(1, -2);
         assertEquals(output, fn4.name("x"));
@@ -339,14 +339,14 @@ public class FunctionTest {
     void testFourierCosineMain() {
         // Simple Examples - Similar to the Fourier Sine Case (but swapped)
         fn3 = fn2.fourierCosine(Math.PI, 3); // cos(x) is its own Fourier Cosine Series on [-π, π]
-        assertEquals("[0.0 + 1.0 * cos(1.0 * (x - 0.0π))]", fn3.name("x"));
+        assertEquals("[0.0] + [1.0 * cos(1.0 * (x - 0.0π))]", fn3.name("x"));
         fn4 = new Function(bfn3); // sin(x) and cos(mx) are orthogonal for any m (for [-π, π])
         fn5 = fn4.fourierCosine(Math.PI, 10);
         assertEquals("0.0", fn5.name("x"));
         // A more involved example - verified via https://www.wolframalpha.com/:
         fn6 = fn1.fourierCosine(1, 2); // e^x fourier sine series
-        String expected1 = "[[1.1752011936438007 + -0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))] "
-                + "+ 0.05806556991084091 * cos(6.283185307179586 * (x - 0.0π))]";
+        String expected1 = "[[1.1752011936438007] + [-0.21623624012038 * cos(3.141592653589793 * (x - 0.0π))]] + "
+                + "[0.05806556991084091 * cos(6.283185307179586 * (x - 0.0π))]";
         assertEquals(expected1, fn6.name("x"));
         // test when result is not finite
         fn7 = fn1.div(new Function(new Polynomial(Arrays.asList(0.0, 0.0, 1.0)))); // e^x / x^2

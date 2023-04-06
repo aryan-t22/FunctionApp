@@ -44,21 +44,21 @@ public class JsonReader {
     // EFFECTS: parses the .JSON file at source to create the saved worklist
     private Worklist parseWorklist(JSONObject jsonObject) {
         Worklist wl = new Worklist();
+        wl.loading();
         Function.setSubintervals(jsonObject.getInt("subintervals"));
         Function.setPrecision(jsonObject.getDouble("precision"));
         this.addFunctions(wl, jsonObject);
+        wl.loaded();
         return wl;
     }
 
     // EFFECTS: adds functions to the worklist during parsing
     private void addFunctions(Worklist wl, JSONObject jsonObject) {
         JSONArray jsonArray = jsonObject.getJSONArray("functions");
-
         for (Object json : jsonArray) {
             JSONObject nextFunction = (JSONObject) json;
             wl.insertFunc(makeFunction(nextFunction));
         }
-
     }
 
     // REQUIRES: that the Function Class .JSON only has either a Basic Function .JSON object, or an operation string,

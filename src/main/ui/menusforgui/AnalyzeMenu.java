@@ -123,6 +123,17 @@ public class AnalyzeMenu extends MenuTemplate {
         }
     }
 
+    private void errorPanel() {
+        JFrame frame = new JFrame();
+        JPanel panel = new JPanel();
+        JLabel label = new JLabel("There was an arithmetic error when analyzing the function. This is likely"
+                + " due to division by zero. Please try again.");
+        panel.add(label);
+        frame.add(panel, BorderLayout.CENTER);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
     // MODIFIES: this
     // EFFECTS: sets up a frame for evaluating a function at a given x value
     private void evaluate() {
@@ -149,13 +160,17 @@ public class AnalyzeMenu extends MenuTemplate {
         // EFFECTS: evaluates the function whenever the user has selected evalSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource().equals(evalSubmit)) {
-                try {
-                    xi = Double.parseDouble(evalInput.getText());
-                } catch (NumberFormatException nfe) {
-                    xi = 0;
+            try {
+                if (e.getSource().equals(evalSubmit)) {
+                    try {
+                        xi = Double.parseDouble(evalInput.getText());
+                    } catch (NumberFormatException nfe) {
+                        xi = 0;
+                    }
+                    evalAns.setText(Double.toString(fn.eval(xi)));
                 }
-                evalAns.setText(Double.toString(fn.eval(xi)));
+            } catch (ArithmeticException ae) {
+                errorPanel();
             }
         }
     }
@@ -198,17 +213,21 @@ public class AnalyzeMenu extends MenuTemplate {
         // EFFECTS: integrates the function whenever the user has selected integrateSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource().equals(integrateSubmit)) {
-                double a;
-                double b;
-                try {
-                    a = Double.parseDouble(integrateAInput.getText());
-                    b = Double.parseDouble(integrateBInput.getText());
-                } catch (NumberFormatException nfe) {
-                    a = -1;
-                    b = 1;
+            try {
+                if (e.getSource().equals(integrateSubmit)) {
+                    double a;
+                    double b;
+                    try {
+                        a = Double.parseDouble(integrateAInput.getText());
+                        b = Double.parseDouble(integrateBInput.getText());
+                    } catch (NumberFormatException nfe) {
+                        a = -1;
+                        b = 1;
+                    }
+                    integrateAns.setText(Double.toString(fn.integrate(a, b)));
                 }
-                integrateAns.setText(Double.toString(fn.integrate(a, b)));
+            } catch (ArithmeticException ae) {
+                errorPanel();
             }
         }
     }
@@ -256,31 +275,51 @@ public class AnalyzeMenu extends MenuTemplate {
         // EFFECTS: computes the fourier series of the function whenever the user has selected fourierSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource().equals(fourierSubmit)) {
-                double l;
-                int n;
-                try {
-                    l = Double.parseDouble(fourierLInput.getText());
-                    n = Integer.parseInt(fourierNInput.getText());
-                    if (l < 0) {
-                        l = -l;
-                    }
-                    if (n < 0) {
-                        n = -n;
-                    }
-                } catch (NumberFormatException nfe) {
-                    l = 1;
-                    n = 3;
+            try {
+                if (e.getSource().equals(fourierSubmit)) {
+                    double l = getL();
+                    int n = getN();
+                    Function fn2 = fn.fourierFull(l, n);
+                    getWl().insertFunc(fn2);
+                    String ans = "The first " + n + " terms of the full fourier series on [" + -l + "," + l + "] are: "
+                            + "\n" + fn2.name("x") + "\n This has been added to the" + " worklist.";
+                    fourierAns.setText("<html>" + ans.replaceAll("<", "&lt;").replaceAll(
+                            ">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
                 }
-                Function fn2 = fn.fourierFull(l, n);
-                getWl().insertFunc(fn2);
-                String ans = "The first " + n + " terms of the full fourier series on [" + -l + "," + l + "] are: \n"
-                        + fn2.name("x") + "\n This has been added to the" + " worklist.";
-                fourierAns.setText("<html>" + ans.replaceAll("<", "&lt;")
-                        .replaceAll(">", "&gt;").replaceAll("\n", "<br/>") + "</html>");
+            } catch (ArithmeticException ae) {
+                errorPanel();
             }
         }
+
+        // EFFECTS: Helper to get l for Fourier Series Evaluation
+        private double getL() {
+            double l;
+            try {
+                l = Double.parseDouble(fourierLInput.getText());
+                if (l < 0) {
+                    l *= -1;
+                }
+            } catch (NumberFormatException nfe) {
+                l = 1;
+            }
+            return l;
+        }
+
+        // EFFECTS: Helper to get l for Fourier Series Evaluation
+        private int getN() {
+            int n;
+            try {
+                n = Integer.parseInt(fourierNInput.getText());
+                if (n < 0) {
+                    n *= -1;
+                }
+            } catch (NumberFormatException nfe) {
+                n = 3;
+            }
+            return n;
+        }
     }
+
 
     // MODIFIES: this
     // EFFECTS: sets up a frame for comparing two functions, this.fn and fn1
@@ -310,13 +349,17 @@ public class AnalyzeMenu extends MenuTemplate {
         // EFFECTS: compares fn and fn1 whenever the user selects evalSubmit
         @Override
         public void actionPerformed(ActionEvent e) {
-            if (e.getSource().equals(evalSubmit)) {
-                try {
-                    xi = Double.parseDouble(evalInput.getText());
-                } catch (NumberFormatException nfe) {
-                    xi = 0;
+            try {
+                if (e.getSource().equals(evalSubmit)) {
+                    try {
+                        xi = Double.parseDouble(evalInput.getText());
+                    } catch (NumberFormatException nfe) {
+                        xi = 0;
+                    }
+                    evalAns.setText(Double.toString(fn.eval(xi) - fn1.eval(xi)));
                 }
-                evalAns.setText(Double.toString(fn.eval(xi) - fn1.eval(xi)));
+            } catch (ArithmeticException ae) {
+                errorPanel();
             }
         }
     }

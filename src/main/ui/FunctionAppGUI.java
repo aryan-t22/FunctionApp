@@ -1,5 +1,7 @@
 package ui;
 
+import model.EventLog;
+import model.Event;
 import model.Worklist;
 import persistence.JsonReader;
 import persistence.JsonWriter;
@@ -7,12 +9,13 @@ import ui.menusforgui.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import static java.awt.Component.CENTER_ALIGNMENT;
 
 // Class for the main menu of the GUI - has fields for the frame, panel, title of the panel, button in the GUI,
 // the worklist, JSON reading and writing, and for an icon with an image,
@@ -78,11 +81,14 @@ public class FunctionAppGUI {
     // MODIFIES: this
     // EFFECTS: Sets up the panel for the GUI
     private void handlePanel(JPanel p, ArrayList<JButton> buttons) {
-        p.setBorder(BorderFactory.createEmptyBorder(-10, 5, 40, 5));
+        p.setBorder(BorderFactory.createEmptyBorder(-20, 5, 40, 5));
         p.setLayout(new GridLayout(0, 1));
+        title.setMaximumSize(new Dimension(200, 200));
+        title.setAlignmentX(CENTER_ALIGNMENT);
+        title.setHorizontalAlignment(SwingConstants.CENTER);
         p.add(title, BorderLayout.CENTER);
         image = new ImageIcon("./data/Icon.png");
-        image.setImage(image.getImage().getScaledInstance(430, 250, Image.SCALE_AREA_AVERAGING));
+        image.setImage(image.getImage().getScaledInstance(430, 200, Image.SCALE_AREA_AVERAGING));
         icon = new JLabel(image);
         p.add(icon);
         for (JButton b : buttons) {
@@ -94,10 +100,26 @@ public class FunctionAppGUI {
     // EFFECTS: sets up the frame for the GUI
     private void handleFrame(JFrame f, JPanel p) {
         f.add(p, BorderLayout.CENTER);
-        f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        f.addWindowListener(new WindowAdapter() {
+
+            @Override
+            public void windowClosing(WindowEvent e) {
+                printLog(EventLog.getInstance());
+            }
+
+        });
+        f.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         f.setTitle("FunctionApp:");
         f.pack();
         f.setVisible(true);
+    }
+
+    public void printLog(EventLog el) {
+        StringBuilder s = new StringBuilder();
+        for (Event next : el) {
+            s.append(next.toString() + "\n");
+        }
+        System.out.println(s);
     }
 
     // MODIFIES: this

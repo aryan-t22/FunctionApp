@@ -91,7 +91,7 @@ class WorklistTest {
         assertEquals(output, wl1.names());
         wl1.insertFunc(fn4);
         output = output.substring(0, output.length() - 1)
-                + ",\n[[2.0 + 3.0 * x^1 + 4.0 * x^2 + 1.0 * e^(1.0 * (x - 0.0))]].";
+                + ",\n[[2.0 + 3.0 * x^1 + 4.0 * x^2] + [1.0 * e^(1.0 * (x - 0.0))]].";
         assertEquals(output, wl1.names());
     }
 

@@ -67,10 +67,10 @@ public class MakeMenu extends MenuTemplate {
             panel1.setLayout(new GridLayout(0, 1));
             panel1.add(title1);
             panel1.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
-            setup(frame1, panel1, title1);
-            getWl().insertFunc(new Function(operation, this.fn, fn1));
             title1.setText("Created the function: " + this.fn.name("x") + " " + operation + " " + fn1.name("x"));
             frame1.setTitle("Function Made!");
+            setup(frame1, panel1, title1);
+            getWl().insertFunc(new Function(operation, this.fn, fn1));
         }
     }
 
