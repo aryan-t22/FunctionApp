@@ -84,4 +84,33 @@ fourier series on [-1,1].
 degree of a polynomial, this gets corrected to 3, as degree is normally understood to be positive. This was done to help
 users in the case of typos.
 
+## *Phase 4: Task 2:*
+Launch the program
+*Actions Done:*
+- view the empty worklist
+- load the preset worklist, with precision 1.0E-10, subintervals to 5000, and functions 1.0 + 1.0 * x^1 and 
+1.0 * e^(1.0 * (x - 0.0)) added to the worklist
+- viewed the now non-empty worklist
+- Select analyze ->  1.0 * e^(1.0 * (x - 0.0)) -> numerically integrate -> a = 0 and b = 5, should output e^5 - 1
+Close the program.
+
+*Log of Events expected (Dates are arbitrary):*
+Wed Apr 12 18:47:32 PDT 2023
+Viewed the worklist when it was empty.
+Wed Apr 12 18:47:38 PDT 2023
+Set precision to 1.0E-10.
+Wed Apr 12 18:47:38 PDT 2023
+Set number of subintervals to 5000.
+Wed Apr 12 18:47:38 PDT 2023
+Added 1.0 + 1.0 * x^1 to the worklist.
+Wed Apr 12 18:47:38 PDT 2023
+Added 1.0 * e^(1.0 * (x - 0.0)) to the worklist.
+Wed Apr 12 18:47:42 PDT 2023
+Viewed the worklist.
+Wed Apr 12 18:47:58 PDT 2023
+Integrated 1.0 * e^(1.0 * (x - 0.0)) from x = 0.0 to x = 5.0, yielding 147.41315910....
+
+
+
+
 

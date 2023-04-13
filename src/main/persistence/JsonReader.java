@@ -44,11 +44,12 @@ public class JsonReader {
     // EFFECTS: parses the .JSON file at source to create the saved worklist
     private Worklist parseWorklist(JSONObject jsonObject) {
         Worklist wl = new Worklist();
-        wl.loading();
-        Function.setSubintervals(jsonObject.getInt("subintervals"));
+        // includes functionality to indicate that functions were loaded from the worklist.
+//        wl.loading();
         Function.setPrecision(jsonObject.getDouble("precision"));
+        Function.setSubintervals(jsonObject.getInt("subintervals"));
         this.addFunctions(wl, jsonObject);
-        wl.loaded();
+//        wl.loaded();
         return wl;
     }
 

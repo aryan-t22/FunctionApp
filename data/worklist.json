@@ -12,54 +12,7 @@
             "name": "exp",
             "H shift": 0,
             "H scale": 1
-        }},
-        {
-            "left": {"Basic Function": {
-                "0": 1,
-                "1": 1,
-                "name": "polynomial",
-                "degree": 1
-            }},
-            "right": {"Basic Function": {
-                "V scale": 1,
-                "name": "exp",
-                "H shift": 0,
-                "H scale": 1
-            }},
-            "operation": "+"
-        },
-        {
-            "left": {"Basic Function": {
-                "0": 1,
-                "name": "polynomial",
-                "degree": 0
-            }},
-            "right": {
-                "left": {
-                    "left": {"Basic Function": {
-                        "phase": 0,
-                        "stretch": 1.5707963267948966,
-                        "amp": 1.2732395447351825,
-                        "name": "sin"
-                    }},
-                    "right": {"Basic Function": {
-                        "phase": 0,
-                        "stretch": 3.141592653589793,
-                        "amp": -0.6366197723677228,
-                        "name": "sin"
-                    }},
-                    "operation": "+"
-                },
-                "right": {"Basic Function": {
-                    "phase": 0,
-                    "stretch": 4.71238898038469,
-                    "amp": 0.4244131815788638,
-                    "name": "sin"
-                }},
-                "operation": "+"
-            },
-            "operation": "+"
-        }
+        }}
     ],
     "precision": 1.0E-10
 }

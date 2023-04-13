@@ -73,16 +73,17 @@ public class Worklist {
         }
         return false;
     }
+    // For logging loading
 
-    // EFFECTS: Creates an event for is called when a worklist is loaded from the saved directory.
-    public void loading() {
-        EventLog.getInstance().logEvent(new Event("Beginning to load the saved worklist:"));
-    }
-
-    // EFFECTS: is called when a worklist is loaded from the saved directory.
-    public void loaded() {
-        EventLog.getInstance().logEvent(new Event("Finished loading the saved worklist."));
-    }
+//    // EFFECTS: Creates an event for is called when a worklist is loaded from the saved directory.
+//    public void loading() {
+//        EventLog.getInstance().logEvent(new Event("Beginning to load the saved worklist:"));
+//    }
+//
+//    // EFFECTS: is called when a worklist is loaded from the saved directory.
+//    public void loaded() {
+//        EventLog.getInstance().logEvent(new Event("Finished loading the saved worklist."));
+//    }
 
     // EFFECTS: creates a .JSON object for a Worklist of Functions
     public JSONObject toJson() {

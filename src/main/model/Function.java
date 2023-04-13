@@ -15,7 +15,8 @@ import java.util.ArrayList;
 // operation in its node, representing the function left(operation)right. The class itself has a subintervals field,
 // the number of subintervals used in numeric integration, and a precision field, indicating how much tolerance is there
 // from a value being close to an integer to be approximated by it. The DEFAULT_SUBINTERVALS and DEFAULT_PRECISION
-// constants provide an example of well tested values
+// constants provide an example of well tested values. The toEval static field exists to handle logging - integration
+// should not create a log for each evaluation as this makes the logging process convoluted.
 public class Function {
     public static final int DEFAULT_SUBINTERVALS = 5000;
     public static final double DEFAULT_PRECISION = 1E-10;
@@ -25,6 +26,7 @@ public class Function {
     private Function right;
     private static int subintervals = DEFAULT_SUBINTERVALS;
     private static double precision = DEFAULT_PRECISION;
+    private static Boolean toEval = true;
 
     // EFFECTS: Constructs a function with a leaf FunctionNode made from fn.
     public Function(BasicFunction fn) {
@@ -78,15 +80,15 @@ public class Function {
         return precision;
     }
 
+    public static void setPrecision(double precision) {
+        EventLog.getInstance().logEvent(new Event("Set precision to " + precision + "."));
+        Function.precision = precision;
+    }
+
     // REQUIRES: subintervals >= 1
     public static void setSubintervals(int subintervals) {
         EventLog.getInstance().logEvent(new Event("Set number of subintervals to " + subintervals + "."));
         Function.subintervals = subintervals;
-    }
-
-    public static void setPrecision(double precision) {
-        EventLog.getInstance().logEvent(new Event("Set precision to " + precision + "."));
-        Function.precision = precision;
     }
 
     // Non-numerical function methods //
@@ -167,17 +169,22 @@ public class Function {
     // EFFECTS: Evaluates a given Function at the double x, up to precision. Throws ArithmeticException if the result
     // is not finite
     public double eval(double x) throws ArithmeticException {
-        EventLog.getInstance().logEvent(new Event("Evaluated " + name("x") + " at x = " + x));
+        double output;
         if (fnn.getIsBasicFunc()) {
-            double output = fnn.getFn().eval(x);
-            return adjust(output);
+            output = fnn.getFn().eval(x);
         } else {
             if (!Objects.equals(fnn.getOperation(), "o")) {
-                return fnn.operateOn(left.eval(x), right.eval(x));
+                output = fnn.operateOn(left.eval(x), right.eval(x));
             } else {
-                return left.eval(right.eval(x));
+                output = left.eval(right.eval(x));
             }
         }
+        output = adjust(output);
+        if (toEval) {
+            EventLog.getInstance().logEvent(new Event("Evaluated " + name("x") + " at x = " + x
+                    + ", yielding" + output));
+        }
+        return output;
     }
 
     // EFFECTS: Compares how well fn approximates this at x. If the output is positive, fn underestimates this, negative
@@ -190,6 +197,8 @@ public class Function {
     // EFFECTS: integrates a given Function on an interval [a,b] via Simpson's rule, with the number of subintervals n
     // being given by Function.subintervals, up to precision. Throws ArithmeticException if the result is not finite
     public double integrate(double a, double b) throws ArithmeticException {
+        toEval = false;
+        double output;
         double deltaX = (b - a) / subintervals;
         double sum = this.eval(a) + this.eval(b);
         for (int i = 1; i < subintervals; i++) {
@@ -199,7 +208,11 @@ public class Function {
                 sum += 2 * this.eval(a + deltaX * i);
             }
         }
-        return adjust(deltaX / 3.0 * sum);
+        output = adjust(deltaX / 3.0 * sum);
+        EventLog.getInstance().logEvent(new Event("Integrated " + name("x") + " from x = " + a + " to x = "
+                + b + ", yielding " + output));
+        toEval = true;
+        return output;
     }
 
     // REQUIRES: l > 0, n >= 1
