@@ -53,7 +53,7 @@ public class Worklist {
             EventLog.getInstance().logEvent(new Event("Viewed the worklist when it was empty."));
             return "The worklist is empty.";
         } else {
-            String result = "Here are the functions in your worklist: \n";
+            String result = "Here are the functions in the worklist: \n";
             for (Function fn : listFn) {
                 result += "[" + fn.name("x") + "]" + ",\n";
             }

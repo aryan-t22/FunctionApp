@@ -85,8 +85,7 @@ degree of a polynomial, this gets corrected to 3, as degree is normally understo
 users in the case of typos.
 
 ## *Phase 4: Task 2:*
-Launch the program
-*Actions Done:*
+*Actions done after launching the program:*
 - view the empty worklist
 - load the preset worklist, with precision 1.0E-10, subintervals to 5000, and functions 1.0 + 1.0 * x^1 and 
 1.0 * e^(1.0 * (x - 0.0)) added to the worklist
@@ -109,7 +108,7 @@ Wed Apr 12 20:05:00 PDT 2023
 Added 1.0 * e^(1.0 * (x - 0.0)) to the worklist.
 Wed Apr 12 20:05:06 PDT 2023
 Viewed the worklist:
-Here are the functions in your worklist:
+Here are the functions in the worklist:
 [1.0 + 1.0 * x^1],
 [1.0 * e^(1.0 * (x - 0.0))].
 Wed Apr 12 20:05:11 PDT 2023
@@ -118,4 +117,14 @@ Wed Apr 12 20:05:32 PDT 2023
 Integrated 1.0 * e^(1.0 * (x - 0.0)) from x = 0.0 to x = 5.0, yielding 147.4131591025774
 Wed Apr 12 20:05:52 PDT 2023
 Evaluated 1.0 * e^(1.0 * (x - 0.0)) at x = 5.0, yielding 148.4131591025766.
+
+## *Phase 4: Task 3:*
+*Possible refactoring that could be done:*
+- Change the left and right fields in the Function class to be a single field, parent, being of type List<Function>. 
+This would avoid having to check for each field being null - an empty list signifies a child node, with two elements in
+the list otherwise storing the left and right function respectively
+- In terms of design, I would make an abstract class that handles function with 3 fields, and not just one for trig 
+functions. This would allow for easier implementations of functions such as the Logarithm, which also essentially only 
+take 3 key parameters.
+
 

@@ -87,7 +87,7 @@ class WorklistTest {
     void testNames() {
         assertEquals("The worklist is empty.", wl1.names());
         wl1.insertFunc(fn1);
-        String output = "Here are the functions in your worklist: \n" + "[2.0 + 3.0 * x^1 + 4.0 * x^2].";
+        String output = "Here are the functions in the worklist: \n" + "[2.0 + 3.0 * x^1 + 4.0 * x^2].";
         assertEquals(output, wl1.names());
         wl1.insertFunc(fn4);
         output = output.substring(0, output.length() - 1)
