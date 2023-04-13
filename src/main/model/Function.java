@@ -186,7 +186,7 @@ public class Function {
         output = adjust(output);
         if (toEval) {
             EventLog.getInstance().logEvent(new Event("Evaluated " + name("x") + " at x = " + x
-                    + ", yielding" + output));
+                    + ", yielding " + output + "."));
         }
         return output;
     }

@@ -57,8 +57,9 @@ public class Worklist {
             for (Function fn : listFn) {
                 result += "[" + fn.name("x") + "]" + ",\n";
             }
-            EventLog.getInstance().logEvent(new Event("Viewed the worklist."));
-            return result.substring(0, result.length() - 2) + ".";
+            result =  result.substring(0, result.length() - 2) + ".";
+            EventLog.getInstance().logEvent(new Event("Viewed the worklist: \n" + result));
+            return result;
         }
     }
 

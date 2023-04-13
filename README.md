@@ -92,27 +92,30 @@ Launch the program
 1.0 * e^(1.0 * (x - 0.0)) added to the worklist
 - viewed the now non-empty worklist
 - remove 1.0 + 1.0 * x^1 from the worklist
-- Select analyze ->  1.0 * e^(1.0 * (x - 0.0)) -> numerically integrate -> a = 0 and b = 5, should output e^5 - 1
+- Select analyze -> 1.0 * e^(1.0 * (x - 0.0)) -> numerically integrate -> a = 0 and b = 5, should output e^5 - 1
+- Select analyze -> 1.0 * e^(1.0 * (x - 0.0)) -> evaluate -> x = 5, should output e^5
 Close the program.
 
 *Log of Events expected (Dates are arbitrary):*
-Wed Apr 12 19:10:35 PDT 2023
+Wed Apr 12 20:04:55 PDT 2023
 Viewed the worklist when it was empty.
-Wed Apr 12 19:10:37 PDT 2023
+Wed Apr 12 20:05:00 PDT 2023
 Set precision to 1.0E-10.
-Wed Apr 12 19:10:37 PDT 2023
+Wed Apr 12 20:05:00 PDT 2023
 Set number of subintervals to 5000.
-Wed Apr 12 19:10:37 PDT 2023
+Wed Apr 12 20:05:00 PDT 2023
 Added 1.0 + 1.0 * x^1 to the worklist.
-Wed Apr 12 19:10:37 PDT 2023
+Wed Apr 12 20:05:00 PDT 2023
 Added 1.0 * e^(1.0 * (x - 0.0)) to the worklist.
-Wed Apr 12 19:10:42 PDT 2023
-Viewed the worklist.
-Wed Apr 12 19:10:48 PDT 2023
+Wed Apr 12 20:05:06 PDT 2023
+Viewed the worklist:
+Here are the functions in your worklist:
+[1.0 + 1.0 * x^1],
+[1.0 * e^(1.0 * (x - 0.0))].
+Wed Apr 12 20:05:11 PDT 2023
 Removed 1.0 + 1.0 * x^1 to the worklist.
-Wed Apr 12 19:10:59 PDT 2023
+Wed Apr 12 20:05:32 PDT 2023
 Integrated 1.0 * e^(1.0 * (x - 0.0)) from x = 0.0 to x = 5.0, yielding 147.4131591025774
-
-
-
+Wed Apr 12 20:05:52 PDT 2023
+Evaluated 1.0 * e^(1.0 * (x - 0.0)) at x = 5.0, yielding 148.4131591025766.
 
