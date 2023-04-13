@@ -91,6 +91,10 @@ public class Function {
         Function.subintervals = subintervals;
     }
 
+    public static void setToEval(Boolean b) {
+        toEval = b;
+    }
+
     // Non-numerical function methods //
 
     // EFFECTS: Constructs a new Function (tree) for this operator fn, for the provided operator.

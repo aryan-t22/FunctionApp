@@ -213,6 +213,7 @@ public class FunctionTest {
 
     @Test
     void TestEval() {
+        Function.setToEval(true);
         // test with fn2
         assertEquals(1.0, fn2.eval(0), DEVIATION);
         assertEquals(1 / Math.sqrt(2), fn2.eval(Math.PI / 4), DEVIATION);
