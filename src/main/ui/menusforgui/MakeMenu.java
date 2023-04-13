@@ -63,15 +63,14 @@ public class MakeMenu extends MenuTemplate {
             JFrame frame1 = new JFrame();
             JPanel panel1 = new JPanel();
             JLabel title1 = new JLabel();
-            fn1 = fn;
             panel1.setLayout(new GridLayout(0, 1));
             panel1.add(title1);
             panel1.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
-            Function fn2 = new Function(operation, this.fn, fn1);
-            title1.setText("Created the function: " + fn2.name("x"));
+            Function fn1 = new Function(operation, this.fn, fn);
+            title1.setText("Created the function: " + fn1.name("x"));
             frame1.setTitle("Function Made!");
             setup(frame1, panel1, title1);
-            getWl().insertFunc(fn2);
+            getWl().insertFunc(fn1);
         }
     }
 
