@@ -96,27 +96,27 @@ users in the case of typos.
 Close the program.
 
 *Log of Events expected (Dates are arbitrary):*
-Wed Apr 12 20:04:55 PDT 2023
-Viewed the worklist when it was empty.
-Wed Apr 12 20:05:00 PDT 2023
-Set precision to 1.0E-10.
-Wed Apr 12 20:05:00 PDT 2023
-Set number of subintervals to 5000.
-Wed Apr 12 20:05:00 PDT 2023
-Added 1.0 + 1.0 * x^1 to the worklist.
-Wed Apr 12 20:05:00 PDT 2023
-Added 1.0 * e^(1.0 * (x - 0.0)) to the worklist.
-Wed Apr 12 20:05:06 PDT 2023
-Viewed the worklist:
-Here are the functions in the worklist:
-[1.0 + 1.0 * x^1],
-[1.0 * e^(1.0 * (x - 0.0))].
-Wed Apr 12 20:05:11 PDT 2023
-Removed 1.0 + 1.0 * x^1 to the worklist.
-Wed Apr 12 20:05:32 PDT 2023
-Integrated 1.0 * e^(1.0 * (x - 0.0)) from x = 0.0 to x = 5.0, yielding 147.4131591025774
-Wed Apr 12 20:05:52 PDT 2023
-Evaluated 1.0 * e^(1.0 * (x - 0.0)) at x = 5.0, yielding 148.4131591025766.
+- Wed Apr 12 20:04:55 PDT 2023
+- Viewed the worklist when it was empty.
+- Wed Apr 12 20:05:00 PDT 2023
+- Set precision to 1.0E-10.
+- Wed Apr 12 20:05:00 PDT 2023
+- Set number of subintervals to 5000.
+- Wed Apr 12 20:05:00 PDT 2023
+- Added 1.0 + 1.0 * x^1 to the worklist.
+- Wed Apr 12 20:05:00 PDT 2023
+- Added 1.0 * e^(1.0 * (x - 0.0)) to the worklist.
+- Wed Apr 12 20:05:06 PDT 2023
+- Viewed the worklist:
+- Here are the functions in the worklist:
+- [1.0 + 1.0 * x^1],
+- [1.0 * e^(1.0 * (x - 0.0))].
+- Wed Apr 12 20:05:11 PDT 2023
+- Removed 1.0 + 1.0 * x^1 to the worklist.
+- Wed Apr 12 20:05:32 PDT 2023
+- Integrated 1.0 * e^(1.0 * (x - 0.0)) from x = 0.0 to x = 5.0, yielding 147.4131591025774
+- Wed Apr 12 20:05:52 PDT 2023
+- Evaluated 1.0 * e^(1.0 * (x - 0.0)) at x = 5.0, yielding 148.4131591025766.
 
 ## *Phase 4: Task 3:*
 *Possible refactoring that could be done:*
