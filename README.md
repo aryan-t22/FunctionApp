@@ -1,4 +1,4 @@
-# CPSC 210: Function App (Fourier Series) Project:
+# Function App - Numeric Integration and Fourier Series Project:
 
 ## *About the project:*
 **The goal of this project is to create a program that can take in a set of functions the user inputs, perform basic
@@ -16,48 +16,14 @@ Series.
 
 Being in the Physics and Mathematics combined honours program, and having been exposed to and used Fourier Series in a 
 variety of my courses (Electricity and Magnetism, Quantum Mechanics, Partial Differential Equations, and Mathematical 
-Analysis), I wanted to use the CPSC 210 course project as an avenue to explore this passion project, that I might not 
-have worked on otherwise. I have also always been amazed at how significant visual aids can be at conveying mathematical
+Analysis), I have always been amazed at how significant visual aids can be at conveying mathematical
 intuition, especially being an avid fan of the popular YouTube channel 3Blue1Brown. I feel that having an easy to 
 approach and user-friendly program to explore Fourier series is something I would have found quite useful, and I also 
 hope it inspires aspiring Physicists and Mathematics undergraduates who, like me, may not have much coding/programming 
 experience to nevertheless create their own programs and further inspire younger students. 
 
-## *Stretch Goals:*
-Part of designing a project for CPSC 210 is understanding the feasibility of implementing certain functionality, and to
-not underestimate the implementation of certain functionality. The initial objective was to create a Fourier Transform
-visualization tool, which I felt would have been rather difficult to implement at a level I deemed satisfactory. I
-therefore would like to have this as a stretch goal, and to aim for visualizing the Fourier Transform of a small subset
-of functions for my final submission in Phase 4. For a more moderate stretch goal, I want to implement functionality 
-to determine how many terms in a Fourier Series one would need to approximate a function in their worklist at a 
-particular value to a specified degree of accuracy. I would also like to graph functions and parse function names in
-LaTeX if possible.
 
-## *User Stories:*
-A requirement of the CPSC 210 Project is to consider user stories when designing our projects. Below is a list of user
-stories that I feel may be relevant to my project, and what a user interacting with this program may think as they use
-it:
-
-- As a user, I want to be able to add multiple **functions** (X) to my analysis **worklist** (Y).
-- As a user, I want to be able to view and modify functions already in my worklist.
-- As a user, I want to be able to choose a function in my worklist, and compute the first n terms of its Fourier Series
-on an interval, ideally of my choosing.
-- As a user, I want to compare one function to another, and see how well it approximates the other within some
-precision. Since the first n terms of a Fourier Series are also a function, this can be used to determine how accurate
-the series is at approximating the function.
-- As a user, I want to be able to save the current worklist, to access at a later time.
-- As a user, I want to be able to load the last saved worklist, to interact with via the application.
-
-## *Achieved Stretch Goals:*
-- Adjusted the polynomial class to correctly represent the degree of a polynomial.
-
-## *Acknowledgements of code used in the course:*
-- The Phase 1 Console UI was heavily inspired by the provided CPSC 210 teller app, with its functionalities extended 
-and modified for the purposes of this project. 
-- The Phase 2 Persistence was heavily inspired by the provided CPSC 210 JsonSerializationDemo app, with its read write
-features adjusted for the FunctionApp.
-
-## *Instructions for Grader:*
+## *Instructions:*
 *To use the program:*
 
 - To view the worklist and functions inside, select the "View your Worklist" button.
@@ -73,7 +39,7 @@ worklist" button.
 An image can be found at the start menu when the GUI is first run. The image is of a function that is continuous but
 nowhere differentiable.
 
-*Additional information:*
+## *Additional information:*
 The GUI is set up so that any invalid inputs are handled by default:
 - For most function parameters, these are 0 (for example inputting abc as the coefficient in a polynomial produces 0).
 - For integration, if any invalid parameters are entered for the interval, I default to outputting the integral of the
@@ -84,42 +50,15 @@ fourier series on [-1,1].
 degree of a polynomial, this gets corrected to 3, as degree is normally understood to be positive. This was done to help
 users in the case of typos.
 
-## *Phase 4: Task 2:*
-*Actions done after launching the program:*
-- view the empty worklist
-- load the preset worklist, with precision 1.0E-10, subintervals to 5000, and functions 1.0 + 1.0 * x^1 and 
-1.0 * e^(1.0 * (x - 0.0)) added to the worklist
-- viewed the now non-empty worklist
-- remove 1.0 + 1.0 * x^1 from the worklist
-- Select analyze -> 1.0 * e^(1.0 * (x - 0.0)) -> numerically integrate -> a = 0 and b = 5, should output e^5 - 1
-- Select analyze -> 1.0 * e^(1.0 * (x - 0.0)) -> evaluate -> x = 5, should output e^5
-Close the program.
+## *Action items:*
+- Improve documentation
+- Add GUI for function visualization
+- Explore more functionality
+- Introduce LaTeX typesetting and parsing for function names
+- Explore porting project over to Python potentially
 
-*Log of Events expected (Dates are arbitrary):*
-- Wed Apr 12 20:04:55 PDT 2023
-- Viewed the worklist when it was empty.
-- Wed Apr 12 20:05:00 PDT 2023
-- Set precision to 1.0E-10.
-- Wed Apr 12 20:05:00 PDT 2023
-- Set number of subintervals to 5000.
-- Wed Apr 12 20:05:00 PDT 2023
-- Added 1.0 + 1.0 * x^1 to the worklist.
-- Wed Apr 12 20:05:00 PDT 2023
-- Added 1.0 * e^(1.0 * (x - 0.0)) to the worklist.
-- Wed Apr 12 20:05:06 PDT 2023
-- Viewed the worklist:
-- Here are the functions in the worklist:
-- [1.0 + 1.0 * x^1],
-- [1.0 * e^(1.0 * (x - 0.0))].
-- Wed Apr 12 20:05:11 PDT 2023
-- Removed 1.0 + 1.0 * x^1 to the worklist.
-- Wed Apr 12 20:05:32 PDT 2023
-- Integrated 1.0 * e^(1.0 * (x - 0.0)) from x = 0.0 to x = 5.0, yielding 147.4131591025774
-- Wed Apr 12 20:05:52 PDT 2023
-- Evaluated 1.0 * e^(1.0 * (x - 0.0)) at x = 5.0, yielding 148.4131591025766.
 
-## *Phase 4: Task 3:*
-*Possible refactoring that could be done:*
+## *Possible refactoring:*
 - Change the left and right fields in the Function class to be a single field, parent, being of type List<Function>. 
 This would avoid having to check for each field being null - an empty list signifies a child node, with two elements in
 the list otherwise storing the left and right function respectively
@@ -127,4 +66,9 @@ the list otherwise storing the left and right function respectively
 functions. This would allow for easier implementations of functions such as the Logarithm, which also essentially only 
 take 3 key parameters.
 
+## *Acknowledgements:*
+- The Phase 1 Console UI was heavily inspired by the CPSC 210 teller app, with its functionalities extended
+  and modified for the purposes of this project.
+- The Phase 2 Persistence was heavily inspired by the CPSC 210 JsonSerializationDemo app, with its read write
+  features adjusted for the FunctionApp.
 

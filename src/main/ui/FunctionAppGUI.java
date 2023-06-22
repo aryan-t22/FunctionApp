@@ -6,7 +6,6 @@ import model.Worklist;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 import ui.menusforgui.*;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -134,7 +133,7 @@ public class FunctionAppGUI {
             jsonWriter.close();
             title1 = new JLabel("Success! You can close the window now.");
         } catch (FileNotFoundException var2) {
-            title1 = new JLabel("There was an error loading the saved worklist.");
+            title1 = new JLabel("There was an error saving the current worklist.");
         }
         panel1.add(title1);
         panel1.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));
@@ -154,7 +153,7 @@ public class FunctionAppGUI {
             wl = jsonReader.read();
             title1 = new JLabel("Success! You can close the window now.");
         } catch (IOException var2) {
-            title1 = new JLabel("There was an error saving the current worklist.");
+            title1 = new JLabel("There was an error loading the saved worklist.");
         }
         panel1.add(title1);
         panel1.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 5));

@@ -12,7 +12,97 @@
             "name": "exp",
             "H shift": 0,
             "H scale": 1
-        }}
+        }},
+        {"Basic Function": {
+            "phase": 0,
+            "stretch": 1,
+            "name": "tan",
+            "am": 1
+        }},
+        {
+            "left": {
+                "left": {
+                    "left": {
+                        "left": {"Basic Function": {
+                            "phase": 0,
+                            "stretch": 3.141592653589793,
+                            "amp": 0.7432424958799676,
+                            "name": "sin"
+                        }},
+                        "right": {"Basic Function": {
+                            "phase": 0,
+                            "stretch": 6.283185307179586,
+                            "amp": -0.4420935505788928,
+                            "name": "sin"
+                        }},
+                        "operation": "+"
+                    },
+                    "right": {"Basic Function": {
+                        "phase": 0,
+                        "stretch": 9.42477796076938,
+                        "amp": 0.31107050066027453,
+                        "name": "sin"
+                    }},
+                    "operation": "+"
+                },
+                "right": {"Basic Function": {
+                    "phase": 0,
+                    "stretch": 12.566370614359172,
+                    "amp": -0.23884550469461835,
+                    "name": "sin"
+                }},
+                "operation": "+"
+            },
+            "right": {"Basic Function": {
+                "phase": 0,
+                "stretch": 15.707963267948966,
+                "amp": 0.19342076127401595,
+                "name": "sin"
+            }},
+            "operation": "+"
+        },
+        {
+            "left": {
+                "left": {
+                    "left": {
+                        "left": {"Basic Function": {
+                            "phase": 0,
+                            "stretch": 6.283185307179586,
+                            "amp": 0.32929119770465565,
+                            "name": "sin"
+                        }},
+                        "right": {"Basic Function": {
+                            "phase": 0,
+                            "stretch": 12.566370614359172,
+                            "amp": -0.17121556689863907,
+                            "name": "sin"
+                        }},
+                        "operation": "+"
+                    },
+                    "right": {"Basic Function": {
+                        "phase": 0,
+                        "stretch": 18.84955592153876,
+                        "amp": 0.11510744503476218,
+                        "name": "sin"
+                    }},
+                    "operation": "+"
+                },
+                "right": {"Basic Function": {
+                    "phase": 0,
+                    "stretch": 25.132741228718345,
+                    "amp": -0.08659557605863442,
+                    "name": "sin"
+                }},
+                "operation": "+"
+            },
+            "right": {"Basic Function": {
+                "phase": 0,
+                "stretch": 31.41592653589793,
+                "amp": 0.06937646558876476,
+                "name": "sin"
+            }},
+            "operation": "+"
+        }
     ],
     "precision": 1.0E-10
 }

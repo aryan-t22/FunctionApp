@@ -10,25 +10,27 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 // Class to represent the template for the standard submenu in the FunctionAppGUI. Sets up a frame, panel, title, and
-// buttons. Also has functionality to provide subclasses with the ability to select a function from the worklist wl
+// buttons. Also has functionality to provide subclasses with the ability to select a function from the worklist wl.
 abstract class MenuTemplate {
     private JFrame frame;
     private JPanel panel;
     private Worklist wl;
     private ArrayList<JButton> buttons;
     private JLabel title;
+    private Boolean comeBack;
 
-    // Though this is a constructor, the effects have been explained as this constructor does more than just set up the
-    // object
+    // Though this is a constructor, the effects are explained as this does more than just set up the object:
     // EFFECTS: Creates a sample menu, with the given worklist, panelTitle, and frameTitle. checkEmpty represents if the
-    // submenu wants to check if the worklist is empty or not prior to proceeding. If checkEmpty is true and wl is empty
-    // , then a special menu is created prompting the user to add functions before proceeding. Otherwise, constructs
-    // the desired submenu
+    // submenu wants to check if the worklist is empty or not prior to proceeding. If checkEmpty is true and wl is
+    // empty, then a special menu is created prompting the user to add functions before proceeding. Otherwise,
+    // constructs the desired submenu. The comeBack field ensures that the main body of actionPerformed method for
+    // selecting a function is never revisited, and to instead proceed with implementations provided by menuFnTemplate.
     public MenuTemplate(Worklist wl, String panelTitle, String frameTitle, Boolean checkEmpty) {
         if (checkEmpty && wl.isEmpty()) {
             handleEmpty();
         } else {
             this.wl = wl;
+            comeBack = false;
             this.title = new JLabel(panelTitle);
             frame = new JFrame();
             panel = new JPanel();
@@ -72,10 +74,6 @@ abstract class MenuTemplate {
 
     public JPanel getPanel() {
         return panel;
-    }
-
-    public JLabel getTitle() {
-        return title;
     }
 
     public ArrayList<JButton> getButtons() {
@@ -123,8 +121,12 @@ abstract class MenuTemplate {
         // Continues the submenu when the user selects a function button from buttonsForSelectFn()
         public void actionPerformed(ActionEvent e) {
             int n = buttons.size() - 1;
-            for (int i = 0; i <= n; i++) {
+            for (int i = 0; i <= n && !comeBack; i++) {
+                for (JButton b: buttons) {
+                    System.out.println(b.getText());
+                }
                 if (e.getSource().equals(buttons.get(i))) {
+                    comeBack = true;
                     menuFnTemplate(wl.getListFn().get(i));
                 }
             }
