@@ -1,9 +1,9 @@
 # Function App - Numeric Integration and Fourier Series Project:
 
 ## *About the project:*
-**The goal of this project is to create a program that can take in a set of functions the user inputs, perform basic
-operations involving them (addition, subtraction, products, quotients, and to some extent composition), and then 
-compute the Fourier Series (odd, even and full range) for these functions on an interval specified by the user.**
+**The goal of this project was to create a program that can take in a set of functions the user inputs, perform basic
+operations involving them (addition, subtraction, products, quotients, and composition), and then 
+compute their Fourier Series (odd, even and full range) on a symmetric real interval [-l, l] specified by the user.**
 
 This project is of particular interest to individuals who either aspire to become, or are currently involved in
 science, especially engineers, mathematicians, and physicists, who make use of Fourier series in a variety of methods 
