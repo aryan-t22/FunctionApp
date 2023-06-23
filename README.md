@@ -5,14 +5,14 @@
 operations involving them (addition, subtraction, products, quotients, and composition), and then 
 compute their Fourier Series (odd, even and full range) on a symmetric real interval [-l, l] specified by the user.**
 
-This project is of particular interest to individuals who either aspire to become, or are currently involved in
-science, especially engineers, mathematicians, and physicists, who make use of Fourier series in a variety of methods 
-(solutions to separable Partial Differential Equations is a key example). This project is also useful for teachers and 
-professors to aid students with visualization, along with providing said students a user-friendly and interactive 
-program to explore how functions are represented through their Fourier series, and save functions they have previously 
-worked with for future use. This project may also be of interest to a curious music theorist who is wanting to explore
-acoustics and modes of vibration, which are closely related to Partial Differential Equations, and hence the Fourier 
-Series. 
+This project, begun initially as apart of coursework for CPSC 210 at UBC, is of particular interest to individuals who
+either aspire to become, or are currently involved inscience, especially engineers, mathematicians, and physicists, who
+make use of Fourier series in a variety of methods (solutions to separable Partial Differential Equations is a key 
+example). This project is also useful for teachers and professors to aid students with visualization, along with providing
+said students a user-friendly and interactive program to explore how functions are represented through their Fourier 
+series, and save functions they have previously worked with for future use. This project may also be of interest to a 
+curious music theorist who is wanting to explore acoustics and modes of vibration, which are closely related to 
+Partial Differential Equations, where Fourier Series often turn up.
 
 Being in the Physics and Mathematics combined honours program, and having been exposed to and used Fourier Series in a 
 variety of my courses (Electricity and Magnetism, Quantum Mechanics, Partial Differential Equations, and Mathematical 
